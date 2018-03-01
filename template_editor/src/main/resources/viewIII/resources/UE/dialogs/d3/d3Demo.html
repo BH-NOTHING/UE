@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>画一个折线图</title>
+    <link rel="stylesheet" type="text/css" href="myD3.css">
+
+    <style type="text/css">
+        /*body{ height: 100%; }
+        .title{font-family:Arial,微软雅黑;font-size:18px;text-anchor:middle;}
+        .subTitle{font-family:Arial,宋体;font-size:12px;text-anchor:middle;fill:#666}
+        .axis path, .axis line { fill: none; stroke: black; shape-rendering: crispEdges; }
+        .axis text { font-family: sans-serif; font-size: 11px; fill:#999; }
+        .inner_line path, .inner_line line { fill: none; stroke:#E7E7E7; shape-rendering: crispEdges; }
+        .legend{font-size: 12px; font-family:Arial, Helvetica, sans-serif}*/
+    </style>
+    <script type="text/javascript" src="d3.v3.min.js"></script>
+    <script type="text/javascript" src="openD3.js"></script>
+</head>
+
+<body>
+<script type="text/javascript">
+    var newparam={};
+    newparam.lineColor = ["yellow", "#09F", "#0F0"];
+    newparam.paramdata = [
+        [95,349,186,308,149,318,342,143,341,250,231,51,305,31,290,286],
+        [396,288,173,19,291,364,386,28,201,260,94,171,347,367,294,382],
+        [152,180,207,55,316,179,395,132,248,58,184,306,34,112,182,201]
+    ];
+    var op = new openD3(newparam);
+    op.openChart();
+</script>
+<p align="left"> <button onClick="op.drawChart();">刷新数据</button></p>
+</body>
+
+</html>

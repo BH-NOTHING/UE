@@ -1,0 +1,25 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<title>SDE帮助文档</title>
+	<#include '/common/head.vop'/>
+	<script src="${ctx}/config/uicore/common/tabs/tabsUtil.js"></script>
+	<script src="menu.json"></script>
+	<script src="main.js"></script>
+	<script type="text/javascript">
+	</script>
+</head>
+<body class="widget-layout">
+	<div region="west" title="SDE菜单" border="false" split="true" style="width:220px;">
+		<ul id="menu"></ul>
+	</div>
+	<div region="center" border="false" split="true" iconCls="icon-ok">
+		<div id="tabs" border="false"></div>
+	</div>
+	<div id="mm" class="widget-menu" style="width:120px;">
+	    <div onclick="tabsUtil.closeAllTabs()">关闭全部</div>
+	    <div onclick="tabsUtil.closeOtherTabs()">关闭其他</div>
+	    <div onclick="tabsUtil.closeTab()">关闭</div>
+	</div>
+</body>
+</html>

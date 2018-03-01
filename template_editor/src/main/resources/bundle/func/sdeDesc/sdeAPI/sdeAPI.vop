@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html >
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>规则取数</title>
+	<#include '/help/resources.vop'/>
+</head>
+<body>
+<div class="container">
+	<h1 class="page-header">pwp规则取数</h1>
+</div>
+<div class="container bs-docs-container">
+	<div class="row">
+		<div class="col-md-9">
+			<div class="bs-docs-section">
+				<h2 class="page-header" id="c1">1、概述</h2>
+				<div class="bs-docs-section">
+					取数规则主要用于获取数据以及数据展示，可用于数据表单、数据统计等。
+					取数规则获取数据集来源，包括数据库、逻辑运算、数据集、程序等。主要配置功能包括2个：
+					数据模型管理、取数规则配置<br/>
+					1、数据模型管理：配置数据库的关联关系，如left join 以及关联关系 <br/>
+					2、取数规则配置：包括数据库取数、取数运算（后续提供数据集、程序等）
+				</div>
+			</div>
+			<div class="bs-docs-section">
+				<h2 class="page-header" id="c2">2、数据模型管理</h2>
+				<div class="bs-docs-section">
+					数据模型是数据库取数的前置配置，能够直接从数据模型中获取需要的字段。<br/>
+					新建数据模型：<br/>
+					新建一个分组==>新增数据模型==>配置数据模型关系<br/>
+					<img src="images/rule_group1.png" class="img-thumbnail">
+					<img src="images/rule_group2.png" class="img-thumbnail">
+					<img src="images/rule_group3.png" class="img-thumbnail">
+					<img src="images/rule_group4.png" class="img-thumbnail">
+					<img src="images/rule_group5.png" class="img-thumbnail">
+					<img src="images/rule_group6.png" class="img-thumbnail">
+				</div>
+			</div>
+
+			<div class="bs-docs-section">
+				<h2 class="page-header" id="c3">3、取数规则配置</h2>
+				<div class="bs-docs-section">
+					取数规则目前支持两种2类型：数据库取数、取数运算。后期将支持更多类型<br/>
+					1、数据库取数:新建数据库取数<br/><br/>
+					<img src="images/rule0.png" class="img-thumbnail">
+					<img src="images/rule1.png" class="img-thumbnail">
+
+					2、数据库取数:选择取数值<br/><br/>
+					<img src="images/rule2.png" class="img-thumbnail">
+
+					3、数据库取数:校验sql<br/><br/>
+					<img src="images/rule3.png" class="img-thumbnail">
+				</div>
+			</div>
+
+			<div class="bs-docs-section">
+				<h2 class="page-header" id="c4">4、参数配置</h2>
+				<div class="bs-docs-section">
+
+					1、常量配置：如用户名='admin'<br/><br/>
+					<img src="images/rule4.png" class="img-thumbnail">
+					<img src="images/rule5.png" class="img-thumbnail">
+					<img src="images/rule6.png" class="img-thumbnail">
+
+					2、常用变量配置：如用户id=当前登录用户Id<br/><br/>
+					<img src="images/rule7_1.png" class="img-thumbnail">
+					<img src="images/rule7.png" class="img-thumbnail">
+
+					3、常用变量配置及时间格式化：创建时间=当前时间<br/><br/>
+					<img src="images/rule8_1.png" class="img-thumbnail">
+					<img src="images/rule8_2.png" class="img-thumbnail">
+
+					4、自定义参数，首先配置常用参数，选择参数后，预览sql,输入用户自定义参数，即可预览结果<br/><br/>
+					<img src="images/rule9_1.png" class="img-thumbnail">
+					<img src="images/rule9_2.png" class="img-thumbnail">
+					<img src="images/rule9_3.png" class="img-thumbnail">
+					<img src="images/rule9_4.png" class="img-thumbnail">
+				</div>
+			</div>
+
+			<div class="bs-docs-section">
+				<h2 class="page-header" id="c5">5、调用说明</h2>
+				<div class="bs-docs-section">
+					提供3中方式调用:<br/>
+					1、调用require('rule')模块：
+					<pre>
+var rule = require('rule');//对应RuleExecuteUtil类
+return rule.executeRuleByCode('J3CLLTV4748',{});
+							</pre>
+					2、调用java：
+					<pre>
+var spring = require("spring");
+//根据ID获取bean对象
+var ruleRenderManager = spring.getBean("ruleRenderManager");
+//直接调用java方法
+var result = ruleRenderManager.renderBycode('J3CLLTV4748',"");
+return result;
+				</pre>
+					3、url直接调用：
+					http://localhost:8088/pwp-rules/rule/getValue.do?rulecode=J3CLLTV4748返回json数据<br/>
+
+				</div>
+			</div>
+			<div class="bs-docs-section">
+				<h2 class="page-header" id="c6">6、取数参数调用说明</h2>
+				<div class="bs-docs-section">
+					调用如下:<br/>
+					<pre>var spring = require("spring");
+var ruleRenderManager = spring.getBean("ruleRenderManager");
+//直接调用java方法
+var result = ruleRenderManager.getDynParamById('66');//通过id获取
+//var result = ruleRenderManager.getDynParamByCode('J3CLLTV4748');//通过编号获取
+return result;
+</pre>
+
+				</div>
+			</div>
+			<div class="bs-docs-section">
+				<h2 class="page-header" id="c7">7、列调用说明</h2>
+				<div class="bs-docs-section">
+					调用如下:<br/>
+					<pre>var spring = require("spring");
+var ruleRenderManager = spring.getBean("ruleRenderManager");
+var result = ruleRenderManager.getColumnByCode('J3CSHAE1889');
+//var result = ruleRenderManager.getColumnById('id');
+console.log(result);
+return result;
+</pre>
+
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
+				<ul class="nav bs-docs-sidenav">
+					<li>
+						<a href="#c1">概述</a>
+					</li>
+					<li>
+						<a href="#c2">数据模型管理</a>
+					</li>
+					<li>
+						<a href="#c3">取数规则配置</a>
+					</li>
+					<li>
+						<a href="#c4">参数配置</a>
+					</li>
+					<li>
+						<a href="#c5">调用说明</a>
+					</li>
+					<li>
+						<a href="#c6">取数参数调用说明</a>
+					</li>
+					<li>
+						<a href="#c7">列调用说明</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+</body>
+</html>

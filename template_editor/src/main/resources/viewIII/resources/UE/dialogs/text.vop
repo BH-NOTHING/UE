@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>文本输入框框</title>
+    <#include '/common/head.vop'>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!--[if lte IE 6]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-ie6.css">
+    <![endif]-->
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/ie.css">
+    <![endif]-->
+    <script src="core.js"></script>
+    <script src="jscolor-2.0.4/jscolor.min.js"></script>
+    <script type="text/javascript" src="${ctx}/viewIII/resources/UE/sde_func.js"></script>
+</head>
+
+<body>
+    <div class="content">
+        <table class="table table-bordered table-striped table-hover">
+	        <input type="hidden" id="VER_ID" name="VER_ID"  />
+	        <input type="hidden" id="PLUGINID" name="PLUGINID" />
+            <tr>
+                <th><span>控件编码 </span><span style="color: red;" id="txtMsg">*</span></th>
+                <th><span>控件名称 </span><span style="color: red;">*</span></th>
+            </tr>
+            <tr>
+                <td><input type="text" id="txtCODE" placeholder="必填项"></td>
+                <td><input type="text" id="txtNAME" onblur="$G('txtDESCNAME').value = $G('txtNAME').value" placeholder="必填项"></td>
+            </tr>
+            <tr>
+                <th><span>标签</span> </th>
+                <th><span>描述名</span> </th>
+            </tr>
+            <tr>
+                <td><input type="text" id="txtTAG" placeholder="标签,多个用逗号隔开"></td>
+                <td><input type="text" id="txtDESCNAME" placeholder="描述名"></td>
+            </tr>
+            <tr>
+                <th><span>数据类型</span> </th>
+                <th><span>默认值</span> </th>
+            </tr>
+            <tr>
+                <td>
+                    <select id="txtVERIFYTYPE" style="width: 150px !important;">
+                        <option value="text" selected="selected">普通文本</option>
+                        <option value="email">邮箱地址</option>
+                        <option value="textarea">文本域</option>
+                        <option value="input">输入框</option>
+                        <option value="int">整数</option>
+                        <option value="float">小数</option>
+                        <option value="idcard">身份证号码</option>
+                    </select>
+                    <span>框长<input type="text" id="TEXTLENGTH" style="width: 50px;"><span class="text-col">px</span></span><br />
+                    <span id="textarea-width" style="margin-left:155px;display:none">框宽<input type="text" id="TEXTCOLS" style="width: 50px;"><span class="text-row">px</span></span>
+                </td>
+                <td><input type="text" id="txtVALUE" placeholder="默认值"></td>
+            </tr>
+            <tr>
+            	<th><span>字体颜色</span> </th>
+                <th><span>选填属性</span> </th>
+            </tr>
+            <tr>
+            <td>
+            <input type="text" id="txtCOLOR" class="jscolor" placeholder="颜色" value="000000">
+            </td>
+                <td>
+                    <input id="txtREQUIRED" type="checkbox" /> 必填&nbsp;&nbsp;
+                    <input id="txtREADONLY" type="checkbox" /> 只读&nbsp;&nbsp;
+                    <input id="txtISDISPLAY" type="checkbox" /> 隐藏&nbsp;&nbsp;
+                    <input id="ISBRACKETS" type="checkbox" /> 隐藏括号&nbsp;&nbsp;
+                    <input id="ISDBLCLICK" type="checkbox"/> 双击&nbsp;&nbsp;
+                </td>
+            </tr>
+            <tr class='isdblclick' style="display: none">
+                <th><span>双击事件名称 </span></th>
+                <th><span> </span></th>
+            </tr>
+            <tr class='isdblclick' style="display: none">
+                <td>
+                    <input type="text" id="txtDBLCLICKFUNCTION" placeholder="双击事件名称">
+                </td>
+                <td>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <script type="text/javascript">
+    var sdefun= new sdeFun();
+    var temp;
+    var isEditor = !1;
+    /* 唯一性检验 */
+    $("input#txtCODE").blur(function(){
+        //编辑则不需要校验
+        if (isEditor) {
+            return;
+        }
+    	var val = $(this).val();
+    	if(temp || !val){return;}
+    	var plugin = sdefun.pluginFindByCode(val);
+    	if(plugin.length>0){
+    		$("#txtCODE").css("border","#ff0000 1px solid");
+    		$("#txtMsg").text("该控件编码已经存在");
+    	}else{
+    		$("#txtCODE").removeAttr("style");
+    		$("#txtMsg").text("*");
+    	}
+    });
+    $("input#ISDBLCLICK").on('change', function () {
+        if ($(this).is(':checked')) {
+            $('.isdblclick').css("display", "");
+        } else {
+            $('.isdblclick').css("display", "none");
+        }
+    });
+        (function(UE) {
+            var oNode = null,
+                thePlugins = 'sdecontroltext';
+            //初始化加载之前编辑的数据
+            window.onload = function() {
+                if (UE.plugins[thePlugins].editdom) {
+                    oNode = UE.plugins[thePlugins].editdom;
+                    temp = oNode;
+                    if (oNode) {
+                        isEditor = !0;
+                    }
+                    var json = JSON.parse(oNode.getAttribute('sde-model'));
+                    if (!json || json == null) {
+                        console.error("无法json序列化！");
+                        return;
+                    }
+                    //json = gValue == null ? '' : gValue;
+                    //gTitle = gTitle == null ? '' : gTitle;
+                    $G('PLUGINID').value = json.PLUGINID;
+                    $G('VER_ID').value = json.VER_ID;
+                    $G('txtCODE').value = json.ID?json.ID:json.CODE;
+                    $G('txtNAME').value = json.NAME;
+                    $G('txtCOLOR').value = json.COLOR;
+                    $G('txtTAG').value = json.TAG;
+                    $G('txtVALUE').value = json.VALUE;
+                    $G('txtDESCNAME').value = (json.DESCNAME && json.DESCNAME!="undefined")?json.DESCNAME :"";
+                    $G('txtVERIFYTYPE').value = json.VERIFYTYPE;
+                    $G('txtDBLCLICKFUNCTION').value = (json.DBLCLICKFUNCTION && json.DBLCLICKFUNCTION!="undefined")?json.DBLCLICKFUNCTION :"";
+
+                    if (json.REQUIRED == 1) {
+                        $G('txtREQUIRED').checked = true;
+                    }
+                    if (json.READONLY == 1) {
+                        $G('txtREADONLY').checked = true;
+                    }
+                    if (json.ISDISPLAY == 1) {
+                        $G('txtISDISPLAY').checked = true;
+                    }
+                    if (json.ISBRACKETS == 1) {
+                        $G('ISBRACKETS').checked = true;
+                    }
+                   // console.log("txtCODE:"+$G('txtCODE').value);
+                    $G('txtCODE').setAttribute('readonly', 'readonly');
+                }
+                $G('txtCODE').focus();
+
+                $('#txtVERIFYTYPE').change(function(){
+               		if( $('#txtVERIFYTYPE option:selected').val() == "textarea"){
+               			$("#textarea-width").css("display","block");
+               			$(".text-col").text("行");
+               			$(".text-row").text("列");
+               		}else{
+               			$(".text-col").text("px");
+               			$("#textarea-width").css("display","none");
+               		}
+                })
+            };
+
+            function makeHtml(json) {
+                var isClear = 1,
+                    show = json.DESCNAME == '' ? ' ' : json.DESCNAME;
+                if (json.VALUE != '') {
+                    show = json.VALUE;
+                    isClear = 0;
+                }
+                if (json.READONLY == 1)
+                    isClear = 0;
+                var html = '<span class="sde-left" style="color:' +
+                    ((json.READONLY == 1) ? '#808080' : '#0000FF') +
+                    '" contenteditable="false">[</span><span  title="' + json.DESCNAME + '"  style="color:#' + json.COLOR + ';"  class="sde-value" ' +
+                    ((json.READONLY == 1) ? ' contenteditable="false" ' : ' contenteditable="true" ') +
+                    '>' + show + '</span><span style="color:' +
+                    ((json.READONLY == 1) ? '#808080' : '#0000FF') +
+                    '" contenteditable="false" class="sde-right">]</span>';
+                return html;
+            }
+            dialog.oncancel = function() {
+                if (UE.plugins[thePlugins].editdom) {
+                    delete UE.plugins[thePlugins].editdom;
+                }
+            };
+            dialog.onok = function() {
+                if ($G('txtCODE').value == '') {
+                    alert('请输入控件编码');
+                    return false;
+                }
+                if ($G('txtNAME').value == '') {
+                    alert('请输入控件名称');
+                    return false;
+                }
+
+                var json = {
+                	ID: $G('txtCODE').value,
+                	CODE: $G('txtCODE').value,
+                    TYPE: 'text',
+                    NAME: $G('txtNAME').value,
+                    TAG: $G('txtTAG').value,
+                    DESCNAME: $G('txtDESCNAME').value,
+                    VERIFYTYPE: $G('txtVERIFYTYPE').value,
+                    VALUE: $G('txtVALUE').value,
+                    REQUIRED: 0,
+                    READONLY: 0,
+                    COLOR: $G('txtCOLOR').value,
+                    TEXTLENGTH:$G('TEXTLENGTH').value,
+                    TEXTCOLS: $G('TEXTCOLS').value,
+                    DBLCLICKFUNCTION: $G('txtDBLCLICKFUNCTION').value
+                };
+                if ($G('txtREQUIRED').checked) {
+                    json.REQUIRED = 1;
+                }
+                if ($G('txtISDISPLAY').checked) {
+                    json.ISDISPLAY = 1;
+                }
+                if ($G('ISBRACKETS').checked) {
+                    json.ISBRACKETS = 1;
+                }
+                if ($G('txtREADONLY').checked) {
+                    json.READONLY = 1;
+                }
+
+                var html = sdefun.makeHtmlByPluginJson(json);//根据老的plugin，生成html;
+                json.plugin_ex_json =[];
+                if(json.VERIFYTYPE){
+               		json.plugin_ex_json.push({"field_code":"verifytype","field_name":"数据类型","field_value":json.VERIFYTYPE}) ;
+           		}
+                if(json.ISBRACKETS){
+                	json.plugin_ex_json.push({"field_code":"isbrackets","field_name":"隐藏括号","field_value":json.ISBRACKETS}) ;
+                }
+                if(json.TEXTLENGTH){
+               		json.plugin_ex_json.push({"field_code":"textlength","field_name":"框长","field_value":json.TEXTLENGTH}) ;
+           		}
+                if (json.TEXTCOLS) {
+               		json.plugin_ex_json.push({"field_code":"textcols","field_name":"框宽","field_value":json.TEXTCOLS}) ;
+           		}
+                if (json.DBLCLICKFUNCTION) {
+                    json.plugin_ex_json.push({
+                        "field_code": "dblclickfunction",
+                        "field_name": "双击事件",//userDefined[xx]()
+                        "field_value": json.DBLCLICKFUNCTION
+                    });
+                }
+                if (!oNode) {
+                		var oNodeHtml;
+                        var plugin = sdefun.pluginFindByCode(json.CODE);//根据code 去查询控件库是否已经存在
+	               		if(plugin.length>0){
+	               			oNodeHtml = sdefun.pluginIsContinue(plugin[0]);//根据老的plugin，生成html;
+		               	}else{
+		               		plugin = sdefun.addPlugin(json);
+		               		plugin = sdefun.pluginFindByVId({ver_id:plugin.ver_id})[0];
+		               		oNodeHtml = sdefun.pluginToHtml(plugin);
+		               	}
+	               		return oNodeHtml ?editor.execCommand('insertHtml',oNodeHtml):false;
+                } else {
+                    json.VER_ID = $G('VER_ID').value||"";
+                    json.PLUGINID = $G('PLUGINID').value||"";
+                	//当前页面修改值，不保存到数据库
+                	/*var plugin = sdefun.pluginFindByCode(json.CODE);
+                	var pluginToJ ;
+                	if(plugin.length < 1){
+                		plugin = sdefun.addPlugin(json);
+                		plugin = sdefun.pluginFindByVId({ver_id:plugin.ver_id});
+	               	}else{
+                		json.VER_ID = plugin[0].ver_id;
+                		json.ID = plugin[0].id;
+                		plugin = sdefun.updatePlugin(json).data;
+                	}
+                	pluginToJ = sdefun.pluginToJson(plugin);
+                    oNode.setAttribute('title', pluginToJ.NAME);
+                    oNode.setAttribute('id', pluginToJ.ID);
+                    oNode.setAttribute('sde-model', JSON.stringify(pluginToJ));
+                    oNode.innerHTML = html;
+                    delete UE.plugins[thePlugins].editdom;*/
+                    if(json.VER_ID)oNode.setAttribute('ver_id', json.VER_ID);
+                    if(json.VERIFYTYPE)oNode.setAttribute('verifytype', json.VERIFYTYPE);
+                    if(json.DBLCLICKFUNCTION)oNode.setAttribute('_dblclick', json.DBLCLICKFUNCTION);
+                    oNode.setAttribute('title', json.NAME);
+                    oNode.setAttribute('id', json.ID?json.ID:json.CODE);
+                    oNode.setAttribute('sde-model', JSON.stringify(json));
+                    oNode.innerHTML = html;
+                    delete UE.plugins[thePlugins].editdom;
+                }
+            };
+        })(UE);
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+{
+	onReady:function(){
+		var databind = $W.databind.databind({
+			id:'tp_template_type' 
+		});
+		//自定义校验
+		$.extend($.fn.validatebox.defaults.rules, {
+　　　　　　existsTypeName : {// 验证是否已经存在类型名称
+       　　　　       validator : function(value,param){
+					  var id=this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].textContent; 
+						  var count;
+						   databind.submit("existsTypeName",{type_name:value,id:id},{async:false},function(data){
+								count=data;			   
+							});
+							return count;
+         　　　　     },
+        　　　　      message : '已经存在该类型名称'
+        　　　　  }
+　　		});
+		this.grid = this.datagrid1; 
+    	//pageClass.superclass.onReady.call(this);
+    	// TODO
+	},
+	add:function(){
+        /*新增一行数据*/
+        var flag = this.grid.addRow({updateFlag:"Appended"});
+        if(!flag){
+          $.showTip("请完成当前编辑行的编辑在新增");
+        }
+    },
+    edit:function(){
+      	 var row =  this.grid.getSelected();
+		  if(row){
+		     var editIndex = this.grid.getRowIndex(row);
+		     row.updateFlag = "Updated";
+		    /*开始编辑*/
+		    this.grid.beginEdit(editIndex);
+		  }else{
+		    $.alert('请选择要编辑的行');
+		  }
+    },
+    save:function(){
+    	/*将所有编辑行结束编辑*/
+     this.grid.endEditAll();
+     var rows = this.grid.getChanges(); //获取所有改变的数据
+     //console.log(rows);
+     
+       	var flag = this.grid.accept();
+         if (!flag) {
+			$.showTip("填写的数据不符合规则");
+			return;
+		}
+         this.tp_template_type.submit({rows:rows},function(data){
+            if(data){
+	          $.showTip("保存成功");
+	       	}else{
+	       	   $.showTip("已经存在该模板类型名称");
+	       	}
+         });
+     },
+      delete:function(){
+          
+		  var row =  this.datagrid1.getSelected();
+	      if(row){
+	      var returnValue =confirm("删除是不可恢复的，你确认要删除吗？");
+	  		if(returnValue){
+		      	var index =  this.datagrid1.getRowIndex(row);
+		        this.tp_template_type.submit('delete',{id:row.id},function(data){
+		          if(data){
+		          	$.showTip("删除成功");
+		          }else{
+		        	$.alert("已经存在模板引用该模板类型，不允许删除！");
+		          }
+		        },function(error){
+		        	$.alert("已经存在模板引用该模板类型，不允许删除！");
+		        });
+	        }
+	      }else{
+	        $.alert('请选择要删除的行');
+	      } 
+    }
+}

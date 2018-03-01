@@ -1,0 +1,175 @@
+#h {
+    background: url('../images/mainbox_bg_head.png') repeat-x;
+    height:75px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#h .h-leftlogo>img {
+    height:50px;
+    display:block;
+}
+
+#h .h-leftlogo>span {
+    width: 14px;
+    color: #15140f;
+    font-size: 13px;
+    font-family: 宋体;
+    margin-left: 17px;
+}
+
+#h .select{
+    background-color: #ccc;
+}
+#h a:link {color: #06592e;}
+#h a:visited {color: #06592e;}
+#h a:hover {color: #06592e;}
+#h a:active {color: #06592e;}
+#h .h-menu{
+    line-height: 58px;
+    /*margin-right: 35px;*/
+}
+#h .h-menu li{
+    cursor: pointer;
+}
+#h .h-menu>li{
+    margin-right: 10px;
+    display: inline-block;
+    position: relative;
+    color: #333;
+    padding: 0 5px;
+}
+#h .h-menu li:hover{
+    background-color: #ccc;
+}
+#h .h-menu .btn-text{
+    /*vertical-align: middle;*/
+}
+#h .h-menu .combox{
+    padding: 5px;
+    position: absolute;
+    top: 58px;
+    right: 0;
+    display: none;
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    z-index: 999;
+    background-color: white;
+}
+#h .h-menu .combox li{
+    padding: 9px 23px 9px 8px;
+    line-height: initial;
+}
+#h .h-menu .combox a{
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+#h .s-search{
+    line-height: 60px;
+    margin-right: 12px;
+}
+#h .s-search span{
+    display: inline-block;
+    vertical-align: middle;
+}
+#h .s-search input{
+    width: 243px;
+    padding-left: 8px;
+}
+#h .s-search input, #h .s-search .s-btn{
+    height: 30px;
+    line-height: 30px;
+    outline: none;
+    box-sizing: border-box;
+}
+#h .s-search .s-btn{
+    cursor: pointer;
+    width: 70px;
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 12px;
+    border: 1px solid #e7e7e7;
+    background-color: #22bf66;
+    vertical-align: middle;
+}
+
+#h .h-menu li a img {
+    vertical-align: middle;
+    line-height: 60px;
+    height: 15px;
+}
+
+#mm {
+    width:120px;
+}
+
+#content {
+    width:100%;
+    opacity: 0.9;
+}
+
+.remind{
+    color: #fdf8ee;
+    background: #e74c3c;
+    width: 2em;
+    border-radius: 50%;
+    font-size: 0.75em;
+    line-height: 2;
+    text-align: center;
+    animation: notificationpulse 0.5s infinite;
+    -webkit-animation: notificationpulse 0.5s infinite;
+    -moz-animation: notificationpulse 0.5s infinite;
+}
+@keyframes notificationpulse {
+    0% {
+        box-shadow: 0 0 0 0.00em #c0392b;
+    }
+    25% {
+        box-shadow: 0 0 0 0.25em #c0392b;
+    }
+    50% {
+        box-shadow: 0 0 0 0.50em #c0392b;
+    }
+    75% {
+        box-shadow: 0 0 0 0.25em #c0392b;
+    }
+    100% {
+        box-shadow: 0 0 0 0.15em #c0392b;
+    }
+}
+@-webkit-keyframes notificationpulse {
+    0% {
+        box-shadow: 0 0 0 0.00em #c0392b;
+    }
+    25% {
+        box-shadow: 0 0 0 0.25em #c0392b;
+    }
+    50% {
+        box-shadow: 0 0 0 0.50em #c0392b;
+    }
+    75% {
+        box-shadow: 0 0 0 0.25em #c0392b;
+    }
+    100% {
+        box-shadow: 0 0 0 0.15em #c0392b;
+    }
+}
+
+@-moz-keyframes notificationpulse {
+    0% {
+        box-shadow: 0 0 0 0.00em #c0392b;
+    }
+    25% {
+        box-shadow: 0 0 0 0.25em #c0392b;
+    }
+    50% {
+        box-shadow: 0 0 0 0.50em #c0392b;
+    }
+    75% {
+        box-shadow: 0 0 0 0.25em #c0392b;
+    }
+    100% {
+        box-shadow: 0 0 0 0.15em #c0392b;
+    }
+}

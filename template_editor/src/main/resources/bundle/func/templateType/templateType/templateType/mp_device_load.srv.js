@@ -1,0 +1,1 @@
+return db.queryService.query('select * from mp_device',param);

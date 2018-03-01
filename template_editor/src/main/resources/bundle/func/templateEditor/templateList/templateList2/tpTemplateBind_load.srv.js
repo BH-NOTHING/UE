@@ -1,0 +1,1 @@
+return db.queryService.query('select * from tp_template',param);

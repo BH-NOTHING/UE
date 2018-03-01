@@ -1,0 +1,261 @@
+<page>
+  <container id="tp_template_type" type="databind">
+    <attr key="initParams" value=""/>
+    <attr key="extendServiceGroup" value=""/>
+    <attr key="idField" value="id"/>
+    <attr key="pageSize" value=""/>
+    <attr key="mask" value="false"/>
+    <attr key="pagePath" value="bundle/editor/func/templateType/templateType/templateType"/>
+    <attr key="_css" value="{}"/>
+    <attr key="noReload" value="[]"/>
+    <attr key="domainId" value="editor.editorModel.tp_template_type"/>
+    <attr key="name" value="模板类型列表"/>
+    <attr key="autoload" value="false"/>
+    <attr key="databindType" value="arrayDatabind"/>
+    <attr key="pageNumber" value=""/>
+    <attr key="updateFlag" value="Appended"/>
+    <attr key="styleAttr" value="{&quot;components_attr&quot;:{}}"/>
+    <attr key="id" value="tp_template_type"/>
+  </container>
+  <container id="tablelayout1" type="tablelayout">
+    <attr key="isForm" value="false"/>
+    <attr key="fit" value="true"/>
+    <attr key="cols" value="1"/>
+    <attr key="_css" value="{&quot;height&quot;:&quot;100%&quot;}"/>
+    <attr key="xtype" value="tablelayout"/>
+    <attr key="fitTrId" value="templateType_tr1"/>
+    <attr key="styleAttr">
+      <attr key="height" value="100%"/>
+    </attr>
+    <attr key="rows" value="1"/>
+    <container id="tr1" type="tr">
+      <attr key="fit" value="true"/>
+      <attr key="title" value="tr"/>
+      <attr key="_css" value="{&quot;height&quot;:&quot;100%&quot;}"/>
+      <attr key="xtype" value="tr"/>
+      <attr key="styleAttr">
+        <attr key="height" value="100%"/>
+      </attr>
+      <container id="td1" type="td">
+        <attr key="autoSetWidth" value="true"/>
+        <attr key="title" value="td"/>
+        <attr key="_css" value="{&quot;min-width&quot;:&quot;100px&quot;}"/>
+        <attr key="xtype" value="td"/>
+        <attr key="align" value="center"/>
+        <attr key="valign" value="middle"/>
+        <attr key="styleAttr">
+          <attr key="min-width" value="100px"/>
+        </attr>
+        <container id="datagrid1" type="datagrid">
+          <attr key="showFooter" value="false"/>
+          <attr key="pageList" value="[&quot;10&quot;,&quot;20&quot;,&quot;30&quot;,&quot;40&quot;,&quot;50&quot;]"/>
+          <attr key="databindCache" value="true"/>
+          <attr key="fitColumns" value="true"/>
+          <attr key="sortOrder" value="asc"/>
+          <attr key="pageSize" value="10"/>
+          <attr key="autoRowHeight" value="true"/>
+          <attr key="editable" value="false"/>
+          <attr key="clickEdit" value="false"/>
+          <attr key="fit" value="true"/>
+          <attr key="_css" value="{}"/>
+          <attr key="singleSelect" value="true"/>
+          <attr key="autoload" value="true"/>
+          <attr key="databind" value="tp_template_type"/>
+          <attr key="xtype" value="datagrid"/>
+          <attr key="rownumbers" value="true"/>
+          <attr key="border" value="false"/>
+          <attr key="pagination" value="true"/>
+          <attr key="styleAttr" value="{&quot;components_attr&quot;:{}}"/>
+          <container id="datagrid1_columns" type="columns">
+            <attr key="_css" value="{}"/>
+            <attr key="styleAttr" value="{&quot;components_attr&quot;:{}}"/>
+            <container id="datagrid1_columns_columngroup1" type="columngroup">
+              <attr key="_css" value="{}"/>
+              <attr key="styleAttr" value="{&quot;components_attr&quot;:{}}"/>
+              <control id="datagrid1_columns_columngroup1_column1_id" type="column">
+                <attr key="index" value="1"/>
+                <attr key="colspan" value="1"/>
+                <attr key="width" value="100"/>
+                <attr key="align" value="left"/>
+                <attr key="sortable" value="true"/>
+                <attr key="rowspan" value="1"/>
+                <attr key="field" value="id"/>
+                <attr key="_css" value="{}"/>
+                <attr key="rank" value="0"/>
+                <attr key="title" value="ID"/>
+                <attr key="order" value="asc"/>
+                <attr key="hidden" value="false"/>
+                <attr key="titleType" value="1"/>
+                <attr key="checkbox" value="false"/>
+                <attr key="styleAttr" value="{&quot;components_attr&quot;:{}}"/>
+              </control>
+              <control id="datagrid1_columns_columngroup1_column2_status" type="column">
+                <attr key="index" value="1"/>
+                <attr key="colspan" value="1"/>
+                <attr key="width" value="100"/>
+                <attr key="align" value="left"/>
+                <attr key="sortable" value="true"/>
+                <attr key="rowspan" value="1"/>
+                <attr key="excelDisType" value="t_decimal"/>
+                <attr key="field" value="status"/>
+                <attr key="_css" value="{}"/>
+                <attr key="rank" value="1"/>
+                <attr key="editor" value="{&quot;type&quot;:&quot;dictList&quot;,&quot;options&quot;:{&quot;autoload&quot;:true,&quot;id&quot;:&quot;dictList1&quot;,&quot;dictName&quot;:&quot;templateType_status&quot;,&quot;value&quot;:&quot;0&quot;,&quot;required&quot;:true,&quot;disabled&quot;:false,&quot;multiple&quot;:false,&quot;isEditor&quot;:true,&quot;_events&quot;:{}}}"/>
+                <attr key="title" value="状态"/>
+                <attr key="order" value="asc"/>
+                <attr key="hidden" value="false"/>
+                <attr key="undefined" value="dictList"/>
+                <attr key="titleType" value="1"/>
+                <attr key="checkbox" value="false"/>
+                <attr key="styleAttr" value="{&quot;components_attr&quot;:{}}"/>
+              </control>
+              <control id="datagrid1_columns_columngroup1_column3_type_name" type="column">
+                <attr key="index" value="1"/>
+                <attr key="colspan" value="1"/>
+                <attr key="width" value="100"/>
+                <attr key="align" value="left"/>
+                <attr key="sortable" value="true"/>
+                <attr key="rowspan" value="1"/>
+                <attr key="field" value="type_name"/>
+                <attr key="_css" value="{}"/>
+                <attr key="rank" value="2"/>
+                <attr key="editor" value="{&quot;type&quot;:&quot;pwpText&quot;,&quot;options&quot;:{&quot;id&quot;:&quot;pwpText1&quot;,&quot;required&quot;:true,&quot;enable&quot;:true,&quot;editable&quot;:true,&quot;validType&quot;:&quot;existsTypeName&quot;,&quot;type&quot;:&quot;text&quot;,&quot;_events&quot;:{},&quot;             validType&quot;:&quot;existsTypeName[2]&quot;,&quot;textEventType&quot;:[],&quot;isEditor&quot;:true}}"/>
+                <attr key="title" value="类型名称"/>
+                <attr key="order" value="asc"/>
+                <attr key="hidden" value="false"/>
+                <attr key="undefined" value="pwpText"/>
+                <attr key="titleType" value="1"/>
+                <attr key="checkbox" value="false"/>
+                <attr key="styleAttr" value="{&quot;components_attr&quot;:{}}"/>
+              </control>
+              <control id="datagrid1_columns_columngroup1_column4_type_code" type="column">
+                <attr key="index" value="1"/>
+                <attr key="colspan" value="1"/>
+                <attr key="width" value="100"/>
+                <attr key="align" value="left"/>
+                <attr key="sortable" value="true"/>
+                <attr key="rowspan" value="1"/>
+                <attr key="excelDisType" value="t_decimal"/>
+                <attr key="field" value="type_code"/>
+                <attr key="_css" value="{}"/>
+                <attr key="rank" value="3"/>
+                <attr key="editor" value="{&quot;type&quot;:&quot;pwpText&quot;,&quot;options&quot;:{&quot;id&quot;:&quot;pwpText2&quot;,&quot;required&quot;:true,&quot;enable&quot;:true,&quot;editable&quot;:true,&quot;validType&quot;:&quot;onlyNumber&quot;,&quot;type&quot;:&quot;text&quot;,&quot;_events&quot;:{},&quot;textEventType&quot;:[],&quot;isEditor&quot;:true}}"/>
+                <attr key="title" value="类型编码"/>
+                <attr key="order" value="asc"/>
+                <attr key="hidden" value="false"/>
+                <attr key="undefined" value="pwpText"/>
+                <attr key="titleType" value="1"/>
+                <attr key="checkbox" value="false"/>
+                <attr key="styleAttr" value="{&quot;components_attr&quot;:{}}"/>
+              </control>
+              <control id="datagrid1_columns_columngroup1_column5_create_time" type="column">
+                <attr key="index" value="1"/>
+                <attr key="colspan" value="1"/>
+                <attr key="width" value="100"/>
+                <attr key="align" value="left"/>
+                <attr key="sortable" value="true"/>
+                <attr key="rowspan" value="1"/>
+                <attr key="field" value="create_time"/>
+                <attr key="_css" value="{}"/>
+                <attr key="rank" value="4"/>
+                <attr key="title" value="创建时间"/>
+                <attr key="order" value="asc"/>
+                <attr key="hidden" value="false"/>
+                <attr key="titleType" value="1"/>
+                <attr key="checkbox" value="false"/>
+                <attr key="styleAttr" value="{&quot;components_attr&quot;:{}}"/>
+              </control>
+              <control id="datagrid1_columns_columngroup1_column8_create_user" type="column">
+                <attr key="index" value="1"/>
+                <attr key="colspan" value="1"/>
+                <attr key="width" value="100"/>
+                <attr key="align" value="left"/>
+                <attr key="sortable" value="true"/>
+                <attr key="rowspan" value="1"/>
+                <attr key="field" value="create_user"/>
+                <attr key="_css" value="{}"/>
+                <attr key="rank" value="5"/>
+                <attr key="title" value="创建人"/>
+                <attr key="order" value="asc"/>
+                <attr key="hidden" value="false"/>
+                <attr key="titleType" value="1"/>
+                <attr key="checkbox" value="false"/>
+                <attr key="styleAttr" value="{&quot;components_attr&quot;:{}}"/>
+              </control>
+              <control id="datagrid1_columns_columngroup1_column6_lastupdate_time" type="column">
+                <attr key="index" value="1"/>
+                <attr key="colspan" value="1"/>
+                <attr key="width" value="100"/>
+                <attr key="align" value="left"/>
+                <attr key="sortable" value="true"/>
+                <attr key="rowspan" value="1"/>
+                <attr key="field" value="lastupdate_time"/>
+                <attr key="_css" value="{}"/>
+                <attr key="rank" value="6"/>
+                <attr key="title" value="最后修改时间"/>
+                <attr key="order" value="asc"/>
+                <attr key="hidden" value="false"/>
+                <attr key="titleType" value="1"/>
+                <attr key="checkbox" value="false"/>
+                <attr key="styleAttr" value="{&quot;components_attr&quot;:{}}"/>
+              </control>
+              <control id="datagrid1_columns_columngroup1_column7_lastupdate_user" type="column">
+                <attr key="index" value="1"/>
+                <attr key="colspan" value="1"/>
+                <attr key="width" value="100"/>
+                <attr key="align" value="left"/>
+                <attr key="sortable" value="true"/>
+                <attr key="rowspan" value="1"/>
+                <attr key="field" value="lastupdate_user"/>
+                <attr key="_css" value="{}"/>
+                <attr key="rank" value="7"/>
+                <attr key="title" value="最近一次修改人"/>
+                <attr key="order" value="asc"/>
+                <attr key="hidden" value="false"/>
+                <attr key="titleType" value="1"/>
+                <attr key="checkbox" value="false"/>
+                <attr key="styleAttr" value="{&quot;components_attr&quot;:{}}"/>
+              </control>
+            </container>
+          </container>
+          <container id="datagrid1_toolbar" type="toolbar">
+            <attr key="_css" value="{}"/>
+            <attr key="styleAttr" value="{&quot;components_attr&quot;:{}}"/>
+            <control id="add" type="button">
+              <attr key="iconCls$text" value="icon-add"/>
+              <attr key="text" value="新增"/>
+              <attr key="_css" value="{}"/>
+              <attr key="_handler" value="templateType_datagrid1_add_onClick"/>
+              <attr key="styleAttr" value="{&quot;components_attr&quot;:{}}"/>
+              <attr key="iconCls" value="icon-add"/>
+            </control>
+            <control id="update" type="button">
+              <attr key="iconCls$text" value="icon-edit"/>
+              <attr key="text" value="修改"/>
+              <attr key="_css" value="{}"/>
+              <attr key="_handler" value="templateType_datagrid1_update_onClick"/>
+              <attr key="styleAttr" value="{&quot;components_attr&quot;:{}}"/>
+              <attr key="iconCls" value="icon-edit"/>
+            </control>
+            <control id="delete" type="button">
+              <attr key="iconCls$text" value="icon-clear"/>
+              <attr key="text" value="删除"/>
+              <attr key="_css" value="{}"/>
+              <attr key="_handler" value="templateType_datagrid1_delete_onClick"/>
+              <attr key="styleAttr" value="{&quot;components_attr&quot;:{}}"/>
+              <attr key="iconCls" value="icon-clear"/>
+            </control>
+            <control id="save" type="button">
+              <attr key="iconCls$text" value="icon-ok"/>
+              <attr key="text" value="保存"/>
+              <attr key="_css" value="{}"/>
+              <attr key="_handler" value="templateType_datagrid1_save_onClick"/>
+              <attr key="styleAttr" value="{&quot;components_attr&quot;:{}}"/>
+              <attr key="iconCls" value="icon-ok"/>
+            </control>
+          </container>
+        </container>
+      </container>
+    </container>
+  </container>
+</page>

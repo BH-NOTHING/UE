@@ -1,0 +1,75 @@
+var __menuData = [];
+var __updateLog = {
+		text : '更新说明',
+		state: 'closed',
+		children : [
+        {
+			text : '更新日志',
+			attributes : {
+              url : '/updateLog/updateLog.vop'
+			}
+		},{
+			text : ' 编辑器demo',
+			attributes : {
+			allPath : true,
+			url : '/bundle/editor/func/templateEditor/demo/demo.vop'
+			}
+		},{
+			text : '常见问题',
+			attributes : {
+				allPath:!0,
+				url : '/config/scriptide/help/updateLog/wt.vop'
+			}
+		}]
+	};
+__menuData.push(__updateLog);
+var __userDoc = {
+        text : '使用文档',
+        state: 'closed',
+        children : [{
+            text : '使用文档',
+            attributes : {
+              url : '/userDoc/userDoc.vop'
+            }
+            }
+        ]
+};
+__menuData.push(__userDoc);
+
+
+var __sdeAPI = {
+	text : 'SDE接口',
+	state: 'closed',
+	children : [{
+		text : 'SDE接口',
+		attributes : {
+			url : '/sdeAPI/sdeAPI.vop'
+		}
+	}]
+};
+__menuData.push(__sdeAPI);
+
+var __sdeFunAPI = {
+	text : '扩展接口',
+	state: 'closed',
+	children : [{
+		text : '扩展接口',
+		attributes : {
+			url : '/sdeFunAPI/sdeFunAPI.vop'
+		}
+	}]
+};
+__menuData.push(__sdeFunAPI);
+
+var __rule = {
+		text : '规则取数',
+		state: 'closed',
+		children : [{
+			text : '规则取数',
+			attributes : {
+                allPath:!0,
+				url : '/config/scriptide/help/rule/rule.vop'
+			}
+		}]
+	};
+__menuData.push(__rule);

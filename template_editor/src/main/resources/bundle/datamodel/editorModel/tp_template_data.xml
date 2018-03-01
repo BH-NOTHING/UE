@@ -1,0 +1,29 @@
+<model id="editor.editorModel.tp_template_data" description="" type="TABLE" name="tp_template_data" title="tp_template_data">
+  <groupId>groupId</groupId>
+  <datasourceId>default</datasourceId>
+  <incremental>false</incremental>
+  <synchronous>false</synchronous>
+  <removeFake>false</removeFake>
+  <indexs/>
+  <columns>
+    <column name="conn_rule_code" title="conn_rule_code" type="12" typeTitle="可变长字符串" length="100" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="plugin_ver_id" title="plugin_ver_id" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="goal_code" title="goal_code" type="12" typeTitle="可变长字符串" length="100" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="lastupdate_time" title="lastupdate_time" type="93" typeTitle="时间戳" length="7" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="conn_plugin_code" title="conn_plugin_code" type="12" typeTitle="可变长字符串" length="100" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="id" title="id" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="true" primaryKey="true" foreignKey="false"/>
+    <column name="template_ver_id" title="template_ver_id" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="true" primaryKey="false" foreignKey="false"/>
+    <column name="goal_value" title="goal_value" type="12" typeTitle="可变长字符串" length="4000" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="goal_type" title="goal_type" type="12" typeTitle="可变长字符串" length="50" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="goal_name" title="goal_name" type="12" typeTitle="可变长字符串" length="500" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="conn_template_ver_id" title="conn_template_ver_id" type="12" typeTitle="可变长字符串" length="100" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="create_time" title="create_time" type="93" typeTitle="时间戳" length="7" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="lastupdate_user" title="lastupdate_user" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="create_user" title="create_user" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+  </columns>
+  <primaryKeys>
+    <column name="id" title="id" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="true" primaryKey="true" foreignKey="false"/>
+  </primaryKeys>
+  <relationships/>
+  <cascadeModelRelation/>
+</model>

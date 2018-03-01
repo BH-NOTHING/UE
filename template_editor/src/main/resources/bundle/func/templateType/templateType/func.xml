@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<function>
+  <name>模板类型</name>
+  <entry>templateType.vopx</entry>
+  <category>模板类型</category>
+  <order>1</order>
+  <icon>icon-lock</icon>
+  <hidden>false</hidden>
+  <version>1</version>
+</function>

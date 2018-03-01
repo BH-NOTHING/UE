@@ -1,0 +1,1 @@
+<serviceDesc title="模板服务" datasource="default" transaction="PROPAGATION_REQUIRED" timeout="-1" readonly="false"/>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<function>
+  <name>扩展接口文档</name>
+  <entry>sdeFunAPI.vop</entry>
+  <category>文档说明</category>
+  <order>4</order>
+  <icon>icon-lock</icon>
+  <hidden>false</hidden>
+  <version>1</version>
+</function>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<function>
+  <name>控件编辑</name>
+  <entry>pluginEditor.vop</entry>
+  <category>控件管理</category>
+  <order>1</order>
+  <icon>icon-lock</icon>
+  <hidden>false</hidden>
+  <version>1</version>
+</function>

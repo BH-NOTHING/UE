@@ -1,0 +1,23 @@
+<model id="editor.editorModel.tp_template_type" description="" type="TABLE" name="tp_template_type" title="tp_template_type">
+  <groupId>groupId</groupId>
+  <datasourceId>default</datasourceId>
+  <incremental>false</incremental>
+  <synchronous>false</synchronous>
+  <removeFake>false</removeFake>
+  <indexs/>
+  <columns>
+    <column name="id" title="id" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="true" primaryKey="true" foreignKey="false"/>
+    <column name="status" title="status" type="3" typeTitle="高精度数值" length="1" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="create_time" title="create_time" type="93" typeTitle="时间戳" length="7" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="type_name" title="type_name" type="12" typeTitle="可变长字符串" length="200" precision="0" notNull="true" primaryKey="false" foreignKey="false"/>
+    <column name="lastupdate_time" title="lastupdate_time" type="93" typeTitle="时间戳" length="7" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="create_user" title="create_user" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="lastupdate_user" title="lastupdate_user" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="type_code" title="type_code" type="12" typeTitle="可变长字符串" length="50" precision="0" notNull="true" primaryKey="false" foreignKey="false"/>
+  </columns>
+  <primaryKeys>
+    <column name="id" title="id" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="true" primaryKey="true" foreignKey="false"/>
+  </primaryKeys>
+  <relationships/>
+  <cascadeModelRelation/>
+</model>
