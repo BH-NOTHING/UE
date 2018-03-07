@@ -5,14 +5,16 @@ result.data = '';
 result.msg = '操作失败';
 result.code = 500;
 var isDataSeq = param.isDataSeq || false; //20180122 king 是否手动读取主键序列号.
+var thisUserId = com.tt.pwp.framework.security.SecurityUtils.getLoginAccountId();
 var thisTime = com.tt.pwp.framework.util.formatter.DateFormatterUtil.long2YYYY_MM_DDHH24miss(new java.util.Date());
+var logger = com.tt.pwp.framework.util.log.LogUtil();
+logger.info("pluginTreeSrv.srv.js---thisUserId:"+thisUserId+"---thisTime:"+thisTime+"---Param:"+JSON.stringify(param));
 var datasource = "";                          //数据源
 if (param && param.datasource) {
     var dsMgr = require('pwp-datasource');  //数据源管理对象
     db = dsMgr.db(param.datasource);        //调用db([datasouceId])函数得到指定的数据源对象,dsMgr.db('default')可得到默认数据源
     datasource = param.datasource;
 }
-
 var handler = {
     /**
      * 测试改srv 中调用别的srv方法；
@@ -53,7 +55,8 @@ var handler = {
                 var obj1 = datas[i];
                 var childrenObj1 = {
                     text: obj1.name,
-                    id: obj1.ver_id,
+                    id: obj1.id,
+                    pid: obj1.pid,
                     state: 'closed',
                     attributes: [
                         {id: obj1.ver_id},
@@ -70,7 +73,8 @@ var handler = {
                         var obj2 = chil2[i2];
                         var childrenObj2 = {
                             text: obj2.name,
-                            id: obj2.ver_id,
+                            id: obj2.id,
+                            pid: obj2.pid,
                             state: 'closed',
                             attributes: [
                                 {id: obj2.ver_id},
@@ -86,7 +90,8 @@ var handler = {
                                 var obj3 = chil3[i3];
                                 var childrenObj3 = {
                                     text: obj3.name,
-                                    id: obj3.ver_id,
+                                    id: obj3.id,
+                                    pid: obj3.pid,
                                     state: 'closed',
                                     attributes: [
                                         {id: obj3.ver_id},
@@ -102,7 +107,8 @@ var handler = {
                                         var obj4 = chil4[i4];
                                         var childrenObj4 = {
                                             text: obj4.name,
-                                            id: obj4.ver_id,
+                                            id: obj4.id,
+                                            pid: obj4.pid,
                                             state: 'closed',
                                             attributes: [
                                                 {id: obj4.ver_id},
@@ -122,7 +128,8 @@ var handler = {
                                             var objp5 = obj5Plugins[ip5];
                                             var pluginObj5 = {
                                                 text: objp5.name,
-                                                id: objp5.ver_id,
+                                                id: objp5.id,
+                                                ver_id: objp5.ver_id,
                                                 attributes: [
                                                     {id: objp5.ver_id},
                                                     {name: objp5.name}
@@ -146,7 +153,8 @@ var handler = {
                                     var objp4 = obj4Plugins[ip4];
                                     var pluginObj4 = {
                                         text: objp4.name,
-                                        id: objp4.ver_id,
+                                        id: objp4.id,
+                                        ver_id: objp4.ver_id,
                                         attributes: [
                                             {id: objp4.ver_id},
                                             {name: objp4.name}
@@ -169,7 +177,8 @@ var handler = {
                             var objp3 = obj3Plugins[ip3];
                             var pluginObj3 = {
                                 text: objp3.name,
-                                id: objp3.ver_id,
+                                id: objp3.id,
+                                ver_id: objp3.ver_id,
                                 attributes: [
                                     {id: objp3.ver_id},
                                     {name: objp3.name}
@@ -193,7 +202,8 @@ var handler = {
                     var objp2 = obj2Plugins[ip2];
                     var pluginObj2 = {
                         text: objp2.name,
-                        id: objp2.ver_id,
+                        id: objp2.id,
+                        ver_id: objp2.ver_id,
                         attributes: [
                             {id: objp2.ver_id},
                             {name: objp2.name}
@@ -208,7 +218,7 @@ var handler = {
         } else {
 
         }
-        console.log("加载树,树长度:"+childrenData.length+";childrenData" + JSON.stringify(childrenData));
+        logger.info("加载树,树长度:"+childrenData.length+";childrenData" + JSON.stringify(childrenData));
         if (childrenData) {
             result.data = childrenData;
             result.msg = '查询成功';

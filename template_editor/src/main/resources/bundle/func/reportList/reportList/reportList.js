@@ -44,7 +44,7 @@ function templateListFun() {
 }
 function onSelectText() {
     $('.selectHead').tabs('enableTab',0);
-    $('.txtCOLOR').css("display", "none");//debugger;break;
+    $('.txtCOLOR').css("display", "none");
     $('.txtInputValue').css("display", "none");//隐藏
 }
 function onSelectSelect() {

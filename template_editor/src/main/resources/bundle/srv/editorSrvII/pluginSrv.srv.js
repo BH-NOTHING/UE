@@ -31,8 +31,11 @@ result.data = '';
 result.msg = '操作失败';
 result.code = 500;
 var isDataSeq =  param.isDataSeq || true; //20180122 king 是否手动读取主键序列号.
+var datasource="";
+var thisUserId = com.tt.pwp.framework.security.SecurityUtils.getLoginAccountId();
 var thisTime = com.tt.pwp.framework.util.formatter.DateFormatterUtil.long2YYYY_MM_DDHH24miss(new java.util.Date());
-var datasource="";                          //数据源
+var logger = com.tt.pwp.framework.util.log.LogUtil();
+logger.info("pluginSrv.srv.js---thisUserId:"+thisUserId+"---thisTime:"+thisTime+"---Param:"+JSON.stringify(param));
 if (param && param.datasource) {
     var dsMgr = require('pwp-datasource');  //数据源管理对象
     db = dsMgr.db(param.datasource);        //调用db([datasouceId])函数得到指定的数据源对象,dsMgr.db('default')可得到默认数据源
@@ -199,7 +202,7 @@ var handler = {
                         plugin_ex_json_code = plugin_ex_json_code.toLowerCase();// 转小写
                         plugins[i][plugin_ex_json_code] = plugin_ex_json_obj.field_value;
                     } else {
-                        console.log("plugin_ex_json_obj.field_code is null !");
+                        logger.info("plugin_ex_json_obj.field_code is null !");
                     }
                 }
             }
@@ -340,6 +343,29 @@ var handler = {
             result.code = 200;
             result.msg = '操作成功';// success
         }
+        return result;
+    },
+    /**
+     * 更新控件树字段  20180306 king
+     */
+    updatePluginTree:function(param){
+        if(param==undefined|| param.tree_type_id==undefined){
+            return result;
+        }
+        var res;
+        var sqlself = "UPDATE TP_PLUGIN t SET t.tree_type_id = ? WHERE t.ver_id = ?";
+        if(param.ver_id!==undefined ){
+             res = db.dao.updateSelective('editor.editorModel.tp_plugin', {ver_id:param.ver_id,tree_type_id:param.tree_type_id});
+        }else if(param.ver_id==undefined && param.data!==undefined){
+            for(var key in param.data){
+                var obj=param.data[key];
+                res = db.update(sqlself, [param.tree_type_id,obj.ver_id]);
+                //console.log(JSON.stringify(obj)+"res:"+res);
+            }
+        }
+        result.data = res;
+        result.code = 200;
+        result.msg = '操作成功';
         return result;
     },
     /*

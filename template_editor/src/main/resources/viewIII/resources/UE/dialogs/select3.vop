@@ -72,8 +72,8 @@
                     <input id="txtFREEINPUT" type="checkbox" /> 补充&nbsp;&nbsp;
                     <input id="txtISDISPLAY" type="checkbox" /> 隐藏&nbsp;&nbsp;
                     <input id="ISBRACKETS" type="checkbox" /> 括号&nbsp;&nbsp;</br>
-                    <input id="ISREDPOINT" type="checkbox" /> 红点&nbsp;&nbsp;
                     <input id="OPENRULE" type="checkbox"/> 规则&nbsp;&nbsp;
+                    <input id="ISREDPOINT" type="checkbox" /> 红点&nbsp;&nbsp;
                     <input id="DESCRIB" type="checkbox"/> 左侧&nbsp;&nbsp;
                 </td>
             </tr>
@@ -107,7 +107,35 @@
                     <select id="selectRuleResParam" style="width: 220px;"></select><br/><!--规则字段条件-->
                     <!--<span>&nbsp;关联模板：</span>-->
                     <span>&nbsp;选择控件：</span>
-                    <select id="selectTemplate" style="width: 220px;"></select>
+                    <!--下拉表格 20180306 king-->
+                    <div id="toolbar" >
+                        模板名称： <input style="margin-top:5px;" id='tp_name1' class='text'>
+                        <a href="javascript:void(0);" id="searchCondition" style="margin-top:2px;" class="widget-linkbutton" onclick="queryBindById('#tp_name1')">查询</a>
+                    </div>
+                    <input id='selectTemplate' style="width: 220px;" class="widget-combogrid" data-options="
+                            panelWidth:435,
+                            panelHeight:380,
+                            multiple:false,
+                            pagination:true,
+                            textField:'name',
+                            valueField:'template_ver_id',
+                            toolbar:'#toolbar',
+                            frozenColumns:[[{
+                                field:'ck',
+                                checkbox : true
+                            }]],
+                            onSelect: function () {              //选中处理
+                                    var template_ver_id = combogrid.getValue();
+                                    if(!template_ver_id){return;}
+                                    console.log('template_ver_id:'+template_ver_id);
+                                    selectCode(template_ver_id);
+                            },
+                            columns:[[
+                                {field:'template_ver_id',title:'版本号',width:45,align:'center'},
+                                {field:'name',title:'模板名称',width:200},
+                                {field:'create_time',title:'创建时间',width:97,align:'center'},
+                                {field:'status',title:'状态',width:50,align:'center'}
+                            ]]" />
                     <input type="text" id="inputTemplate" style="display:none; width: 206px; margin-top: 10px" readonly="readonly"></input>
                     <!-- <span>&nbsp;关联控件：</span>-->
                     <select id="selectCode" class="selectpicker"  multiple data-actions-box="true"  data-live-search="true" ></select>
@@ -211,7 +239,7 @@
             $G('txtRuleList').value ="";
             $G('selectRuleResParam').value ="";
             $G('selectRuleFindParam').value ="";
-            $G('selectTemplate').value ="";
+            window.combogrid && window.combogrid.clear();
             $G('inputTemplate').value ="";
             $G('selectCode').value ="";
             return;
@@ -229,7 +257,7 @@
             $('.openRule').css("display", "none");
             $G('txtRuleList').value = "";
             $G('selectRuleResParam').value = "";
-            $G('selectTemplate').value = "";
+            combogrid.clear();
             $G('selectCode').value = "";
         }
     });
@@ -301,19 +329,6 @@
             $("#selectCode.selectpicker").html(html.join(''));
             $('#selectCode').selectpicker('refresh');
         }
-    }else{
-        //点击 选择结果字段 选项时,查询所有模板
-        $("select#selectTemplate").on('click', function () {
-            if(!isclicktxtRuleList)
-                templateListFun();
-            isclicktxtRuleList=!0;
-        });
-        $("#selectTemplate").on('change', function () {
-            var template_ver_id = $(this).val();
-            if(!template_ver_id){return;}
-            console.log('template_ver_id:'+template_ver_id);
-            selectCode(template_ver_id);
-        });
     }
     /* 关键字检验 */
     /*$("input#txtCODE").on('input propertychange',function(){
@@ -343,6 +358,12 @@
         var _this = $(this).find("option:selected");
         relationcodesetFunc(_this);
     });
+    //获取下拉表格的值
+    function queryBindById(id) {
+        var tp_name1 = $(id).val();
+        var tp_param = QueryParam.newCondition("name","%like%",tp_name1);
+        window.combogrid.doQuery({conditions:tp_param});
+    }
     //关键字校验
     function checkKeyword(val){
         var pluginregexp = parent.window.SDE_CONFIG.PLUGINREGEXP;//控件正则表达式.
@@ -421,7 +442,8 @@
         html.push('<option value=""> --请选择规则-- </option>');
         if (datas && datas.data != undefined && datas.data != null) {
             var data = datas.data.data;
-            for ( var i = 0; i < data.length; i++) {
+            var length = data.length;
+            for (var i = 0; i < length; i++) {
                 html.push('<option value="' + data[i].rule_code + '" rule_code="' + data[i].rule_id + '"')
                 if (data[i].SELECTED != undefined && data[i].SELECTED == 1) {
                     html.push(' selected="selected" ');
@@ -433,23 +455,10 @@
         return html;
     }
 
-    //【规则取数】 获取模板列表
-    function templateListFun(){
-        templateList = sdefun.templateFindAll();
-        var html = [];
-        html.push('<option value=""> --请选择模板-- </option>');
-        for (var i = 0, l = templateList.length; i < l; i++) {
-            var data = templateList[i];
-            html.push('<option value="' + data.template_ver_id + '" >' +i+"."+ data.name + '</option>');
-        }
-        $G('selectTemplate').innerHTML = html.join('');
-    }
 
     //【规则取数】根据模板id获取模板中的控件编码
     function selectCode(template_ver_id) {
-        for (var i = 0, l = templateList.length; i < l; i++) {
-            var data = templateList[i];
-            if(data.template_ver_id.toString() === template_ver_id){
+        var data = sdefun.templateFindByVId(template_ver_id)[0];
                 var content = data.content;
                 var $cont = $(content);
                 var codes = $cont.find("span[id]");
@@ -466,8 +475,7 @@
                 }
                 $("#selectCode.selectpicker").html(html.join(''));
                 $('#selectCode').selectpicker('refresh');
-            }
-        }
+
     }
 
     //【控件关联】
@@ -481,7 +489,8 @@
             var data = JSON.parse(bindingdata);
             var html = [];
             html.push('<option value=""> --请选择-- </option>');
-            for ( var i = 0; i < data.length; i++) {
+            var dlength = data.length;
+            for (var i = 0; i < dlength; i++) {
                 if(data[i].ID == $G('txtCODE').value) continue;
                 html.push('<option value="' + data[i].VALUE + '">' + data[i].TEXT + '</option>');
             }
@@ -725,11 +734,18 @@
             size: 10
         });*/
         var getRuleLists = getRuleList("txtRuleList",{param:{}});
-        //templateList();
+        $W.databind.arrayDatabind({
+            id : 'templateGrid',
+            name : '模板绑定',
+            autoload : true,
+            pagePath:"/config/editor/func/templateList/templateList/templateList",
+            binds : ['#selectTemplate']
+        });
         var oNode = null,
             thePlugins = 'sdecontrolselect';
         //初始化加载之前编辑的数据
         window.onload = function() {
+            window.combogrid = $('#selectTemplate').getWidget();
             if (UE.plugins[thePlugins].editdom) {
 
                 oNode = UE.plugins[thePlugins].editdom;
@@ -752,8 +768,9 @@
                     $G('txtCOLOR').style.backgroundColor = "#" +json.TEXT_COLOR;
                 }
                 if(json.RULE){
+                    $('#OPENRULE').checked = true;
                     $('.openRule').css("display", "");
-                    $G('txtRuleList').value = json.RULE;
+                    $('#txtRuleList').val(json.RULE);
                 }
                 $("#selectRuleFindParam").val(json.RULE_FPARAM||"");
                 var rule_rparam = json.RULE_RPARAM||"";
@@ -765,8 +782,7 @@
                     $('#inputTemplate').attr("node_id",template_ver_ids[1]);
                     $('#inputTemplate').attr("template_ver_id",template_ver_ids[2]);
                 }else if(json.CONN_TEMPLATE_VER_ID){
-                    var conn_template_ver_idhtml = ['<option value="'+json.CONN_TEMPLATE_VER_ID+'"  selected="selected" > '+json.CONN_TEMPLATE_VER_ID+' </option>'];
-                    $G('selectTemplate').innerHTML = json.CONN_TEMPLATE_VER_ID?conn_template_ver_idhtml.join(''):"";
+                    json.CONN_TEMPLATE_VER_ID && combogrid.setValue(json.CONN_TEMPLATE_VER_ID) ;
                 }
                 var selectCodeArr=[];
                 var CONNCODES=json.CONNCODE;
@@ -890,9 +906,9 @@
                     if (selectValue == sOption.value) selectDesc = sOption.text;
                 }
             }
-            var ruleSelectTemplateVal=$G('selectTemplate').value;
+            var ruleSelectTempVal = combogrid.getValue();;
             if(ruleselecttempurl){
-                ruleSelectTemplateVal = $('#inputTemplate').attr("node_name")+"|"
+                ruleSelectTempVal = $('#inputTemplate').attr("node_name")+"|"
                     +$('#inputTemplate').attr("node_id")+"|"
                     +$('#inputTemplate').attr("template_ver_id");
             }
@@ -909,7 +925,7 @@
                 RULE: $G('txtRuleList').value,
                 RULE_FPARAM:$G('selectRuleFindParam').value||$G('txtRuleList').value,
                 RULE_RPARAM:$G('selectRuleResParam').value,
-                CONN_TEMPLATE_VER_ID: ruleSelectTemplateVal,
+                CONN_TEMPLATE_VER_ID: combogrid.getValue(),
                 CONNCODE: $("#selectCode").val(),
                 TEXT_COLOR: $G('txtCOLOR').value,
                 VALUE: (selectValue == null || selectValue == '') ? '' : selectValue,

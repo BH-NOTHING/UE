@@ -32,11 +32,14 @@ result.data = '';
 result.msg = '操作失败';
 result.code = 500;
 var isDataSeq =  param.isDataSeq || true; //20180122 king 是否手动读取主键序列号.
-var this_time = com.tt.pwp.framework.util.formatter.DateFormatterUtil.long2YYYY_MM_DDHH24miss(new java.util.Date());
-var this_user_id = com.tt.pwp.framework.security.SecurityUtils.getLoginAccountId();
-/*	var logUtil = com.tt.pwp.framework.util.log.LogUtil();
- logUtil.debug("logUtil debug 日志");
- logUtil.info("logUtil info 日志");*/
+var thisUserId = com.tt.pwp.framework.security.SecurityUtils.getLoginAccountId();
+var thisTime = com.tt.pwp.framework.util.formatter.DateFormatterUtil.long2YYYY_MM_DDHH24miss(new java.util.Date());
+var logger = com.tt.pwp.framework.util.log.LogUtil();
+logger.info("templateSrv.srv.js---thisUserId:"+thisUserId+"---thisTime:"+thisTime+"---Param:"+JSON.stringify(param));
+// logger.debug("logUtil debug 日志");
+// logger.info("logUtil info 日志");
+// logger.warn("logUtil warn 日志");
+// logger.error("logUtil error 日志");
 var datasource="";                          //数据源
 if (param && param.datasource) {
     var dsMgr = require('pwp-datasource');  //数据源管理对象
@@ -200,15 +203,15 @@ var handler = {
      * param参数 {template_id : '',type_id : '',name : '',syn_version : '',...}
      */
     addTemplate: function (param) {
-        param.create_time = this_time;
+        param.create_time = thisTime;
 
 
         var templateIdSeq = this.getSeqNum({seqName:"SEQ_TP_TEMPLATE_ID"});
         param.template_id = templateIdSeq.seqNum;//非主键
 
         param.syn_version = 0; 	//乐观锁，新增时syn版本号为0;后面没修改一次，版本号就在原基础上 +1
-        param.user_id = this_user_id;
-        param.create_user = this_user_id;
+        param.user_id = thisUserId;
+        param.create_user = thisUserId;
         param.status = 0;		//对status状态进行限制（不能自己修改状态），避免自定义传值出现的状态值错乱的问题；
         if(isDataSeq ) {
             var templateVIdSeq = this.getTemplateSeq();
@@ -241,8 +244,8 @@ var handler = {
             var templateDatas = params.templateDatas;
             for (var i in templateDatas) {
                 var templateData = templateDatas[i];
-                templateData.create_user = this_user_id;
-                templateData.create_time = this_time;
+                templateData.create_user = thisUserId;
+                templateData.create_time = thisTime;
                 templateData.template_ver_id = template_ver_id;
                 templateData.updateFlag = "Appended";
                 if(isDataSeq ) {
@@ -265,10 +268,11 @@ var handler = {
         var paramInsert = [];
         var template_ver_id = params.template_ver_id;
         var templateDatas = params.templateDatas;
-        for (var i = 0, tl = templateDatas.length; i < tl; i++) {
+        var templDLength = templateDatas.length;
+        for (var i = 0; i < templDLength; i++) {
             var templateData = templateDatas[i];
-            templateData.create_user = this_user_id;
-            templateData.create_time = this_time;
+            templateData.create_user = thisUserId;
+            templateData.create_time = thisTime;
             templateData.template_ver_id = template_ver_id;
             if(isDataSeq ) {
                 var templateDataSeq = this.getTemplateDataSeq();
@@ -314,7 +318,36 @@ var handler = {
         result.code = 200;
         return result;
     },
-
+    findAllTempVerName: function (param) {
+        var whereStr = "1=?";
+        var whereVal = [1];
+        if (param) {
+            if (param.template_ver_id) {
+                whereStr += " and template_ver_id = ? ";
+                whereVal.push(param.template_ver_id);
+            } else if (param.template_ver_ids && Array.isArray(param.template_ver_ids)) {
+                whereStr += " and template_ver_id in( ? )";
+                whereVal.push(param.template_ver_ids);
+            } else if (param.min_ver_id && !param.max_ver_id) {
+                whereStr += " and template_ver_id > ?";
+                whereVal.push(param.min_ver_id);
+            } else if (!param.min_ver_id && param.max_ver_id) {
+                whereStr += " and template_ver_id < ?";
+                whereVal.push(param.max_ver_id);
+            } else if (param.min_ver_id && param.max_ver_id) {
+                whereStr += " and template_ver_id > ? and template_ver_id < ?";
+                whereVal.push(param.min_ver_id);
+                whereVal.push(param.max_ver_id);
+            }
+        }
+        var sql = "select t.template_ver_id,t.name from tp_template t where "+whereStr;
+        var templateList = db.queryForList(sql, whereVal);
+        var datas = toJs.parse(templateList);
+        result.data = datas;
+        result.msg = '查询所有模板成功';
+        result.code = 200;
+        return result;
+    },
     /**
      * 查询所有的模板
      */
@@ -389,8 +422,8 @@ var handler = {
      */
     updateTemplate: function (param) {
         //console.log(typeof param.syn_version+",updateTemplate:" + JSON.stringify(param));
-        param.lastupdate_user = this_user_id;
-        param.lastupdate_time = this_time;
+        param.lastupdate_user = thisUserId;
+        param.lastupdate_time = thisTime;
         var template = db.dao.find("editor.editorModel.tp_template", "template_ver_id = ?", [param.template_ver_id]);
         if (isNaN(param.syn_version)) { // param.syn_version%1 === 0 ---用于除整
             result.msg = '同步锁参数错误！';
@@ -445,11 +478,12 @@ var handler = {
         var updateSuccess = [];
         var templateDatas = param.templateDatas;
         var sqlself = "UPDATE TP_TEMPLATE_DATA t SET t.conn_rule_code = ?," + "t.conn_template_ver_id = ?,t.conn_plugin_code = ?," + "t.goal_name = ?, t.goal_value = ?,t.goal_type = ?," + "t.lastupdate_time = to_date(?,'yyyy-mm-dd hh24:mi:ss') ,t.lastupdate_user = ?," + "t.goal_code = ?  WHERE t.template_ver_id = ?  and t.plugin_ver_id = ?";
-        for (var i = 0; i < templateDatas.length; i++) {
+        var templength = templateDatas.length;
+        for (var i = 0; i < templength; i++) {
             var templateData = templateDatas[i];
             templateData.template_ver_id = param.template_ver_id;
-            templateData.create_user = this_user_id;
-            templateData.create_time = this_time;
+            templateData.create_user = thisUserId;
+            templateData.create_time = thisTime;
             templateData.updateFlag = "Appended";
             paramTemp.push(templateData);
             if (!param.isRemoveData) {
@@ -461,8 +495,8 @@ var handler = {
                     goal_value = JSON.stringify(templateData.goal_value);
                 }
                 var goal_type = templateData.goal_type || "";
-                var lastupdate_time = this_time;
-                var lastupdate_user = this_user_id;
+                var lastupdate_time = thisTime;
+                var lastupdate_user = thisUserId;
                 var template_ver_id = templateData.template_ver_id || "";
                 var goal_code = templateData.goal_code || "";
                 var plugin_ver_id = templateData.plugin_ver_id || "";
@@ -499,7 +533,8 @@ var handler = {
             //console.log("删除更新paramTemp：" + JSON.stringify(paramTemp));
             var dataRemoveRes = db.dao.remove("editor.editorModel.tp_template_data", 'template_ver_id = ?', [param.template_ver_id]);
             var paramArr = [];
-            for (var i = 0,pl=paramTemp.length; i < pl; i++) {
+            var plength = paramTemp.length;
+            for (var i = 0; i < plength; i++) {
                 var reportDataSeq = this.getReportDataSeq();
                 paramTemp[i].id = reportDataSeq.seqNum;//主键;
                 paramArr.push(paramTemp[i]);
@@ -522,8 +557,8 @@ var handler = {
      */
     submitTemplate: function (param) {
         param.status = 1;//对status状态进行限制（不能自己修改状态），避免自定义传值出现的状态值错乱的问题；
-        param.lastupdate_user = this_user_id;
-        param.lastupdate_time = this_time;
+        param.lastupdate_user = thisUserId;
+        param.lastupdate_time = thisTime;
         var data = db.dao.updateSelective("editor.editorModel.tp_template", param);
         if (data) {
             result.msg = '修改状态成功';
@@ -542,8 +577,8 @@ var handler = {
      *
      */
     alterStatus: function (param) {
-        param.lastupdate_user = this_user_id;
-        param.lastupdate_time = this_time;
+        param.lastupdate_user = thisUserId;
+        param.lastupdate_time = thisTime;
         var data = db.dao.updateSelective("editor.editorModel.tp_template", param);
         if (data) {
             result.msg = '修改状态成功';
@@ -605,10 +640,49 @@ var handler = {
             datasource:datasource,
             funName:"getSeqNum"
         };
-        var res = new Service('editor.editorSrvII.seqNumSrv').callService(par);
+        var res = this.getSeqNum2(par);
         return res;
-    }
+    },
+    getSeqNum2:function(params){
+        if(!params.seqName)return;
+        var seqName = "";
+        var seqRes = {};
+        var seqNum=-1;
+        seqName = params.seqName;
 
+        if (datasource){
+            seqName = datasource.toUpperCase()+"_"+seqName;
+            seqRes.isDataSource=true;
+        }
+        if(!isDataSeq){//是否需要自己读取序列号
+            try {
+                var sequenceFactory = spring.getBean("sequenceFactory");
+                var datasourceManager = spring.getBean("datasourceManager");
+                var dt = datasourceManager.getDataSource(datasource);
+                var seqdatasource = new com.tt.pwp.data.dao.util.CurrentThreadSeqDatasourceInfo();
+                seqdatasource.setSequenceDataSource(dt);//也可以设置数据源对应的jdbctemplate
+                com.tt.pwp.data.dao.util.CurrentThreadDatasourceUtil.setCurrentThreadSeqDatasourceInfo(seqdatasource);            //把这个数据源对象信息给设置到线程变量中
+                seqNum = sequenceFactory.generate(params.seqName); //直接调用获取序列号的方法
+            } finally {
+                //记得清除掉这个线程里面的数据源信息。
+                com.tt.pwp.data.dao.util.CurrentThreadDatasourceUtil.clearCurrentThreadSeqDatasourceInfo();
+            }
+        }else{
+            var sequence = spring.getBean("sequence");
+            //console.log("seqName:"+seqName);
+            seqNum = sequence.generate(seqName);// 获取已创建的序列;
+        }
+        if(seqNum!=="" && seqNum!== undefined) {
+            seqRes.seqNum = seqNum;
+            seqRes.msg = "获取成功";
+            seqRes.code = 200;
+        }else{
+            seqRes.seqNum = "";
+            seqRes.msg = "获取失败";
+            seqRes.code = 500;
+        }
+        return seqRes;
+    }
 
 };
 

@@ -63,13 +63,135 @@
 				cursor: pointer;
 			}
 		</style>
+		<script type="text/javascript">
+            var count = 0;
+            //添加当前目录的所有菜单 //控件树 20180306 king
+            function addCurDirMenu(nodedata){
+                var funcarray = nodedata.attributes.functions;
+                if(nodedata.children=='undefined'||nodedata.children==null)
+                    nodedata.children=funcarray;
+                else
+                    Array.prototype.push.apply(nodedata.children, funcarray);
+                nodedata.attributes.isFunc = false;
+                $.each(funcarray,function(){
+                    this.attributes.isFunc = true;
+                });
+            }
+            //导入目录
+            function dirImport(){
+                var ptree = $('#pwpmenutree').getWidget();
+                var pnode = ptree.getSelected();
+                var nodedata = ptree.getData(pnode.target);
+                nodedata.id="Appended"+count++;
+
+                traverse(nodedata);
+
+                if(pnode.id =="root"){
+                    addnode(nodedata.children);
+                }else{
+                    addnode([nodedata]);
+                }
+            }
+            //新增目录
+            function addMenuNode(){
+                var nodedata = [{
+                    id:'Appended'+count++,
+                    text: '新增节点'+count,
+                    attributes:{funcIds:[],isFunc:false}
+                },{
+                    id:'Appended'+count++,
+                    text: '新增节点'+count,
+                    attributes:{funcIds:[],isFunc:false}
+                }];
+                addnode(nodedata);
+            }
+            function addMenuNodes(){
+                var nodedata = [];
+                var rows = packageGrid.getSelections();
+                for(var i=0 ,rl=rows.length;i<rl;i++ ){
+                    var row = rows[i];
+                    nodedata.push(
+						{ id:row.ver_id,
+                            ver_id:row.ver_id,
+                            text: row.name,
+                            attributes:{funcIds:[],isFunc:false}}
+					)
+                }
+               var customnode = addnode(nodedata);
+				var customnodeId = customnode.id||"17"
+                sdefun.updatePluginTree({tree_type_id:customnodeId,data:nodedata});
+            }
+            function addnode(nodedata){
+                var customtree = $('#pluginTree').getWidget();
+                var customnode = customtree.getSelected();
+                customtree.append({
+                    parent: customnode.target,
+                    data: nodedata
+                });
+                isModifi = true;
+                return customnode;
+            }
+            //新增菜单
+            function funcImport(){
+                var ftree = $('#functree').getWidget();
+                var fnode = ftree.getChecked();
+                var customtree = $('#customtree').getWidget();
+                var customnode = customtree.getSelected();
+                var customdata = customtree.getData(customnode.target);
+                var customchilds = customdata.children;
+                $.each(fnode,function(){
+                    this.attributes.isFunc = true;
+                });
+                var temarr = new Array();
+                var temcount = new Array(fnode.length);
+                for (i in fnode){
+                    temcount[i] = true;
+                    for(j in customchilds){
+                        if (fnode[i].id == customchilds[j].id){
+                            temcount[i] = false;
+                        }
+                    }
+                    if(temcount[i]){
+                        temarr.push(fnode[i]);
+                    }
+                }
+                addnode(temarr);
+            }
+			//删除节点
+			var removed = [];
+			function removenode(){
+				var customtree = $('#pluginTree').getWidget();
+				var customnode = customtree.getSelected();
+				if(customnode.attributes.isFunc != true){
+				removed.push(customnode.id);
+				}
+				customtree.remove(customnode.target);
+			}
+            //重命名节点
+            function rename(){
+                var customtree = $('#pluginTree').getWidget();
+                var customnode = customtree.getSelected();
+                customtree.beginEdit(customnode.target);
+            }
+		</script>
 		</head>
 <body>
 <div class="widget-layout" data-options="'fit':true">
-	<div data-options="region:'north',border:false" style="height: 30px;">
+	<div id="sdeTreeContextMenu" class="widget-menu" style="width:120px;">
+		<div onclick="sde.treeAppendPlugin()" data-options="iconCls:'icon-back'">添加控件</div>
+		<div onclick="addMenuNode()" data-options="iconCls:'icon-add'">新增目录</div>
+		<div onclick="rename()" data-options="iconCls:'icon-edit'">重命名</div>
+		<div onclick="removenode()" data-options="iconCls:'icon-remove'">移除</div>
+	</div>
+	<div id="pluginTreeWest" region="west" split="true" title="控件树" style="width:220px;" align="left">
+		<!-- 控件树 -->
+		<ul id="pluginTree" class="easyui-tree"></ul>
+	</div>
+
+	<div data-options="region:'center','border':false,'split':false">
 		<!-- 工具栏 -->
 		<div class="widget-toolbar">
-			<a id="retractPackageBtn" href="#" class="widget-linkbutton" onclick="packageFund.retractPackageBtn();" data-options="iconCls:'icon-back',plain:true">撤回</a>
+			<a id="retractPackageBtn" href="#" class="widget-linkbutton" onclick="addMenuNodes();" data-options="iconCls:'icon-back',plain:true">插入</a>
 			<a id="addPackageBtn" href="#" class="widget-linkbutton"    data-options="iconCls:'icon-add',plain:true">新增</a>
 			<a id="deletePackageBtn" href="#" class="widget-linkbutton" data-options="iconCls:'icon-remove',plain:true">删除</a>
 			<a id="editPackageBtn" href="#" class="widget-linkbutton" onclick="packageFund.editPackageBtn();" data-options="iconCls:'icon-edit',plain:true">编辑</a>
@@ -80,8 +202,6 @@
 			<!--<a id="checkMx" href="#" class="widget-linkbutton"  data-options="iconCls:'icon-blank',plain:true">查看明细</a>-->
 			<!--<a id="importDetailBtn" class="widget-linkbutton editStatus" data-options="iconCls:'icon-print',plain:true">打印</a>-->
 		</div>
-	</div>
-	<div data-options="region:'center','border':false,'split':false">
 		<!-- 查询表单 -->
 		<div id="budgetCondition" style="padding-left:15px;padding-top:10px;padding-bottom:15px;padding-right:15px;height:auto;background-color:#FCFCFC;display: none;">
 			 <div id="searchUnitForm" data-options="grid:'#packageGrid'" class="widget-conditionForm"  style="padding: 0px; margin: 0px;">
@@ -469,7 +589,6 @@
             iscan = true,
             txtInputValue = $G('txtInputValue').value,
             txtInputDesc = $G('txtInputDesc').value;
-        ////debugger;
         for (var i = 0, l = tempoptions.length; i < l; i++) {
             if (tempoptions[i].value == txtInputValue) {
                 alert(txtInputValue + '值已经存在，值不可重复');

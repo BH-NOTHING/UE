@@ -287,7 +287,9 @@ function(A, e, t) {
                         /*Rum*/
                         if(!onExpand){
         	                var editorContent = document.getElementsByClassName("sde-editor-content");
-        	                editorContent[0].setAttribute("style", "margin-top:200px;")
+        	                editorContent[0].setAttribute("style", "margin-top:150px;");
+                            $(".treeWrapper").css("top","150px");
+
         	                /*end*/
         	                t.setAttribute("style", "height:142px;");
         	                if ( "LI" == n.nodeName) {
@@ -856,6 +858,7 @@ function(A, e, t) {
             A.getElementsByClassName("dock-toolbar")[0].setAttribute("style", ""),
             A.setAttribute("style", "height:30px;"),
             e.parentNode.setAttribute("style", "margin-top:50px;");
+            $(".treeWrapper").css("top","110px");
             /*
                 不同地方contert的外边距不一样，添加class提供自定义
             */
@@ -1489,7 +1492,7 @@ default = {
             function(A, e) {
                 UE.commands[A] = {
                     execCommand: function(t, r) {
-                    	//debugger;
+                    	
                         r = r || (this.queryCommandState(t) ? "none": "underline" == t ? "underline": "fontborder" == t ? "1px solid #000": "line-through");
                         var a, d = this, c = this.selection.getRange();
                         if ("default" == r) {
@@ -2725,6 +2728,7 @@ function(A, e, t) {
         	document.getElementsByClassName("edui-box")[0].onclick = function(ev){
 						var ev = ev||window.event;
 						var newForeColor = ev.target.style.backgroundColor;
+						if(newForeColor == "transparent")newForeColor = "rgb(0, 0, 0)";
 						sde.__ue__.execCommand( 'forecolor', newForeColor);
 						//sde.__ue__.execCommand( 'backcolor', oldBackColor);
 			}
@@ -2752,6 +2756,7 @@ function(A, e, t) {
 		document.getElementsByClassName("edui-box")[0].onclick = function(ev){
 								var ev = ev||window.event;
 								var newBackColor = ev.target.style.backgroundColor;
+                                if(newBackColor == "transparent") newBackColor = "rgba(0,0,0,0)";
 								sde.__ue__.execCommand( 'backcolor', newBackColor);
 								//sde.__ue__.execCommand( 'forecolor', oldForeColor);
 					}
@@ -4739,8 +4744,9 @@ function(A, e, t) {
             			sibL.style.color = '#0000FF';
             		}
             	});
-
-            	/*字体拾色器--start*/
+                /**
+                 * 字体拾色器--start Nothing
+                 * */
             	var COLORS = (
             			'ffffff,000000,eeece1,1f497d,4f81bd,c0504d,9bbb59,8064a2,4bacc6,f79646,' +
             				'f2f2f2,7f7f7f,ddd9c3,c6d9f0,dbe5f1,f2dcdb,ebf1dd,e5e0ec,dbeef3,fdeada,' +
@@ -4768,17 +4774,18 @@ function(A, e, t) {
             					'"' +
             					'></a></td>':'';
             			}
-            			html += '</tr></table></div>';
-            			$("div.sde-header").append(html);      
-            		/*字体拾色器--end*/
-            		
-            		/*表头按钮开关--start Nothing*/
+            			html += '<tr  style="border-bottom: 1px solid #ddd;font-size: 13px;line-height: 25px;color:#39C;padding-top: 2px" class="edui-default"><td style="padding: 0 2px;"><a hidefocus="" title="transparent" onclick="return false;" href="javascript:" unselectable="on" class="edui-box edui-colorpicker-colorcell" data-color="transparent" style="background-color:transparent;border:solid #ccc;border-width:1px;"></a></td><td  colspan="10" class="edui-default" >'+"无颜色"+'</td></tr></table></div>';
+            			$("div.sde-header").append(html);
+                /**
+                 * 字体拾色器--end Nothing
+                 * */
+
             		$(".sde-header .tab-list .tab-list-item").attr("onoff",false);
-            		/*表头按钮开关--end Nothing*/
-            			
-            			
-            			
-                /*H5播放器--start*/
+
+
+                /**
+                 * H5播放器--start Nothing
+                 * */
             	if($("#ueditor_0").contents().find('div.videobox')){
             		 var videoHTML = '<div class="videobox"  style="border: 1px solid #ddd; position: absolute; top: 70%;z-index:1000; margin-top: -250px; left: 47%; margin-left: -250px; z-index: 999; display: none">'+
                      '<span class="closex" style="position: absolute; right: 0; top: 0; z-index: 1000; display: block; width: 20px; line-height: 20px; text-align: center; cursor: pointer; color:white">x</span>'+
@@ -4789,8 +4796,10 @@ function(A, e, t) {
                      '</div>';
                  $("div.sde").append(videoHTML);
             	};
-               
-                /*H5播放器--end*/
+
+                /**
+                 * H5播放器--end Nothing
+                 * */
 
                 /*图片放大遮罩层效果 -- start Nothing 2017-11-20*/
                 $("div.sde").append("<div class='shadeDiv' align='center' style='position: fixed;cursor:pointer; z-index: 1000; display:none; background-color:black; background: rgba(0, 0, 0, 0.5); width:100%; height:100%;top:0px; border:1px solid #222;'>"+
@@ -4995,49 +5004,40 @@ function(A, e, t) {
             $(sde.querySelectorAll("div.sde-validatebox")).remove();
             $(sde.querySelectorAll(".flatpickr-calendar")).remove();
             $("span[copyvalue]").removeAttr('copyvalue');
-	        return void 0 === A ? this.__ue__.getContent() : (p = A, void(this.sdes.__dom__.innerHTML = A))
+            var N_TO_NULL=window.SDE_CONFIG.N_TO_NULL==="1"?undefined:true;
+	        return void 0 === A ? this.__ue__.getContent(undefined,undefined,undefined,N_TO_NULL) : (p = A, void(this.sdes.__dom__.innerHTML = A))
 	    },
         /**
-         * No3. 根据id获取控件值
+         * No3. 根据id获取控件值,selector为指定区域
          */
-        getControl: function(A) {
-            return this.__ue__.window.sde.getControl(A);
+        getControl: function(A,selector) {
+            return this.__ue__.window.sde.getControl(A,selector);
         },
 	    /**
-		 * No3.1. 获取所有控件
+		 * No3.1. 获取所有控件,selector为指定区域
 		 */
-        getAllPlugin: function(A) {
-	        var data = this.__ue__.window.sde.getAllPlugin(A);
+        getAllPlugin: function(A,selector) {
+	        var data = this.__ue__.window.sde.getAllPlugin(A,selector);
 	        return data;
 	    },
 	    /**
-		 * No4. 根据id设置控制值
+		 * No4. 根据id设置控制值,selector为指定区域
 		 */
-	    setControl: function(A) {
+	    setControl: function(A,selector) {
 	    	if(!A) return false;
-	        this.__ue__.window.sde.setControl(A)
+            return this.__ue__.window.sde.setControl(A,selector)
 	    },
 	    /**
-		 * No5. 根据id设置控制值
+		 * No5. 根据id设置控制值,selector为指定区域
 		 */
-	    setControls: function(_id, _value) {
+	    setControls: function(_id, _value,selector) {
 	    	if(!_id) return false;
 	        try {
-	            var temp = this.getControl(_id);
+	            var temp = this.getControl(_id,selector);
 	            if (void 0 != temp ) {
-	            	if (false) {
-		                var jsonarr = temp.BINDINGDATA;
-		                for (var key in jsonarr) {
-		                    if (_value == jsonarr[key].VALUE) {
-		                        this.setControl({
-		                            ID: _id, VALUE: jsonarr[key].TEXT
-		                        });
-		                        return true;
-		                    }
-		                }
-	                }else {
-	                	this.setControl({ ID: _id, VALUE: _value });
-	                }
+
+	                this.setControl({ ID: _id, VALUE: _value },selector);
+
 	            }else {
 	                console.log('找不到该控件');
 	            }
@@ -5196,9 +5196,9 @@ function(A, e, t) {
 	    /**
 		 * No16. 调用获取所有的key_value
 		 */
-	    getAllControl: function() {
+	    getAllControl: function(selector) {
 	        var controls = [];
-	        var AllControl = this.getControl();
+	        var AllControl = this.getControl(undefined,selector);
             if(!AllControl || AllControl.length==0) return '';
 	        for (var i = 0, l = AllControl.length; i < l; i++) {
                 var goal = this.pluginJsonToGoal(AllControl[i]);
@@ -5427,6 +5427,19 @@ function(A, e, t) {
             return $(this.sdes.__dom__).find(param);
         },
         /**
+         * No26.3 通过数组元素进行JQ获取,返回一个数组结果集;
+         */
+        jqSelectorAlls: function(param) {
+            var resArr = [];
+            var params = [];
+            !Array.isArray(params) ? params.push(param) : params = params.concat(param);
+            for ( var i = 0, pl = params.length; i < pl; i++) {
+                var $obj = $(this.sdes.__dom__).find(param);
+                resArr.push($obj);
+            }
+            return resArr;
+        },
+        /**
          * No27 还原修改痕迹
          * @author
          * @createTime
@@ -5617,36 +5630,51 @@ function(A, e, t) {
         /**
          * No35.删除sde元素
          */
-        removeSDEObj : function(param) {
-            var params = [];
-            !Array.isArray(params) ? params.push(param) : params = params.concat(param);
-            for ( var i = 0, pl = params.length; i < pl; i++) {
-                var objs = this.querySelectorAll(params[i]);
-                $(objs).remove();
-            }
+        removeSDE : function(param) {
+            return this.sdes.removeSDE(param);
         },
         /**
          * No35.1 隐藏sde元素
          */
-        hideSDEObj : function(param) {
-            var params = [];
-            !Array.isArray(params) ? params.push(param) : params = params.concat(param);
-            for ( var i = 0, pl = params.length; i < pl; i++) {
-                var objs = this.querySelectorAll(params[i]);
-                $(objs).hide();
-            }
-        }
-        ,
+        hideSDE : function(param) {
+            return this.sdes.hideSDE(param);
+        },
         /**
          * No35.2 显示sde元素
          */
-        showSDEObj : function(param) {
-            var params = [];
-            !Array.isArray(params) ? params.push(param) : params = params.concat(param);
-            for ( var i = 0, pl = params.length; i < pl; i++) {
-                var objs = this.querySelectorAll(params[i]);
-                $(objs).show();
-            }
+        showSDE : function(param) {
+            return this.sdes.showSDE(param);
+        },
+        /**
+         * No35.3 添加sde属性
+         */
+        attrSDE : function(param,attr,attrVal) {
+            return this.sdes.attrSDE(param,attr,attrVal);
+        },
+        /**
+         * No35.4 删除sde属性
+         */
+        removeAttrSDE : function(param,attr) {
+            return this.sdes.removeAttrSDE(param,attr);
+        },
+        /**
+         * No35.5 添加sde的class样式
+         */
+        addClassSDE : function(param,_class) {
+            return this.sdes.addClassSDE(param,_class);
+        },
+        /**
+         * No35.6 删除sde的class样式
+         */
+        removeClassSDE : function(param,_class) {
+            return this.sdes.removeClassSDE(param,_class);
+        }
+        ,
+        /**
+         * No35.7 添加sde的css
+         */
+        cssSDE : function(param,_css) {
+            return this.sdes.cssSDE(param,_css);
         },
         /**
          * No36.编辑器内容发生改变时会修改该值，0表示沒有改变
@@ -5682,49 +5710,74 @@ function(A, e, t) {
                     oo.setAttribute("mode", "plaintextOnly");
                 }
         },
-         /**
+        /**
+         * No37.1.局域是否可以编辑;
+         * type默认是true,即可编辑
+         * type是false,即不可编辑
+         */
+         recordEditor : function(id,type) {
+            type = type|| "true";
+            var mode = "";
+            if(type=="true"){
+                mode = "EDITOR";
+            }else if(type=="false"){
+                mode = "READONLY";
+            }else{
+                return "";
+            }
+            var $obj = sde.jqSelectorAll(id);
+            $obj.attr("contenteditable",type);
+            var $ro = $obj.find("[mode=READONLY]");
+            $ro.attr("contenteditable", type);
+            $ro.attr("mode",mode );
+
+            var $po = $obj.find("[mode=plaintextOnly]");
+            $po.attr("contenteditable", type);
+            $po.attr("mode", mode);
+        },
+        /**
          * No38.切换粘贴模式
          */
-         pasteModel : function(index){    //传入值  0：纯文本粘贴  1：带格式粘贴
+        pasteModel : function(index){    //传入值  0：纯文本粘贴  1：带格式粘贴
             var pasteState = this.__ue__.queryCommandState( 'pasteplain');
             if( 0 == index){
                 pasteState == 0 ? this.__ue__.execCommand( 'pasteplain') : '';
             }else if( 1 == index ){
-                 pasteState == 0 ? '': this.__ue__.execCommand( 'pasteplain') ;
+                pasteState == 0 ? '': this.__ue__.execCommand( 'pasteplain') ;
             }
 
         },
+        // iconMark : function(param){		//传入 0或不传值 ：关闭            传入1：打开
+        //  sde.__proto__.iconMarks = param;
+        // 	$(sde.querySelectorAll("[sde-model]")).each(function(){
+        // 		var json = JSON.parse($(this).attr("sde-model"));
+        // 		var sde_right_html = '';
+        // 		if(param == 1){
+        // 			switch(json.TYPE){  //针对不同下拉框，用不同图标标记 --start Nothing 2017-11-24
+        //   				case "date":
+        //   					sde_right_html = '<div class="own_icon_date"></div>';
+        //   					break;
+        //   				case "select":
+        //   					if(json.VERIFYTYPE == "checkbox"){
+        //   						sde_right_html = '<div class="own_icon_checkbox" style=""></div>';
+        //   					}else{
+        //   						sde_right_html = '<div class="own_icon_select"></div>';
+        //   					}
+        //   					break;
+        //   				case "text":
+        //   						sde_right_html = '<div class="own_icon_text"></div>';
+        //   					break;
+        //   				default:
+        //   				  break;
+        // 			}				//图标标记--end
+        // 		}
+        // 		$(this).find(".sde-right").html(sde_right_html + "]")
+        // 	})
+        // return sde.__proto__.iconMarks;
+        // },
         /**
          * No39.控件图标标记
          */
-         // iconMark : function(param){		//传入 0或不传值 ：关闭            传入1：打开
-        	//  sde.__proto__.iconMarks = param;
-        	// 	$(sde.querySelectorAll("[sde-model]")).each(function(){
-        	// 		var json = JSON.parse($(this).attr("sde-model"));
-        	// 		var sde_right_html = '';
-        	// 		if(param == 1){
-        	// 			switch(json.TYPE){  //针对不同下拉框，用不同图标标记 --start Nothing 2017-11-24
-		  //   				case "date":
-		  //   					sde_right_html = '<div class="own_icon_date"></div>';
-		  //   					break;
-		  //   				case "select":
-		  //   					if(json.VERIFYTYPE == "checkbox"){
-		  //   						sde_right_html = '<div class="own_icon_checkbox" style=""></div>';
-		  //   					}else{
-		  //   						sde_right_html = '<div class="own_icon_select"></div>';
-		  //   					}
-		  //   					break;
-		  //   				case "text":
-		  //   						sde_right_html = '<div class="own_icon_text"></div>';
-		  //   					break;
-		  //   				default:
-		  //   				  break;
-        	// 			}				//图标标记--end
-        	// 		}
-        	// 		$(this).find(".sde-right").html(sde_right_html + "]")
-        	// 	})
-        	// return sde.__proto__.iconMarks;
-         // }
         iconMark : function(param){		//传入 0或不传值 ：关闭            传入1：打开
             if(param)window.SDE_CONFIG.ICONMARKS = param;
             var sdemodel = this.querySelectorAll("span[sde-model]");
@@ -5766,51 +5819,27 @@ function(A, e, t) {
                 this.checkPluginLR();
             }
             return window.SDE_CONFIG.ICONMARKS;
-        }
-        ,
-        /**
-         * No40.单个病程可编辑
-         */
-         recordEditor : function(id) {
-            var _obj = sde.querySelector(id);
-            _obj.setAttribute("contenteditable","true");
-            var t = $(_obj).find("[mode=READONLY]");
-            if (t.length > 0){
-                for (var n = 0, i = t.length; n < i; n++) {
-                    var o = t[n];
-                    o.setAttribute("contenteditable", "true");
-                    o.setAttribute("mode", "EDITOR");
-                }
-            }
-            var plaintextOnly = $(_obj).find("[mode=plaintextOnly]");
-            if (plaintextOnly.length > 0){
-                for (var nn = 0, pl = plaintextOnly.length; nn < pl; nn++) {
-                    var oo = plaintextOnly[nn];
-                    oo.setAttribute("contenteditable", "plaintext-only");
-                    oo.setAttribute("mode", "EDITOR");
-                }
-            }
         },
         /**
-         * No41.禁用控件Disable enabled
+         * No40.禁用控件Disable enabled
          */
         disSDEPlugin : function(param) {
             return this.sdes.disSDEPlugin(param);
         },
         /**
-         * No41.1.启用控件Disable enabled
+         * No40.1启用控件Disable enabled
          */
         enSDEPlugin : function(param) {
             return this.sdes.enSDEPlugin(param);
         },
         /**
-         * No42.隐藏控件
+         * No40.2隐藏控件
          */
         hideSDEPlugin : function(param) {
             return this.sdes.hideSDEPlugin(param);
         },
         /**
-         * No42.1.显示控件
+         * No40.3.显示控件
          */
         showSDEPlugin : function(param) {
             return this.sdes.showSDEPlugin(param);
@@ -5951,6 +5980,53 @@ function(A, e, t) {
          */
         treeRemovePlugin:function(){
             console.log("treeRemovePlugin");
+        },
+        /**
+         * No47. 获取指定节点内的控件,selector参数传入id或class,如:"#id1",".class2"
+         * example : sde.setPartControl("#lastDiv")
+         */
+        getPartControl:function(selector){
+            var selector = sde.querySelector(selector);
+            var controlArr = [];
+            if($(selector).length >= 0){
+                var arr = selector.querySelectorAll(".sde-bg");
+                var len = arr.length;
+                for(var i = 0 ; i < len ; i++){
+                    controlArr.push(JSON.parse(arr[i].getAttribute("sde-model")));
+                }
+            }
+            return controlArr;
+        },
+        /**
+         * No48. 设置指定节点内的控件,selector参数传入id或class,如:"#id1",".class2"
+         * example : sde.setPartControl("#lastDiv","SEX","666")
+         */
+        setPartControl:function(selector,_id,_value){
+            selector = sde.querySelector(selector);
+            if(!_id) return false;
+            try {
+                var temp = JSON.parse(selector.querySelector("#"+_id).getAttribute("sde-model"));
+                if (void 0 != temp ) {
+                    if (false) {
+                        var jsonarr = temp.BINDINGDATA;
+                        for (var key in jsonarr) {
+                            if (_value == jsonarr[key].VALUE) {
+                                this.setControl({
+                                    ID: _id, VALUE: jsonarr[key].TEXT
+                                });
+                                return true;
+                            }
+                        }
+                    }else {
+                        // this.setControl({ ID: _id, VALUE: _value });
+                        this.__ue__.window.sde.setControl({ ID: _id, VALUE: _value },selector)
+                    }
+                }else {
+                    console.log('找不到该控件');
+                }
+            } catch(e) {
+                console.log(e);
+            }
         }
 
 /*----------------------😊 请在我上边加控件 😊-------------------------*/
@@ -6137,4 +6213,46 @@ UE.plugins['sdecontrolbarcode'] = function() {
                     popup.getDom('content').innerHTML = html;
                     popup.anchorEl = el;
                     popup.showAnchor(popup.anchorEl);
-   
+                } else {
+                    popup.hide();
+                }
+            }
+        });
+};
+/*二维码、条形码--end*/
+/*
+ /!*视频上传--start*!/
+ UE.plugins['insertvideo'] = function() {
+ var url = this.options.UEDITOR_HOME_URL;
+ var butt = window.SDE_CONFIG.HOME_URL_DIALOGS + '../ueditor/dialogs/video/video.html';
+ var me = this, thePlugins = 'insertvideo';
+ me.commands[thePlugins] = {
+ execCommand : function(e) {
+ var dialog = new UE.ui.Dialog({
+ // 弹出模式以iframe方式打开的控件配置页面 URL
+ iframeUrl : butt,
+ name : thePlugins,
+ editor : this,
+ title : '视频',// 弹出框标题
+ cssRules : "width:654px;height:471px;",
+ buttons : [// 弹出框按钮集
+ {
+ className : 'edui-okbutton',
+ label : '确定',
+ onclick : function() {
+ dialog.close(true);
+ }
+ }, {
+ className : 'edui-cancelbutton',
+ label : '取消',
+ onclick : function() {
+ dialog.close(false);
+ }
+ } ]
+ });
+ dialog.render();
+ dialog.open();
+ }
+ };
+ };*/
+/*视频上传--end*/

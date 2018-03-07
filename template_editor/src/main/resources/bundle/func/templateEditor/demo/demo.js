@@ -57,18 +57,18 @@ var reviseJson = [{
     title: '其他',
     onclick: '#'
 }];
+
 sdefun.addSDEPlugins_left("sde-toolbar-updateTemplate", "后退", {}, "gotoBack();");
 sdefun.addSDEPlugins_left("sde-toolbar-updateTemplate", "保存", {}, "updateTemplate();");// 在工具条上自定义菜单参数1=id,参数2=名称,4如果有第四个参数时，优先执行第四个参数,
 sdefun.addSDEPlugins("sde-toolbar-expand", "扩展", expandJson);// 在工具条上自定义菜单参数1=id,参数2=名称,参数3=json,
 sdefun.addSDEPlugins("sde-toolbar-revise", "修订", reviseJson);// 在工具条上自定义菜单参数1=id,参数2=名称,参数3=json,
 sdefun.addSDEPlugins("sde-toolbar-source", "源码", {}, "sde.setExecCommand(\'source\')");// 在工具条上自定义菜单参数1=id,参数2=名称,4如果有第四个参数时，优先执行第四个参数,
 sdefun.addSDEPlugins("sde-toolbar-cleardoc", "清空", {}, "cleardoc()");// 在工具条上自定义菜单参数1=id,参数2=名称,4如果有第四个参数时，优先执行第四个参数,
-sdefun.addSDEPlugins("sde-toolbar-cleardoc", "所有控件值", {}, "getAllControl()");// 在工具条上自定义菜单参数1=id,参数2=名称,4如果有第四个参数时，优先执行第四个参数,
+/*sdefun.addSDEPlugins("sde-toolbar-cleardoc", "所有控件值", {}, "getAllControl()");// 在工具条上自定义菜单参数1=id,参数2=名称,4如果有第四个参数时，优先执行第四个参数,*/
 sdefun.addSDEPlugins("sde-toolbar-sdeTools", "操作栏", {}, "sdeTools();");// 在工具条上自定义菜单参数1=id,参数2=名称,4如果有第四个参数时，优先执行第四个参数,
 
-var title = '<div id="sdeTools" style="float:left;display:none; ">'
-    + '<div>&nbsp;<a href="/UE/bundle/editor/func/sdeDesc/updateLog/main.vop">帮助文档</a>&nbsp;' // display:none;
-   /* + '<button onclick="lodop()">lodop</button>'
+var title = '<div id="printTools" style="float:left;display:none; ">'
+    + '<button onclick="lodop()">lodop</button>'
     + '<button onclick="CheckIsInstall(1)">打印预览</button>'
     + '<button onclick="CheckIsInstall(2)">直接打印</button>'
     + '<button onclick="CheckIsInstall(3)">打印维护</button>'
@@ -80,12 +80,18 @@ var title = '<div id="sdeTools" style="float:left;display:none; ">'
     + '<button onclick="getRuleColumnById()">getRuleColumnById</button>'
     + '<button onclick="getRuleColumnByCode()">getRuleColumnByCode</button>'
     + '<hr/>'
-    + '<button onclick="sde.insertButton();">插入按钮</button>'
+    + '</div>'
+    + '<div id="sdeTools" style="float:left;display:none; ">'
+    /*+ '<button onclick="sde.insertButton();">插入按钮</button>'
     + '<button onclick="sde.setExecCommand(\'insertrow\')">插入行</button>'
     + '<button onclick="sde.setExecCommand(\'deleterow\')">删除行</button>'
     + '<button onclick="sde.clearLoad(\'去除后加载\');">清除后加载</button>'
     + '<button onclick="alert(JSON.stringify(sde.getControlByParam(\'#EbyId\')));">getControlByParam</button>'
     + '<button onclick="sde.__ue__.setAttrSDE(\'.sde-table\');">setAttrSDE</button>'*/
+    + '&nbsp;<a href="/UE/bundle/editor/func/sdeDesc/updateLog/main.vop">帮助文档</a>&nbsp;'
+    + '&nbsp;<a href="/UE/bundle/editor/func/pluginManager/pluginList/pluginList.vop">控件管理</a>&nbsp;'
+    + '&nbsp;<a href="/UE/bundle/editor/func/templateList/templateList/templateList.vop">模板列表</a>&nbsp;'
+    + '<button onclick="printTools();">打印栏</button>'
     + '<button onclick="getDialog();">获取Dialog</button>'
     + '<button onclick="sdefun.templateCopy();">模板另存</button>'
     + '<button onclick="sde.execCommand(\'inserthtml\',\'inserthtml内容\')">inserthtml</button>'
@@ -103,7 +109,7 @@ var title = '<div id="sdeTools" style="float:left;display:none; ">'
     + '<button onclick="_setControls()">设置控件值</button>'
     + '<button onclick="_getControl()">获取控件值</button>'
     + '<button onclick="alert(sde.html());">获取html</button>'
-    + '<button onclick="alert(JSON.stringify(sde.getAllControl()))">获取所有控件</button>'
+    + '<button onclick="alert(JSON.stringify(sde.getAllControl( \'.sde-table2\')))">获取所有控件</button>'
     + '<button onclick="sde.__ue__.execCommand( \'forecolor\',\'rgb(255, 0, 0)\')">forecolor</button>'
     + '<button onclick="sde.__ue__.execCommand( \'backcolor\',\'blue\')">backcolor</button>'
     + '<button onclick="insertimage()">insertimage</button>'
@@ -115,12 +121,12 @@ var title = '<div id="sdeTools" style="float:left;display:none; ">'
     + '<button onclick="alert(sdefun.getIdCard(\'45032419920914581X\',2));">身份证</button>'
     + '<button onclick="createBarcode(\'divCode\',\'test\',\'B\');">条形码</button>'
     + '<button onclick="insertTable();">插入表格</button>'
-    + '<button onclick="sde.removeSDEObj([\'.sde-left\',\'.sde-right\']);">removeSDEObj</button>'
-    + '<button onclick="sde.__ue__.cleanRemoveSDE([\'.sde-left\',\'.sde-right\']);">cleanRemoveSDE</button>'
+    + '<button onclick="sde.hideSDE([\'.sde-left\',\'.sde-right\']);">隐藏括号</button>'
+    + '<button onclick="sde.showSDE([\'.sde-left\',\'.sde-right\']);">显示括号</button>'
+    + '<button onclick="sde.hideSDE(\'button\');">隐藏按钮</button>'
+    + '<button onclick="sde.showSDE(\'button\');">显示按钮</button>'
     + '<button onclick="sde.__ue__.cleanSDE(\'#sde_table_id\',\'sde_table_dis\');">显示自定义表格</button>'
     + '<button onclick="sde.__ue__.cleanSDE(\'.sde-table\',\'sde_table_dis\');">显示所有表格</button>'
-    + '<button onclick="sde.__ue__.cleanSDE(\'button\');">显示按钮</button>'
-    + '<button onclick="sde.__ue__.cleanSDE([\'.sde-left\',\'.sde-right\']);">显示括号</button>'
     + '<button onclick="sde.__ue__.cleanSDE([\'#yjs\',\'span[yjs]\']);">显示月经史</button>'
     + '<button onclick="sde.setControlUnderline()">显示下划线</button>'
     + '<button onclick="console.log(sde.checkNull([\'+\',\'-\',\'/\']));">空值校验</button>'
@@ -154,7 +160,7 @@ var title = '<div id="sdeTools" style="float:left;display:none; ">'
     + '<button onmousedown="alert(sdefun.getSelectionHTML())">getSelectionHTML</button>'
     + '<button onmousedown="alert(sdefun.setRuleValue())">setRuleValue</button>'
     + '<button onmousedown="sde.recordReadonly(\'#recordTable\')">recordReadonly</button>'
-    + '<button onmousedown="sde.recordEditor(\'#recordTable\')">recordEditor</button>'
+    + '<button onmousedown="sde.recordEditor(\'#recordTable\')">单个病程可编辑</button>'
     + '<button onmousedown="sdefun.getNewestReportByTempVId(8)">获取最新报告byTempVId</button>'
     + '<button onmousedown="sdefun.updateAllPluginByVerID()">updateAllPluginByVerID</button>'
     + '<button onmousedown="sde.checkPluginLR()">checkPluginLR</button>'
@@ -168,61 +174,6 @@ var title = '<div id="sdeTools" style="float:left;display:none; ">'
 var footer = 'footer';
 var toolbars = '';
 
-function findPluginTree() {
-    var res = srvFunByParam("pluginTreeSrv", "findById", {}, false);//获取旧的报告，
-    console.log(JSON.stringify(res));
-    return res;
-}
-function getAllControl() {
-    var allC = sde.getAllControl();
-    var allJ = JSON.stringify(allC);
-    console.log(allJ);
-    alert(allJ);
-}
-function reportSrvTest1() {
-    debugger
-    var res = srvFunByParam("reportSrv", "test", {}, false);//获取旧的报告，
-    console.log(res);
-}
-function findAllTemplateData() {
-    debugger
-    var res = srvFunByParam("templateSrv", "findAllTemplateData", {}, false);
-    console.log(JSON.stringify(res))
-}
-function templateSave() {
-    var res = sdefun.templateSave();
-    alert(res.msg);
-}
-function templateFindAll() {
-    var param = {};
-    param = {max_ver_id: 8};//最小版本号
-    /* param ={max_ver_id:8};//最大版本号
-     param ={min_ver_id:8,max_ver_id:10};//最小和最大版本号之间
-     param.template_ver_ids =[8,2];//多个版本号*/
-    var res = sdefun.addTempDateByContent(param);
-    console.log(JSON.stringify(res))
-}
-function templateFindAll2() {
-    var param = {};
-    param = {min_ver_id: 8};//最小版本号
-    /*param ={max_ver_id:8};//最大版本号
-     param ={min_ver_id:8,max_ver_id:10};//最小和最大版本号之间
-     param.template_ver_ids =[8,2];//多个版本号*/
-    var res = sdefun.addTempDateByContent2(param);
-    console.log(JSON.stringify(res))
-}
-
-function initTree(){
-
-    treeObj.initTree("sdeTree");
-    treeObj['loadData']();
-
-}
-function sdeTree(){
-    $("#sdeTree").css("display","block").toggleClass("tree-open","tree-close");
-    $("#sde-showtree").toggleClass("sde-showtree-open","sde-showtree-close");
-    $("#sde-arrowNav").toggleClass("sde-arrowNav-open","sde-arrowNav-close");
-}
 /**
  * templateFindById 第一个参数是模板id 将获取最新版本的模板 第二个参数是版本号，必须与第一个参数结合用
  * 如果要findByVerId，请用findByVer_Id(param);
@@ -250,8 +201,6 @@ sdeUserFun.prototype.edcxxx = function (param) {
     $(param).attr('sde-model', JSON.stringify(jsonStr));
     console.log("测试双击事件edcxxx");
 }
-
-
 
 window.onload = function () {
     //window.UEDITOR_CONFIG.WEB_URL_FASTDFS = "1";//FASTDFS服务配置----"1":启用fastDFS上传，"0":本地上传
@@ -285,7 +234,7 @@ window.onload = function () {
     sde.ready(function () {
         sde.pasteModel(0);
         sde.iconMark(0);
-        //sdefun.initSDETree();
+        sdefun.initSDETree();
         /* sde.setMRHPSelect();
          sde.setControlUnderline();*/
         /*var makePluginStore = new sdeFun().makePluginStore();
@@ -314,6 +263,63 @@ window.onload = function () {
 };
 
 
+function findPluginTree() {
+    var res = srvFunByParam("pluginTreeSrv", "findById", {}, false);//获取旧的报告，
+    console.log(JSON.stringify(res));
+    return res;
+}
+function getAllControl() {
+    var allC = sde.getAllControl();
+    var allJ = JSON.stringify(allC);
+    console.log(allJ);
+    alert(allJ);
+}
+function reportSrvTest1() {
+    debugger
+    var res = srvFunByParam("reportSrv", "test", {}, false);//获取旧的报告，
+    console.log(res);
+}
+function findAllTemplateData() {
+    debugger
+    var res = srvFunByParam("templateSrv", "findAllTemplateData", {}, false);
+    console.log(JSON.stringify(res))
+}
+function templateSave() {
+    var date1 = new Date().getTime();
+    var res = sdefun.templateSave();
+    var date2 = new Date().getTime();
+    alert( "耗时：" + (date2 - date1)+",结果:"+res.msg);
+}
+function templateFindAll() {
+    var param = {};
+    param = {max_ver_id: 8};//最小版本号
+    /* param ={max_ver_id:8};//最大版本号
+     param ={min_ver_id:8,max_ver_id:10};//最小和最大版本号之间
+     param.template_ver_ids =[8,2];//多个版本号*/
+    var res = sdefun.addTempDateByContent(param);
+    console.log(JSON.stringify(res))
+}
+function templateFindAll2() {
+    var param = {};
+    param = {min_ver_id: 8};//最小版本号
+    /*param ={max_ver_id:8};//最大版本号
+     param ={min_ver_id:8,max_ver_id:10};//最小和最大版本号之间
+     param.template_ver_ids =[8,2];//多个版本号*/
+    var res = sdefun.addTempDateByContent2(param);
+    console.log(JSON.stringify(res))
+}
+
+function initTree(){
+
+    treeObj.initTree("sdeTree");
+    treeObj['loadData']();
+
+}
+function sdeTree(){
+    $("#sdeTree").css("display","block").toggleClass("tree-open","tree-close");
+    $("#sde-showtree").toggleClass("sde-showtree-open","sde-showtree-close");
+    $("#sde-arrowNav").toggleClass("sde-arrowNav-open","sde-arrowNav-close");
+}
 function createD3() {
     var dataset = [
         {x: 0, y: 88}, {x: 1, y: 35},
@@ -333,16 +339,16 @@ function _myFunction() {
 function _setControls() {
     var data;
     var id = prompt('请输入设置控件ID：', '');
-    var pa=[{"VALUE":"1","TEXT":"普通"},{"VALUE":"11","TEXT":"11"}];
+    var pa=12;
     debugger;
-    if (id) data = sde.setControls(id, pa);
+    if (id) data = sde.setControls(id, pa,'.sde-table2');
 }
 
 function _getControl() {
     var data;
     var id = prompt('请输入获取控件ID：', '');
     debugger
-    if (id) data = sde.getControl(id);
+    if (id) data = sde.getControl(id,'.sde-table2');
     alert(JSON.stringify(data) || "");
 }
 
@@ -629,6 +635,8 @@ UE.Plugins = [{
     }
 }];
 
+
+
 window.SDE_CONFIG.SDE_TABLEWIDTH = '0'; // 当设置为'0'时，插入的表格自动宽度，
 // window.SDE_CONFIG.SDE_EDITORWIDTH='21cm'; //编辑器内容的宽度，建议不要修改
 // window.SDE_CONFIG.SDE_UEPADDING='20px'; //编辑器内容与边界的间距，建议不要修改
@@ -657,6 +665,9 @@ function sdeTools() {
     var display = $("#sdeTools").css("display");
     $("#sdeTools").css("display", display == "block" ? "none" : "block");
 }
+function printTools() {
+    $("#printTools").css("display", $("#printTools").css("display") == "block" ? "none" : "block");
+}
 
 function gotoBack() {
     window.history.back(-1);
@@ -681,11 +692,15 @@ function updateTemplate() {
     param.type_id = document.getElementById("type_id").value;
     param.syn_version = document.getElementById("syn_version").value;
     param.status = '6';
+    var date1 = new Date().getTime();
     var data = sdefun.updateTemplate(param);
+    var date2 = new Date().getTime();
     if (data && data.code == 200) {
         window.location.reload();
     }
-    alert(data.msg);
+    var msg="耗时：" + (date2 - date1)+",结果:"+data.msg;
+    console.log(msg);
+    alert(msg);
 }
 
 function insertTable() {

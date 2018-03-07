@@ -10259,7 +10259,12 @@ String.prototype.replaceAll = function(search, replacement) {
 
 var oldTrim = $.trim;
 $.trim = function(){
-    var spanzwj = $('<span>&zwj;</span>').text();
-    arguments[0] = (typeof arguments[0] == "string")?arguments[0].replaceAll(spanzwj,""):arguments[0] ;
-    return oldTrim.apply(this,arguments);
+	var argu = arguments;
+	try {
+		var zwj = $('<span>&zwj;</span>').text();
+        if(typeof argu[0] === "string") argu[0] = argu[0].replaceAll(zwj,"");
+    }catch (e){
+		console("$.trim异常:"+e);
+	}
+    return oldTrim.apply(this,argu);
 }

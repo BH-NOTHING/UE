@@ -152,11 +152,7 @@
         }
     });
     function selectCode(template_ver_id) {
-        for (var i = 0, l = templateList.length; i < l; i++) {
-            var data = templateList[i];
-
-            if(data.template_ver_id.toString() === template_ver_id){
-                //debugger
+        var data = sdefun.templateFindByVId(template_ver_id)[0];
                 var content = data.content;
                 var $ss=$(content);
                 var codes = $ss.find("span[id]");
@@ -173,18 +169,15 @@
                 }
 
                 $G("selectCode").innerHTML = html.join('');
-            }
-        }
+
     }
 
     function getRuleList(selectId,param){
-        //debugger
         var datas = sdefun.getRuleList(param);
         var html = [];
         html.push('<option value=""> --请选择规则-- </option>');
         if (datas && datas.data != undefined && datas.data != null) {
             var data = datas.data.data;
-            // //debugger;
             for ( var i = 0; i < data.length; i++) {
                 html.push('<option value="' + data[i].rule_code + '" rule_code="' + data[i].rule_id + '"')
                 if (data[i].SELECTED != undefined && data[i].SELECTED == 1) {
@@ -197,12 +190,11 @@
         return html;
     }
     function templateListFun(){
-        templateList = sdefun.templateFindAll();
+        templateList = sdefun.findAllTempVerName();
         var html = [];
         html.push('<option value=""> --请选择模板-- </option>');
         for (var i = 0, l = templateList.length; i < l; i++) {
             var data = templateList[i];
-            //debugger
             html.push('<option value="' + data.template_ver_id + '" >' +i+","+ data.name + '</option>');
         }
         $G('selectTemplate').innerHTML = html.join('');

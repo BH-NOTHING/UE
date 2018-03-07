@@ -10,6 +10,10 @@ result.msg = '操作失败';
 result.code = 500;
 var isDataSeq =  param.isDataSeq || true; //20180122 king 是否手动读取主键序列号.
 var datasource="";                          //数据源
+// var thisUserId = com.tt.pwp.framework.security.SecurityUtils.getLoginAccountId();
+// var thisTime = com.tt.pwp.framework.util.formatter.DateFormatterUtil.long2YYYY_MM_DDHH24miss(new java.util.Date());
+// var logger = com.tt.pwp.framework.util.log.LogUtil();
+// logger.info("seqNumSrv.srv.js---thisUserId:"+thisUserId+"---thisTime:"+thisTime+"---Param:"+JSON.stringify(param));
 if (param && param.datasource) {
     datasource = param.datasource;
 }

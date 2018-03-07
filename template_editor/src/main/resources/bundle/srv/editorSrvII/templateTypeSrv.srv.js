@@ -10,6 +10,10 @@ var toJs = require('nodejava').toJs;
 var spring = require("spring");
 var datasource="";                          //数据源
 var isDataSeq =  param.isDataSeq || true; //20180122 king 是否手动读取主键序列号.
+var thisUserId = com.tt.pwp.framework.security.SecurityUtils.getLoginAccountId();
+var thisTime = com.tt.pwp.framework.util.formatter.DateFormatterUtil.long2YYYY_MM_DDHH24miss(new java.util.Date());
+var logger = com.tt.pwp.framework.util.log.LogUtil();
+logger.info("templateTypeSrv.srv.js---thisUserId:"+thisUserId+"---thisTime:"+thisTime+"---Param:"+JSON.stringify(param));
 if (param && param.datasource) {
     var dsMgr = require('pwp-datasource');  //数据源管理对象
     db = dsMgr.db(param.datasource);        //调用db([datasouceId])函数得到指定的数据源对象,dsMgr.db('default')可得到默认数据源
@@ -112,7 +116,8 @@ var handler = {
         var result = {};
         var ids = param.ids;
         var datas = [];
-        for (var i = 0; i < ids.length; i++) {
+        var length = ids.length;
+        for (var i = 0; i < length; i++) {
             var data = db.dao.find("editor.editorModel.tp_template_type", "id=?", [ids[i]]);
             datas.push(data);
         }

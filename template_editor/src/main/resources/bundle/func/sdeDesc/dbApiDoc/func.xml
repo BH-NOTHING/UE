@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<function>
+  <name>数据库接口</name>
+  <entry>pluginSrv.vop</entry>
+  <category>编辑器更新文档</category>
+  <order>5</order>
+  <icon>icon-lock</icon>
+  <hidden>false</hidden>
+  <version>1</version>
+</function>

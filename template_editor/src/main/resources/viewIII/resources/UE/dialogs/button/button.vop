@@ -3,7 +3,7 @@
 
 <head>
     <title>控件模板库</title>
-    <#include '/common/head.vop'>
+    <#include '/common/head.vop'/>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
         <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
@@ -69,7 +69,6 @@
         sourceData = UE.sdeplugins[thePlugins].MAKEPLUGINSTORE; //异步加载
         param1 = UE.sdeplugins[thePlugins].param1;
         param2 = UE.sdeplugins[thePlugins].param2;
-        //debugger
         //console.log("attrs1:" + attrs1 + ",attrs2" + attrs2);
         currentData = sourceData;
         function btnSearchFunc() {

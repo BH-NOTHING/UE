@@ -1520,7 +1520,7 @@ function(e, t, n) {
 //        	stopPropagation(e),
 //        	 o.default.registerEvent(i, "click",function() {
 //        			 if($(i).has(a)){
-//        				 debugger;
+//
 //                  		for(var k=0; k<dropListArr.length; k++){
 //          	        		for(var l in numArr){
 //          	        			if(k == numArr[l])dropListArr[k].checked = "checked";
@@ -5391,8 +5391,8 @@ default],
             this.textContent = e
         })
     },
-    A = function(e) {
-        for (var t = 0, n = e.length; t < n; t++) S.call(this, e[t])
+    A = function(e,selector) {
+        for (var t = 0, n = e.length; t < n; t++) S.call(this, e[t],selector)
     },
     /* T = function(e, t) {
         var n = t.getAttribute("sde-model"),
@@ -5575,11 +5575,21 @@ default],
          }
          t.setAttribute("sde-model", JSON.stringify(i))
     },
-    S = function(e) {
-        var t = $("#" + e.ID);
+    /*设置控件值*/
+    S = function(e,selector) {
+        var t;
+        if(selector){
+            t = $(selector).find("#" + e.ID);
+        }else{
+            t = $("#" + e.ID);
+        }
         //20180117 king 设置/获取所有的控件值
         if(parent.window.SDE_CONFIG.ISSELECTORALL=='1') {
-            t = this.__dom__.querySelectorAll("#" + e.ID);
+            if(selector){
+                t = selector.querySelectorAll("#" + e.ID);
+            }else{
+                t = this.__dom__.querySelectorAll("#" + e.ID);
+            }
         }
         for ( var n = 0, i = t.length; n < i; n++) {
             T(e, t[n])
@@ -5744,10 +5754,12 @@ default],
     _ = function(e, t) {
         return ! 0
     },
-    H = function(e) {
+    /*获取控件值*/
+    H = function(e,selector) {
+        var selectorDom=(selector!==undefined)?this.__dom__.querySelector(selector):this.__dom__;
         if(parent.window.SDE_CONFIG.ISSELECTORALL=='1') {
             //20180117 king 设置/获取所有的控件值
-            var tAll = this.__dom__.querySelectorAll("#" + e);
+            var tAll = selectorDom.querySelectorAll("#" + e);
             for (var n = 0,arrAll = [],tl = tAll.length; n < tl; n++) {
                 var ts=tAll[n];
                 var jsonObj = HS($(ts));
@@ -5756,7 +5768,7 @@ default],
             }
             return arrAll;
         }
-        return HS($("#" + e));
+        return HS($(selectorDom).find("#" + e));
     },
     HS=function($t){//获取控件值(json)
         if(!$t||$t=== 'undefined'||$t.length==0) return "";
@@ -5775,8 +5787,9 @@ default],
         i.VALUE = $.trim(i.VALUE);
         return i
     },
-    Y = function() {
-        var e = this.__dom__.getElementsByClassName("sde-value");
+    Y = function(selector) {
+        var $selector=(selector!==undefined)?$(selector):$(this.__dom__);
+        var e = $selector.find(".sde-value");
         for (var t = [], n = 0, i = e.length; n < i; n++) {
             var o = e[n].parentNode,
             r = void 0,
@@ -5872,8 +5885,14 @@ default],
     handleSDEPlugin = function(e,type) {
         return ''
     },
-    getAllPlugin = function() {
-        var e = this.__dom__.getElementsByClassName("sde-value"), t = [];
+    getAllPlugin = function(selector) {
+        var e , t = [];
+        var $selector = $(selector);
+        if($selector.length>0){
+            e = $selector.find(".sde-value");
+        }else{
+            e = this.__dom__.getElementsByClassName("sde-value")
+        }
         for (var  n = 0, i = e.length; n < i; n++) {
             var o = e[n].parentNode,
                 a = JSON.parse(o.getAttribute("sde-model"));
@@ -6420,7 +6439,7 @@ default],
                 if (229 === t) return ! 0;
                 if ( 13 === t) {
                     var str = e.target.parentNode.getAttribute("sde-model");
-                    var obj = eval('('+ str +')');  
+                    var obj = eval('('+ str +')');
                     if(obj && obj.TYPE == 'select'){
                         //$(e.target).parent().find(".sde-value").trigger('click');
                         if($(e.target).parent().find(".sde-select-root").length == 0){
@@ -6431,7 +6450,7 @@ default],
                                 //$(e.target).parent().children(".sde-select-root").remove();
                             }else{
                                 $(".one input").attr("checked",!$(".one input").attr("checked"));
-                            } 
+                            }
                         }
                         e.cancelBubble = true;
                         return e.preventDefault ? e.preventDefault() : e.returnValue = !1;
@@ -6539,21 +6558,33 @@ default],
             this.__dom__.innerHTML = e
         },
         removerFlatpickr: function() {
-            $(".flatpickr-calendar").remove();
+            /**
+             * 修复日期控件不能二次点击问题 Nothing 20180307
+             * */
+            if($('.flatpickr-calendar').css("display") != 'block'){
+                $(".flatpickr-calendar").remove();
+            }
         },
         setMode: function(e) {
             if( "READONLY" === e){
                 var _html = this.__dom__.innerHTML;
                 _html = _html.replace(/(\r\n)|(\n)/g,'<br>');
                 this.__dom__.innerHTML = _html;
+                var $button = $('button');
+                $button.attr("_onclick",$button.attr("onclick")||"");
+                $button.removeAttr("onclick");
+            }else{
+                var $button = $('button');
+                $button.attr("onclick",$button.attr("_onclick")||"");
+                $button.removeAttr("_onclick");
             }
             N.call(this, e)
         },
-        setControl: function(e) {
-            null !== e && void 0 !== e && "" !== e && (r.default.isArray(e) ? A.call(this, e) : r.default.isPlainObject(e) && S.call(this, e))
+        setControl: function(e,selector) {
+            return null !== e && void 0 !== e && "" !== e && (r.default.isArray(e) ? A.call(this, e,selector) : r.default.isPlainObject(e) && S.call(this, e, selector))
         },
-        getControl: function(e) {
-            return void 0 === e ? Y.call(this) : H.call(this, e)
+        getControl: function(e,selector) {
+            return void 0 === e ? Y.call(this,selector) : H.call(this, e,selector)
         },
         disSDEPlugin: function(e) {
             return disSDEPlugin.call(this, e)
@@ -6573,8 +6604,8 @@ default],
         handleSDEPlugin: function(e,type) {
             return handleSDEPlugin.call(this, e,type)
         },
-        getAllPlugin: function(e) {
-            return void 0 === e ? getAllPlugin.call(this) : H.call(this, e)
+        getAllPlugin: function(e,selector) {
+            return void 0 === e ? getAllPlugin.call(this,selector) : H.call(this, e,selector)
         },
         checkControl: function(e, t) {
             return e ? R.call(this, e, t) : (console.error("obj对象为空！"), !1)
@@ -6771,6 +6802,12 @@ default],
                         parent.sde.execCommand( 'inserthtml', spanzwj );
                         selection.modify("move", "backward", "character");
                     }
+                  /*  var arr = ["‌","‍","​"]
+                    if(selection.anchorNode.length == 1 && arr.indexOf(selection.anchorNode.textContent) == -1 && selection.anchorNode.wholeText.length != 1 && selection.anchorNode.wholeText.indexOf(str) != -1){
+                        var spanzwj = $('<span>&#8204;</span>').text();
+                        parent.sde.execCommand( 'inserthtml', spanzwj );
+                        selection.modify("move", "backward", "character");
+                    }*/
                    /* if(str1.slice(-1) == " " && str2.slice(-1) == " " && selection.getRangeAt(0).endOffset == 1){
                         selection.modify("move", "backward", "character");// 光标向前移动一格
                     }*/
@@ -6951,16 +6988,103 @@ default],
             }
             console.log("检验结果:"+JSON.stringify(res));
             return res;
-        },/**
-         * No44. 解析校验
-         * 20180119 king  自动校验表达式
-         * */
-        addSDETig:function(param,val){
-            addClass("");
-            removerClass("")
-sfsdafsfsgsfslk
-
-
+        },
+        /**
+         * No45.删除sde元素
+         */
+        removeSDE : function(param) {
+            var resArr = [];
+            var params = [];
+            !Array.isArray(params) ? params.push(param) : params = params.concat(param);
+            for ( var i = 0, pl = params.length; i < pl; i++) {
+                resArr.push($(params[i]).remove());
+            }
+            return resArr;
+        },
+        /**
+         * No45.1 隐藏sde元素
+         */
+        hideSDE : function(param) {
+            var params = [];
+            var resArr = [];
+            !Array.isArray(params) ? params.push(param) : params = params.concat(param);
+            for ( var i = 0, pl = params.length; i < pl; i++) {
+                resArr.push($(params[i]).hide());
+            }
+            return resArr;
+        },
+        /**
+         * No45.2 显示sde元素
+         */
+        showSDE : function(param) {
+            var params = [];
+            var resArr = [];
+            !Array.isArray(params) ? params.push(param) : params = params.concat(param);
+            for ( var i = 0, pl = params.length; i < pl; i++) {
+                resArr.push($(params[i]).show());
+            }
+            return resArr;
+        },
+        /**
+         * No45.3 添加sde属性
+         */
+        attrSDE : function(param,attr,attrVal) {
+            var params = [];
+            var resArr = [];
+            !Array.isArray(params) ? params.push(param) : params = params.concat(param);
+            for ( var i = 0, pl = params.length; i < pl; i++) {
+                resArr.push($(params[i]).attr(attr,attrVal));
+            }
+            return resArr;
+        },
+        /**
+         * No45.4 删除sde属性
+         */
+        removeAttrSDE : function(param,attr) {
+            var params = [];
+            var resArr = [];
+            !Array.isArray(params) ? params.push(param) : params = params.concat(param);
+            for ( var i = 0, pl = params.length; i < pl; i++) {
+                resArr.push($(params[i]).removeAttr(attr));
+            }
+            return resArr;
+        },
+        /**
+         * No45.5 添加sde的class样式
+         */
+        addClassSDE : function(param,_class) {
+            var params = [];
+            var resArr = [];
+            !Array.isArray(params) ? params.push(param) : params = params.concat(param);
+            for ( var i = 0, pl = params.length; i < pl; i++) {
+                resArr.push($(params[i]).addClass(_class));
+            }
+            return resArr;
+        },
+        /**
+         * No45.6 删除sde的class样式
+         */
+        removeClassSDE : function(param,_class) {
+            var params = [];
+            var resArr = [];
+            !Array.isArray(params) ? params.push(param) : params = params.concat(param);
+            for ( var i = 0, pl = params.length; i < pl; i++) {
+                resArr.push($(params[i]).removeClass(_class));
+            }
+            return resArr;
+        }
+        ,
+        /**
+         * No45.7 添加sde的css
+         */
+        cssSDE : function(param,_css) {
+            var params = [];
+            var resArr = [];
+            !Array.isArray(params) ? params.push(param) : params = params.concat(param);
+            for ( var i = 0, pl = params.length; i < pl; i++) {
+                resArr.push($(params[i]).css(_css));
+            }
+            return resArr;
         }
 
     },
@@ -7340,11 +7464,11 @@ function(e, t, n) {
             !1 !== e && oe("Change")
         }
         function R() {
-            sde.removerFlatpickr();
             ye.isOpen = !1,
                 ye.calendarContainer.style = "display:none",//king 20170831 隐藏时间框
             ye.isMobile || (ye.calendarContainer.classList.remove("open"), ye._input.classList.remove("active")),
-            oe("Close")
+            oe("Close");
+            sde.removerFlatpickr();
         }
         function P() {
             for (var e = ye._handlers.length; e--;) {
@@ -8470,4 +8594,4 @@ function placeCaretAtEnd(el) {
  * **/
 
 document.onkeypress = forbidBackSpace;
-docum
+document.onkeydown = forbidBackSpace;

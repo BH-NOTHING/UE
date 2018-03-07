@@ -7877,6 +7877,30 @@
                 //            }
 
 
+                /* 控件部分选择时自动全选整个控件 --start Nothing 20180302 */
+                var str = me.selection.getText(),
+                    indexL = str.indexOf("["),
+                    indexR = str.indexOf("]"),
+                    existL = (indexL != -1 && indexR == -1),
+                    existR = (indexL == -1 && indexR != -1),
+                    selectContent = "";
+                if(me.selection.getText() && (existL || existR)){
+                    if(existL){
+                        selectContent = me.selection._bakRange.endContainer.parentElement.closest(".sde-bg");
+                    }else if(existR){
+                        selectContent = me.selection._bakRange.startContainer.parentElement.closest(".sde-bg");
+                    }
+                    if(selectContent){
+                        var range=document.createRange();
+                        range.selectNodeContents(selectContent);
+                        var selection = me.selection.getNative();
+                        selection.removeAllRanges();
+                        selection.addRange(range);
+                    }
+                }
+                /* 控件部分选择时自动全选整个控件 --start Nothing 20180302 */
+
+
                 var hackForMouseUp = false;
                 var mouseX, mouseY;
                 if (browser.ie && browser.version < 9 && evt && evt.type == 'mouseup') {
@@ -31060,7 +31084,7 @@
 
     });
 
-
+var autosaveSuccess=0;
     // adapter/autosave.js
     UE.registerUI('autosave', function (editor) {
         var timer = null,
@@ -31073,7 +31097,12 @@
                     editor.trigger('hidemessage', uid);
                 }
                 //king@todaytech.com.cn
-                //console.log('本地保存成功');
+                console.log('本地保存成功'+autosaveSuccess);
+                autosaveSuccess++;
+                if(autosaveSuccess==5){
+                    console.log('插入数据库');
+                    autosaveSuccess=0;
+                }
                 /**
                  *    debugger;
                  *    uid = editor.trigger('showmessage', {

@@ -469,7 +469,6 @@
             iscan = true,
             txtInputValue = $G('txtInputValue').value,
             txtInputDesc = $G('txtInputDesc').value;
-        ////debugger;
         for (var i = 0, l = tempoptions.length; i < l; i++) {
             if (tempoptions[i].value == txtInputValue) {
                 alert(txtInputValue + '值已经存在，值不可重复');

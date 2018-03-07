@@ -5,9 +5,10 @@ result.data = '';
 result.msg = '操作失败';
 result.code = 500;
 var isDataSeq = param.isDataSeq || false; //20180122 king 是否手动读取主键序列号.
-var this_time = com.tt.pwp.framework.util.formatter.DateFormatterUtil.long2YYYY_MM_DDHH24miss(new java.util.Date());
-var this_user_id = com.tt.pwp.framework.security.SecurityUtils.getLoginAccountId();
-
+var thisUserId = com.tt.pwp.framework.security.SecurityUtils.getLoginAccountId();
+var thisTime = com.tt.pwp.framework.util.formatter.DateFormatterUtil.long2YYYY_MM_DDHH24miss(new java.util.Date());
+var logger = com.tt.pwp.framework.util.log.LogUtil();
+logger.info("reportReviseSrv.srv.js---thisUserId:"+thisUserId+"---thisTime:"+thisTime+"---Param:"+JSON.stringify(param));
 var datasource = "";                          //数据源
 if (param && param.datasource) {
     var dsMgr = require('pwp-datasource');  //数据源管理对象
@@ -59,13 +60,13 @@ var handler = {
                     //报告id，创建人，创建时间必填
                     continue;
                 }
-                obj.create_time = this_time;
-                console.log("obj2:"+JSON.stringify(obj));
+                obj.create_time = thisTime;
+                logger.info("obj2:"+JSON.stringify(obj));
                 if(isDataSeq ) {
                     var reviseSeq = this.getReviseSeq();
                     obj.id = reviseSeq.seqNum;//主键
                 }
-                console.log("主键:"+JSON.stringify(obj));
+                logger.info("主键:"+JSON.stringify(obj));
                 revise = db.dao.insertSelective("editor.editorModel.tp_report_revise", obj);
             }
         }

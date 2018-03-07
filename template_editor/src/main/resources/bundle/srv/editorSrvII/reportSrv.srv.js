@@ -13,8 +13,10 @@ result.data = '';
 result.msg = '操作失败';
 result.code = 500;
 var isDataSeq =  param.isDataSeq || true; //20180122 king 是否手动读取主键序列号.
-var userId = com.tt.pwp.framework.security.SecurityUtils.getLoginAccountId();
-var nowTime = com.tt.pwp.framework.util.formatter.DateFormatterUtil.long2YYYY_MM_DDHH24miss(new java.util.Date());
+var thisUserId = com.tt.pwp.framework.security.SecurityUtils.getLoginAccountId();
+var thisTime = com.tt.pwp.framework.util.formatter.DateFormatterUtil.long2YYYY_MM_DDHH24miss(new java.util.Date());
+var logger = com.tt.pwp.framework.util.log.LogUtil();
+logger.info("reportSrv.srv.js---thisUserId:"+thisUserId+"---thisTime:"+thisTime+"---Param:"+JSON.stringify(param));
 var datasource="";                          //数据源
 if (param && param.datasource) {
     var dsMgr = require('pwp-datasource');  //数据源管理对象
@@ -130,8 +132,8 @@ var handler = {
      * @Date : 2017-05-23
      **/
     updateReportRemoveData: function (param) {
-        param.lastupdate_user = userId;
-        param.lastupdate_time = nowTime;
+        param.lastupdate_user = thisUserId;
+        param.lastupdate_time = thisTime;
         var report = db.dao.findById("editor.editorModel.tp_template_report", param.id);
         if (!(typeof param.syn_version === 'number' && param.syn_version % 1 === 0)) {// param.syn_version%1 === 0 ---用于除整
             result.msg = '同步锁参数错误！';
@@ -163,15 +165,16 @@ var handler = {
             if (alter) {
                 var para = [];
                 var reportDatas = param.reportDatas;
-                for (var i = 0; i < reportDatas.length; i++) {
+                var rplength = reportDatas.length;
+                for (var i = 0; i < rplength; i++) {
                     var reportData = reportDatas[i];
                     reportData.report_id = report.id;
                     if(isDataSeq ){
                         var tp_template_reportdata_seq = this.getReportDataSeq();
                         reportData.id = tp_template_reportdata_seq.seqNum;//主键;
                     }
-                    reportData.lastupdate_user = userId;
-                    reportData.lastupdate_time = nowTime;
+                    reportData.lastupdate_user = thisUserId;
+                    reportData.lastupdate_time = thisTime;
                     reportData.updateFlag = "Appended";
                     para.push(reportData);
                 }
@@ -189,7 +192,20 @@ var handler = {
             return result;
         }
     },
-
+    updateReportArr: function (param) {
+        if (param.reportArr && Array.isArray(param.reportArr)) {
+            result.msg = '参数错误！';
+            result.code = 500;
+            return result;
+        }
+        var resArr=[];
+        var reportArr = param.reportArr;
+        var reportArrL = reportArr.length;
+        for(var i=0;i<reportArrL;i++){
+            resArr = this.updateReportRemoveData(reportArr[i]);
+        }
+        return resArr;
+    },
     /**
      * 修改报告,同时修改报告数据表关联的数据,如果有必要删除原来的data数据时，请使用updateReportRemoveData
      * @Autor : Bryant
@@ -198,8 +214,8 @@ var handler = {
      * @Date : 2017-05-23
      **/
     updateReport: function (param) {
-        param.lastupdate_user = userId;
-        param.lastupdate_time = nowTime;
+        param.lastupdate_user = thisUserId;
+        param.lastupdate_time = thisTime;
         var report = db.dao.findById("editor.editorModel.tp_template_report", param.id);
         if (!(typeof param.syn_version === 'number' && param.syn_version % 1 === 0)) {// param.syn_version%1 === 0 ---用于除整
             result.msg = '同步锁参数错误！';
@@ -235,11 +251,12 @@ var handler = {
                 var reportDatas = param.reportDatas;
                 var sqlself = "UPDATE TP_TEMPLATE_REPORTDATA t SET t.goal_name = ?, t.goal_value = ?,t.goal_type = ? ,t.lastupdate_time = to_date(?,'yyyy-mm-dd hh24:mi:ss') ,t.lastupdate_user = ? ,t.plugin_ver_id = ?  WHERE t.report_id = ?  and t.goal_code = ?";
                 //var date1 = new Date().getTime();
-                for (var i = 0; i < reportDatas.length; i++) {
+                var rpslength = reportDatas.length;
+                for (var i = 0; i < rpslength; i++) {
                     var reportdata = reportDatas[i];
                     reportdata.report_id = report.id;
-                    reportdata.lastupdate_user = userId;
-                    reportdata.lastupdate_time = nowTime;
+                    reportdata.lastupdate_user = thisUserId;
+                    reportdata.lastupdate_time = thisTime;
                     reportdata.updateFlag = "Appended";
                     para.push(reportdata);
 
@@ -251,8 +268,8 @@ var handler = {
                         } else if (reportdata.goal_value) {
                             goal_value = JSON.stringify(reportdata.goal_value);
                         }
-                        var lastupdate_user = userId;
-                        var lastupdate_time = nowTime;
+                        var lastupdate_user = thisUserId;
+                        var lastupdate_time = thisTime;
                         var goal_type = reportdata.goal_type || "";
                         var plugin_ver_id = reportdata.plugin_ver_id || "";
                         var report_id = reportdata.report_id || "";
@@ -294,10 +311,10 @@ var handler = {
      *param参数 {template_ver_id : '', status : '',content : '',...,reportDatas:[{goal_id : '',goal_name : '',goal_code : '',goal_value : '',goal_value : '',...},{}]}
      */
     addReport: function (param) {
-        param.create_user = userId;
-        param.create_time = nowTime;
-        /*param.lastupdate_user = userId;
-         param.lastupdate_time = nowTime;*/
+        param.create_user = thisUserId;
+        param.create_time = thisTime;
+        /*param.lastupdate_user = thisUserId;
+         param.lastupdate_time = thisTime;*/
         if (param.status == null) {//默认状态为草稿
             param.status = '0';
         }
@@ -313,11 +330,12 @@ var handler = {
         var report_id = report.id;
         var reportDatas = param.reportDatas;
         var para = [];
-        for (var i = 0; i < reportDatas.length; i++) {
+        var rpslength = reportDatas.length;
+        for (var i = 0; i < rpslength; i++) {
             var reportData = reportDatas[i];
             //if (reportData.plugin_ver_id != null) { // 在保存报告的时候，报告指标没有template_ver_id也是可以保存的
-            reportData.create_user = userId;
-            reportData.create_time = nowTime;
+            reportData.create_user = thisUserId;
+            reportData.create_time = thisTime;
             reportData.report_id = report_id;
             if(isDataSeq ) {
                 var tp_template_reportdata_seq = this.getReportDataSeq();
@@ -343,14 +361,14 @@ var handler = {
     submitReport: function (param) {
         //console.log("提交报告--------------");
 
-        param.lastupdate_user = userId;
-        param.lastupdate_time = nowTime;
+        param.lastupdate_user = thisUserId;
+        param.lastupdate_time = thisTime;
         param.status = '2';
 
         if (param.id == null || param.id == 0) {
             //未保存过的，需要保存report和goal
-            param.create_user = userId;
-            param.create_time = nowTime;
+            param.create_user = thisUserId;
+            param.create_time = thisTime;
             if(isDataSeq ){
                 var reportSeq = this.getReportSeq();
                 param.id = reportSeq.seqNum;//主键;
@@ -361,11 +379,12 @@ var handler = {
             db.dao.remove("editor.editorModel.tp_template_reportdata", 'report_id = ?', [report.id]);
             var goals = param.report_goal;
             if (goals != null) {
-                for (var i = 0; i < goals.length; i++) {
+                var goalslength = goals.length;
+                for (var i = 0; i < goalslength; i++) {
                     var goal = goals[i];
                     goal.report_id = report.id;
-                    goal.create_user = userId;
-                    goal.create_time = nowTime;
+                    goal.create_user = thisUserId;
+                    goal.create_time = thisTime;
                     if(isDataSeq ) {
                         var reportDataSeq = this.getReportDataSeq();
                         goal.id = reportDataSeq.seqNum;//主键;
@@ -380,12 +399,13 @@ var handler = {
             var goals = param.report_goal;
             //console.log(goals);
             if (goals != null) {
-                for (var i = 0; i < goals.length; i++) {
+                var goalslength = goals.length;
+                for (var i = 0; i < goalslength; i++) {
                     var goal = goals[i];
                     goal.report_id = param.id;
                     //console.log(goal);
-                    goal.create_time = userId;
-                    goal.create_user = nowTime;
+                    goal.create_time = thisUserId;
+                    goal.create_user = thisTime;
                     if(isDataSeq ) {
                         var reportDataSeq = this.getReportDataSeq();
                         goal.id = reportDataSeq.seqNum;//主键;
@@ -401,13 +421,13 @@ var handler = {
 
     saveReport: function (param) {
 
-        param.lastupdate_user = userId;
-        param.lastupdate_time = nowTime;
+        param.lastupdate_user = thisUserId;
+        param.lastupdate_time = thisTime;
         param.status = '1';	//默认是1-保存
 
         if (param.id == null || param.id == 0) {
-            param.create_user = userId;
-            param.create_time = nowTime;
+            param.create_user = thisUserId;
+            param.create_time = thisTime;
             if(isDataSeq ) {
                 var reportSeq = this.getReportSeq();
                 param.id = reportSeq.seqNum;//主键;
@@ -429,7 +449,8 @@ var handler = {
     addReportData: function (params) {
         var paramArr = [];
         var reportDataSeq = "";
-        for (var i = 0,pl=params.length; i < pl; i++) {
+        var pl=params.length;
+        for (var i = 0; i < pl; i++) {
             if(isDataSeq ) {
                 reportDataSeq = this.getReportDataSeq();
                 params[i].id = reportDataSeq.seqNum;//主键;
@@ -556,8 +577,48 @@ var handler = {
             datasource:datasource,
             funName:"getSeqNum"
         };
-        var res = new Service('editor.editorSrvII.seqNumSrv').callService(par);
+        var res = this.getSeqNum2(par);
         return res;
+    },
+    getSeqNum2:function(params){
+        if(!params.seqName)return;
+        var seqName = "";
+        var seqRes = {};
+        var seqNum=-1;
+        seqName = params.seqName;
+
+        if (datasource){
+            seqName = datasource.toUpperCase()+"_"+seqName;
+            seqRes.isDataSource=true;
+        }
+        if(!isDataSeq){//是否需要自己读取序列号
+            try {
+                var sequenceFactory = spring.getBean("sequenceFactory");
+                var datasourceManager = spring.getBean("datasourceManager");
+                var dt = datasourceManager.getDataSource(datasource);
+                var seqdatasource = new com.tt.pwp.data.dao.util.CurrentThreadSeqDatasourceInfo();
+                seqdatasource.setSequenceDataSource(dt);//也可以设置数据源对应的jdbctemplate
+                com.tt.pwp.data.dao.util.CurrentThreadDatasourceUtil.setCurrentThreadSeqDatasourceInfo(seqdatasource);            //把这个数据源对象信息给设置到线程变量中
+                seqNum = sequenceFactory.generate(params.seqName); //直接调用获取序列号的方法
+            } finally {
+                //记得清除掉这个线程里面的数据源信息。
+                com.tt.pwp.data.dao.util.CurrentThreadDatasourceUtil.clearCurrentThreadSeqDatasourceInfo();
+            }
+        }else{
+            var sequence = spring.getBean("sequence");
+            //console.log("seqName:"+seqName);
+            seqNum = sequence.generate(seqName);// 获取已创建的序列;
+        }
+        if(seqNum!=="" && seqNum!== undefined) {
+            seqRes.seqNum = seqNum;
+            seqRes.msg = "获取成功";
+            seqRes.code = 200;
+        }else{
+            seqRes.seqNum = "";
+            seqRes.msg = "获取失败";
+            seqRes.code = 500;
+        }
+        return seqRes;
     }
 
 };

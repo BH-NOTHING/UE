@@ -94,7 +94,8 @@ sdeFun.prototype = {
                 var div = document.createElement('div');
                 div.className = 'tab-content-item';
                 div.setAttribute('id', this.name);
-                for (var i = 0; i < jsons.length; i++) {
+                var jslength = jsons.length;
+                for (var i = 0; i < jslength; i++) {
                     var json = jsons[i];
                     var _div = document.createElement('div');
                     _div.className = 'tab-content-item-panel';
@@ -271,6 +272,13 @@ sdeFun.prototype = {
         param = $.extend(true, json, param);
         var result = srvFunByParam("pluginSrv", "update", param, false);
         return result;
+    },
+    /**
+     * No8.2 更新控件树分类
+     *
+     */
+    updatePluginTree: function (param) {
+        return srvFunByParam("pluginSrv", "updatePluginTree", param, false);
     },
     /**
      * No9 makeHtmlByPluginJson
@@ -527,6 +535,12 @@ sdeFun.prototype = {
         return template;
     },
     /**
+     * No14.5. 请用findAllTempVerName;
+     */
+    findAllTempVerName: function (param) {
+        return findBySrvFunParam("templateSrv", "findAllTempVerName", param, false);
+    },
+    /**
      * No15.修改模板/模板数据
      * 描述:
      * param.isRemoveData默认为没有值
@@ -683,7 +697,8 @@ sdeFun.prototype = {
         if (url.indexOf("?") != -1) {
             var str = url.substr(1);
             var strs = str.split("&");
-            for (var i = 0; i < strs.length; i++) {
+            var strslength = strs.length;
+            for (var i = 0; i < strslength; i++) {
                 var strSplit = strs[i].split("=");
                 var objKey = strSplit[0];
                 var objValue = strSplit[1];
@@ -841,6 +856,13 @@ sdeFun.prototype = {
         defaults.reportDatas = "";
         param = $.extend(true, defaults, param);
         var result = srvFunByParam("reportSrv", "updateReport", param, false);
+        return result;
+    },
+    /**
+     * No29.1 更新报告数组
+     */
+    updateReportArr: function (paramArr) {
+        var result = srvFunByParam("reportSrv", "updateReportArr", paramArr, false);
         return result;
     },
     /**
@@ -1728,7 +1750,7 @@ sdeFun.prototype = {
 
         treeObj.initTree("sdeTree");
         treeObj['loadData']();
-        //this.openSDETree();
+        this.openSDETree();
 
     },
     /**
@@ -1881,6 +1903,18 @@ sdeFun.prototype = {
             }
         }
         return datas;
+    },
+    /**
+     * No51.findPluginTree
+     * @author
+     * @createTime
+     * @method
+     * @return
+     * @eaxmple
+     * @description
+     */
+    findPluginTree:function() {
+        return srvFunByParam("pluginTreeSrv", "findPluginTree", {}, false);
     }
 
 };
@@ -1901,7 +1935,7 @@ function findBySrvFunParam(srvName, funName, param, async) {
     }
     var sdeConfigTemp = window.SDE_CONFIG ? window.SDE_CONFIG : parent.window.SDE_CONFIG;
     var srvParam = {
-        datasource: sdeConfigTemp.DATASOURCE||"",  //数据源配置
+        datasource: (sdeConfigTemp && sdeConfigTemp.DATASOURCE)?sdeConfigTemp.DATASOURCE:"",  //数据源配置
         funName: funName
     };
     srvParam = $.extend(true, srvParam, param);
@@ -1929,7 +1963,7 @@ function srvFunByParam(srvName, funName, param, async) {
     }
     var sdeConfigTemp = window.SDE_CONFIG ? window.SDE_CONFIG : parent.window.SDE_CONFIG;
     var srvParam = {
-        datasource: sdeConfigTemp.DATASOURCE||"",  //数据源配置
+        datasource: (sdeConfigTemp && sdeConfigTemp.DATASOURCE)?sdeConfigTemp.DATASOURCE:"",  //数据源配置
         funName: funName
     };
     srvParam = $.extend(true, srvParam, param);
@@ -2029,4 +2063,29 @@ var treeObj = {
                         var json = sdefun.pluginToJson(plugin[0]);
                         var html = sdefun.makeHtmlByPluginJson(json);
                         var ONodeHtml = sdefun.getONodeHtml(json, html);
-    
+                        sde.execCommand('insertHtml', ONodeHtml);
+                        return true;
+                    }else{
+                        $.showTip("插入控件异常!");
+                    }
+                }
+            }
+        });
+    },
+    treeDatabind: function () {
+        var tr=this.sdeTreeId||"sdeTree";
+        $W.databind.treeDatabind({
+            id: 'treeload',
+            name: '绑定',
+            autoload: true,
+            pagePath:"/config/editor/func/pluginManager/pluginList/pluginList",
+            binds: ['#'+tr]
+        });
+    },
+    loadData: function () {
+        var childrenData = srvFunByParam("pluginTreeSrv", "findPluginTree", {}, false);//获取旧的报告，
+        //console.log(JSON.stringify(childrenData));
+        var tr=this.sdeTreeId||"sdeTree";
+        $('#'+tr).getWidget().loadData([{text: '控件库', id :"root",state: 'closed', children: childrenData.data}]);
+    }
+}

@@ -16,3 +16,5 @@
     <script src="${ctx}/viewIII/resources/UE/dialogs/barcode/barcode.js" type="text/javascript" charset="utf-8"></script>
     <script src="${ctx}/viewIII/resources/UE/dialogs/lodop/LodopFuncs.js" type="text/javascript" charset="utf-8"></script>
     <script src="${ctx}/viewIII/resources/UE/dialogs/d3/d3.v3.min.js"></script>
+
+    <#include '/resources/UE/commonHtml.vop'/>

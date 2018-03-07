@@ -76,8 +76,8 @@
                     <input id="txtISDISPLAY" type="checkbox" /> 隐藏&nbsp;&nbsp;
                     <input id="ISBRACKETS" type="checkbox" /> 括号&nbsp;&nbsp;
                     <input id="ISREDPOINT" type="checkbox" /> 红点&nbsp;&nbsp;</br>
-                    <input id="ISDBLCLICK" type="checkbox"/> 双击&nbsp;&nbsp;
                     <input id="OPENRULE" type="checkbox"/> 规则&nbsp;&nbsp;
+                    <input id="ISDBLCLICK" type="checkbox"/> 双击&nbsp;&nbsp;
                     <input id="DESCRIB" type="checkbox"/> 左侧&nbsp;&nbsp;
                     <input id="isCHECK" type="checkbox"/> 校验&nbsp;&nbsp;
                 </td>
@@ -107,9 +107,38 @@
             <tr class='openRule' style="display:none;">
                 <td  align="center" style="width: 600px;" colspan ="2">
                     <span>&nbsp;关联规则：</span>
-                    <select id="txtRuleList" style="width: 150px;"><!--<option value="" selected="selected">-请选择规则-</option>--></select>
-                    <select id="selectTemplate" style="width: 150px;"><!--<option value="" selected="selected">-请选择模板-</option>--></select>
-                    <select id="selectCode" style="width: 150px;"> <!--<option value="" selected="selected">-请选择控件-</option>--></select>
+                    <select id="txtRuleList" style="width: 180px;"><!--<option value="" selected="selected">-请选择规则-</option>--></select>
+
+                    <!--下拉表格 20180306 king-->
+                    <div id="toolbar" >
+                        模板名称： <input style="margin-top:5px;" id='tp_name1' class='text'>
+                        <a href="javascript:void(0);" id="searchCondition" style="margin-top:2px;" class="widget-linkbutton" onclick="queryBindById('#tp_name1')">查询</a>
+                    </div>
+                    <input id='selectTemplate' style="width: 180px;" class="widget-combogrid" data-options="
+                            panelWidth:435,
+                            panelHeight:380,
+                            multiple:false,
+                            pagination:true,
+                            textField:'name',
+                            valueField:'template_ver_id',
+                            toolbar:'#toolbar',
+                            frozenColumns:[[{
+                                field:'ck',
+                                checkbox : true
+                            }]],
+                            onSelect: function () {              //选中处理
+                                    var template_ver_id = combogrid.getValue();
+                                    if(!template_ver_id){return;}
+                                    console.log('template_ver_id:'+template_ver_id);
+                                    selectCode(template_ver_id);
+                            },
+                            columns:[[
+                                {field:'template_ver_id',title:'版本号',width:45,align:'center'},
+                                {field:'name',title:'模板名称',width:200},
+                                {field:'create_time',title:'创建时间',width:97,align:'center'},
+                                {field:'status',title:'状态',width:50,align:'center'}
+                            ]]" />
+                    <select id="selectCode" style="width: 180px;"> <!--<option value="" selected="selected">-请选择控件-</option>--></select>
                 </td>
                 <td>
 
@@ -132,8 +161,7 @@
     var sdefun= new sdeFun();
     var temp;
     var isEditor = !1;
-    var templateList;
-    var isclicktxtRuleList=!1;
+
     $("select#txtRuleList").change(function(){
         ruleId = $(this).val();
         ruleCode = $(this).find("option:selected").attr('rule_code');
@@ -143,10 +171,7 @@
         }
         console.log("ruleId:"+ruleId+",ruleCode:"+ruleCode);
     });
-    $("select#txtRuleList").on('click', function () {
-        if(!isclicktxtRuleList)templateListFun();
-        isclicktxtRuleList=!0;
-    });
+
 
     $("input#OPENRULE").on('change', function () {
         if ($(this).is(':checked')) {
@@ -154,18 +179,12 @@
         } else {
             $('.openRule').css("display", "none");
             $G('txtRuleList').value = "";
-            $G('selectTemplate').value = "";
+            window.combogrid && window.combogrid.clear();
             $G('selectCode').value = "";
         }
     });
 
-    $("select#selectTemplate").on('change', function () {
-        var template_ver_id = $(this).val();
 
-        if(!template_ver_id){return;}
-        console.log('template_ver_id:'+template_ver_id);
-        selectCode(template_ver_id);
-    });
     /* 唯一性检验 */
     $("input#txtCODE").on('blur',function(){
         //编辑则不需要校验
@@ -233,6 +252,13 @@
             $('.describ').css("display", "none");
         }
     });
+    //获取下拉表格的值
+    function queryBindById(id) {
+        var tp_name1 = $(id).val();
+        var tp_param = QueryParam.newCondition("name","%like%",tp_name1);
+        window.combogrid.doQuery({conditions:tp_param});
+    }
+
     //关键字校验
     function checkKeyword(val){
         var pluginregexp = parent.window.SDE_CONFIG.PLUGINREGEXP;//控件正则表达式.
@@ -252,11 +278,7 @@
     }
 
     function selectCode(template_ver_id) {
-        for (var i = 0, l = templateList.length; i < l; i++) {
-            var data = templateList[i];
-
-            if(data.template_ver_id.toString() === template_ver_id){
-                //debugger
+                var data = sdefun.templateFindByVId(template_ver_id)[0];
                 var content = data.content;
                 var $ss=$(content);
                 var codes = $ss.find("span[id]");
@@ -273,19 +295,17 @@
                 }
 
                 $G("selectCode").innerHTML = html.join('');
-            }
-        }
+
     }
 
     function getRuleList(selectId,param){
-        //debugger
         var datas = sdefun.getRuleList(param);
         var html = [];
         html.push('<option value=""> --请选择规则-- </option>');
         if (datas && datas.data != undefined && datas.data != null) {
             var data = datas.data.data;
-            // //debugger;
-            for ( var i = 0; i < data.length; i++) {
+            var length = data.length;
+            for (var i = 0; i < length; i++) {
                 html.push('<option value="' + data[i].rule_code + '" rule_code="' + data[i].rule_id + '"')
                 if (data[i].SELECTED != undefined && data[i].SELECTED == 1) {
                     html.push(' selected="selected" ');
@@ -296,25 +316,22 @@
         $G(selectId).innerHTML = html.join('');
         return html;
     }
-    function templateListFun(){
-        templateList = sdefun.templateFindAll();
-        var html = [];
-        html.push('<option value=""> --请选择模板-- </option>');
-        for (var i = 0, l = templateList.length; i < l; i++) {
-            var data = templateList[i];
-            //debugger
-            html.push('<option value="' + data.template_ver_id + '" >' +i+","+ data.name + '</option>');
-        }
-        $G('selectTemplate').innerHTML = html.join('');
-    }
+
         (function(UE) {
             var getRuleLists = getRuleList("txtRuleList",{param:{}});
-
-            //templateList();
+            //采用数组数据绑定,arrayDatabind
+            $W.databind.arrayDatabind({
+                id : 'templateGrid',
+                name : '模板绑定',
+                autoload : true,
+                pagePath:"/config/editor/func/templateList/templateList/templateList",
+                binds : ['#selectTemplate']
+            });
             var oNode = null,
                 thePlugins = 'sdecontroltext';
             //初始化加载之前编辑的数据
             window.onload = function() {
+                window.combogrid = $('#selectTemplate').getWidget();
                 if (UE.plugins[thePlugins].editdom) {
                     oNode = UE.plugins[thePlugins].editdom;
                     temp = oNode;
@@ -338,12 +355,11 @@
                         $G('txtCOLOR').style.backgroundColor = "#" +json.TEXT_COLOR;
                     }
                     if(json.RULE){
-                        $G('OPENRULE').checked = true;
+                        $('#OPENRULE').checked = true;
                         $('.openRule').css("display", "");
-                        $G('txtRuleList').value = json.RULE;
+                        $('#txtRuleList').val(json.RULE);
                     }
-                    var conn_template_ver_idhtml = ['<option value="'+json.CONN_TEMPLATE_VER_ID+'"  selected="selected" > '+json.CONN_TEMPLATE_VER_ID+' </option>'];
-                    $G('selectTemplate').innerHTML = json.CONN_TEMPLATE_VER_ID?conn_template_ver_idhtml.join(''):"";
+                    json.CONN_TEMPLATE_VER_ID && combogrid.setValue(json.CONN_TEMPLATE_VER_ID) ;
                     var selectCodehtml = ['<option value="'+json.CONNCODE+'"  selected="selected" > '+json.CONNCODE+' </option>'];
                     $G('selectCode').innerHTML = json.CONNCODE?selectCodehtml.join(''):"";
                     $G('txtTAG').value = json.TAG;
@@ -358,7 +374,6 @@
                          $('.isdblclick').css("display", "");
                          $G('txtDBLCLICKFUNCTION').value = json.DBLCLICKFUNCTION ;
                     }
-                    //debugger;
                     if(json.TEXTCHECK && json.TEXTCHECK!="undefined"){
                         $G('isCHECK').checked = true;
                         $('.isCHECK').css("display", "");
@@ -444,7 +459,7 @@
                     REQUIRED: 0,
                     READONLY: 0,
                     RULE: $G('txtRuleList').value,
-                    CONN_TEMPLATE_VER_ID: $G('selectTemplate').value,
+                    CONN_TEMPLATE_VER_ID: combogrid.getValue(),
                     CONNCODE: $G('selectCode').value,
                     TEXT_COLOR: $G('txtCOLOR').value,
                     TEXTLENGTH:$G('TEXTLENGTH').value,

@@ -15,21 +15,70 @@
 </head>
 <body>
 <!-- ---------------------------------------------------------------------------------------------------------------- -->
-<!--
+
 <div class="container bs-docs-container">
     <h3 class="page-header">
-        <span class="titColor">4、</span> 2.1.0.20180101.SNAPSHOT
+        <span class="titColor">5、</span> 2.1.0.20180302.18-SNAPSHOT
     </h3>
-    <span>该版本下，编辑器主要包含了XXXX等功能：</span>
+    <span>该版本下，编辑器主要包含了控件树优化 等功能：</span>
     <pre>
-（20180101 12.30）新发包了，版本号2.1.0.20180101.12-SNAPSHOT，版本备份template_editor0101
+（20180302 18.30）新发包了，版本号2.1.0.20180302.18-SNAPSHOT，版本备份:无
 更新内容：
-    1.
-    2.
-    3.
+    1.控件耍鼠标选择部分时会自动全选整个控件
+    2.控件树添加控件页面/bundle/editor/func/pluginManager/pluginList/pluginList.vop
+    3.编辑控件页面的规则取数,获取所有模板的接口:sdefun.findAllTempVerName();
+    4.更新控件树字段接口:sdefun.updatePluginTree()
+    5.修复控件内换行，保存之后换行效果消失的问题:http://121.33.250.164:82/zentao/task-view-687.html
+
 	</pre>
 </div>
--->
+
+<!-- ---------------------------------------------------------------------------------------------------------------- -->
+
+<div class="container bs-docs-container">
+    <h3 class="page-header">
+        <span class="titColor">4、</span> 2.1.0.20180301.15-SNAPSHOT
+    </h3>
+    <span>该版本下，编辑器主要包含了修订模式,键盘事件等功能：</span>
+    <pre>
+（20180301 15.30）新发包了，版本号2.1.0.20180301.15-SNAPSHOT，版本备份template_editor0301
+更新内容：
+    1.修订模式,添加保存修订痕迹到数据库的接口:
+        sde.getRevEditHtml()获取修订html
+        sde.getRevDelHtml()修订删除html
+        sdefun.addReviseHtml()保存修订痕迹,对应数据表:0020_20180207_修订模式表.sql
+        sde.restoreRevise()还原修订html
+        sde.showAllRevise()启用修订html
+        sde.cleanRevise()禁用修订html
+
+    2.键盘事件.
+        2.1,光标放在任意一个控件内,tab键跳转至相邻下一个控件,shift+tab键跳至相邻上一个控件
+        2.2,下拉控件、复选控件可通过上下左右选择选项,回车确定选项
+
+    3.下拉多选,复选的sde.setControl()设置多值.
+        例如:
+        var param=[{"VALUE":"1","TEXT":"普通"},{"VALUE":"11","TEXT":"11"}];
+        sde.setControls("id", param);
+        3.1,多选的设置格式是json数组.
+        3.2,如果是普通下拉或者复选,传入控件值,设置对应控件下拉或者复选选项的选项
+        3.3,如果是普通下拉,传入json数组设置控件值,只设置第一个数组值,json[0]
+
+    4.添加选择器
+        以下接口都通过jquery筛选元素并返回Jquery结果集数组
+        sde.removeSDE(param),
+        sde.hideSDE(param),
+        sde.showSDE(param),
+        sde.attrSDE(param,attr,attrVal),
+        sde.removeAttrSDE(param,attr),
+        sde.addClassSDE(param,_class),
+        sde.removeClassSDE(param,_class),
+        sde.cssSDE(param,_css),
+    5.无背景颜色,无字体颜色
+
+
+	</pre>
+</div>
+
 <!-- ---------------------------------------------------------------------------------------------------------------- -->
 
 <div class="container bs-docs-container">

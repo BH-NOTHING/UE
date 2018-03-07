@@ -604,7 +604,6 @@
             title: '外部链接',
             editor: null,
             init: function() {
-                //debugger;
                 var div = document.createElement('div');
                 div.className = 'tab-content-item';
                 div.setAttribute('id', this.name);

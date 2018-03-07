@@ -32,8 +32,10 @@ var result = {};
 result.data = '';
 result.msg = '操作失败';
 result.code = 500;
+var thisUserId = com.tt.pwp.framework.security.SecurityUtils.getLoginAccountId();
 var thisTime = com.tt.pwp.framework.util.formatter.DateFormatterUtil.long2YYYY_MM_DDHH24miss(new java.util.Date());
-
+var logger = com.tt.pwp.framework.util.log.LogUtil();
+logger.info("ruleSrv.srv.js---thisUserId:"+thisUserId+"---thisTime:"+thisTime+"---Param:"+JSON.stringify(param));
 if (param && param.datasource) {
     var dsMgr = require('pwp-datasource'); //数据源管理对象
     db = dsMgr.db(param.datasource); //调用db([datasouceId])函数得到指定的数据源对象,dsMgr.db('default')可得到默认数据源

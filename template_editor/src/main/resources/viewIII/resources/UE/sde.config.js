@@ -77,8 +77,9 @@
     window.ISDEBUGGER = true;
 
     window.SDE_CONFIG = {
-        PWP_USER_ID:'PWP_USER_ID',//初始化规则取数选择模板弹出框的url
-        RULESELECTTEMPURL:'',//初始化规则取数选择模板弹出框的url
+        N_TO_NULL:"0",              //N_TO_NULL 若设置为true，转换的时候忽略\n\r\t等空白字符,参见 ueditor.all.js-->UE.htmlparser(9963)
+        PWP_USER_ID:'PWP_USER_ID',  //初始化规则取数选择模板弹出框的url
+        RULESELECTTEMPURL:'',       //初始化规则取数选择模板弹出框的url
         SDETREE:"0",
         DATASOURCE:"",              //数据源配置
         ISSELECTORALL:"0",          // 是否set/get所有控件

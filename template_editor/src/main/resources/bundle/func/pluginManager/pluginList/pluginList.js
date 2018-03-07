@@ -269,7 +269,81 @@ var packageFund = (function(){
         packageFunc: function () {
             window.searchUnitForm=$("#searchUnitForm").getWidget();
             window.editBudgetUnit=$('#editBudgetUnit').getWidget();
-
+            //控件树 20180306 king
+            var childrenData = sdefun.findPluginTree();
+            window.pluginTree= $('#pluginTree').widgets({
+                xtype: 'tree',
+                dnd:true,
+                data: [{text: '控件库', id :"root",state: 'closed', children: childrenData.data}],
+                loader: function () {//返回false 将不加载远程数据
+                    return false;
+                },
+                onLoadSuccess: function (node, row) {
+                    console.log("加载成功:" + node);
+                },
+                onClick: function (node) {
+                    console.log("你点击了:" + node.id);
+                },
+                onContextMenu: function (e, node) {//右键
+                    e.preventDefault();
+                    // 查找节点
+                    $('#pluginTree').getWidget().select(node.target);//将当前节点选中
+                    // 显示快捷菜单
+                    $('#sdeTreeContextMenu').getWidget().show({
+                        left: e.pageX,
+                        top: e.pageY
+                    });
+                },
+                onExpand: function (node){
+                    console.log("你展开了:" + node.id);
+                    var arr = $("#sdeTree").children();
+                    var totalH = 0;
+                    for(var i = 0, len = arr.length ; i < len ; i++){
+                        totalH += arr[i].offsetHeight;
+                    }
+                    if(totalH >= 486){
+                        $("#sdeTree").css({height:"486px","overflow-y":"scroll"});
+                    }
+                },
+                onCollapse: function(node){
+                    var arr = $("#sdeTree").children();
+                    var totalH = 0;
+                    for(var i = 0, len = arr.length ; i < len ; i++){
+                        totalH += arr[i].offsetHeight;
+                    }
+                    if(totalH < 486){
+                        $("#sdeTree").css({height:"auto",overflow:"initial"});
+                    }
+                },
+                onDblClick: function (node) {
+                    console.log("你双击了:"+node.id+",state:" + node.state);
+                    if(node.id=="root"){
+                        sdefun.openSDETree();
+                        return ;
+                    }
+                    if(node.state){
+                        return ;
+                    }
+                    /*向编辑器中插入选中项*/
+                    //insertHtml();
+                    function insertHtml(e) {
+                        var index = node.id;
+                        var sdefun = new sdeFun();
+                        var plugin = sdefun.pluginFindByVId({
+                            ver_id : index
+                        });
+                        if(plugin &&plugin.length!==0){
+                            var json = sdefun.pluginToJson(plugin[0]);
+                            var html = sdefun.makeHtmlByPluginJson(json);
+                            var ONodeHtml = sdefun.getONodeHtml(json, html);
+                            sde.execCommand('insertHtml', ONodeHtml);
+                            return true;
+                        }else{
+                            $.showTip("插入控件异常!");
+                        }
+                    }
+                }
+            });
             window.addDialog=$('#addDialog').getWidget();
             window.packageGrid = $('#packageGrid').widgets({
                 xtype: "datagrid",

@@ -13,6 +13,10 @@
         function OPENSDEFUN() {
             parent.tabsUtil.addTab("扩展接口", ctx +"/bundle/editor/func/sdeDesc/sdeFunAPI/sdeFunAPI.vop");
         }
+        function openSdeConf() {
+            parent.tabsUtil.addTab("扩展接口", ctx +"/bundle/editor/func/sdeDesc/sdeConfigDoc/sdeConfigDoc.vop");
+        }
+
     </script>
 </head>
 <body>
@@ -45,15 +49,22 @@
 
             </div>
             <div class="bs-docs-section">
-                <h4 class="page-header" id="summary">1.概述</h4>
+                <h3 class="page-header" id="summary">1.概述</h3>
                 <div class="bs-callout bs-callout-danger">
                     <p style="color:red">&emsp;从2.0.1.20180101版本开始，SDE提供了使用文档以及其他使用案例。<br/>
                 </div>
             </div>
+            <div class="bs-docs-section">
+                <h3 class="page-header" id="sdeConfig">2.SDE配置</h3>
+                <div class="bs-callout bs-callout-danger">
+                    <p style="color:red">&emsp;详情<a href="javascript:void(0);" onclick="openSdeConf();">查看SDE配置。</a><br/>
+                </div>
+            </div>
+
 
             <div class="bs-docs-section">
-                <h4 class="page-header" id="single">2.编辑器器初始化</h4>
-                <h5 class="page-header" id="single_datasource1">2.1.基础文件js</h5>
+                <h3 class="page-header" id="single">3.编辑器器初始化</h3>
+                <h5 class="page-header" id="single_datasource1">3.1.基础文件js</h5>
                 <p>&emsp;&emsp;编辑器的依赖文件js都通过commonJs.vop文件引入。<br/>
                     页面vop中建议应用公共的 &lt;#include '/resources/UE/commonJs.vop'/&gt;，实际项目中可直接include。
                 </p>
@@ -75,11 +86,11 @@
 &lt;script src="${ctx}/viewIII/resources/UE/dialogs/barcode/barcode.js" type="text/javascript" charset="utf-8"/&gt;
 &lt;script src="${ctx}/viewIII/resources/UE/dialogs/lodop/LodopFuncs.js" type="text/javascript" charset="utf-8"/&gt;
                 </pre>
-                <h5 class="page-header" id="single_datasource2">2.2.页面区域</h5>
+                <h5 class="page-header" id="single_datasource2">3.2.页面区域</h5>
                 <pre class="programlisting">
 &lt;script id="myEditor" type="text/plain" &gt&lt;/script&gt
           		</pre>
-                <h5 class="page-header" id="single_datasource3">2.3.初始化js</h5>
+                <h5 class="page-header" id="single_datasource3">3.3.初始化js</h5>
                 <p>&emsp;&emsp;初始化编辑器后用一个全局的变量sde存储，编辑器所有对外api都是在sde的基础上实现的。</p>
                 <pre class="programlisting">
 
@@ -102,10 +113,10 @@
           		</pre>
             </div>
             <div class="bs-docs-section">
-                <h3 class="page-header" id="multi">3.接口服务</h3>
+                <h3 class="page-header" id="multi">4.接口服务</h3>
                 <p>分为两个部分：<br>
                     第一个部分为编辑器自身提供的API接口《sde.design.js》,
-                    详细<a href="javascript:void(0);" onclick="OPENSDEAPI();">查看API接口;</a><br>
+                    详细<a href="javascript:void(0);" onclick="OPENSDEAPI();">查看SDE接口;</a><br>
                     第二个部分为编辑器数据库操作的扩展接口《sde_func.js》,
                     详细<a href="javascript:void(0);" onclick="OPENSDEFUN();">查看扩展接口;</a>
                 </p>
@@ -118,25 +129,28 @@
                         <a href="#summary">1.概述</a>
                     </li>
                     <li>
-                        <a href="#single">2.编辑器器初始化</a>
+                        <a href="#sdeConfig">2.概述</a>
+                    </li>
+                    <li>
+                        <a href="#single">3.编辑器器初始化</a>
                         <ul class="nav">
                             <li>
-                                <a href="#single_datasource1">2.1.基础文件js</a>
+                                <a href="#single_datasource1">3.1.基础文件js</a>
                             </li>
                         </ul>
                         <ul class="nav">
                             <li>
-                                <a href="#single_datasource2">2.2.页面区域</a>
+                                <a href="#single_datasource2">3.2.页面区域</a>
                             </li>
                         </ul>
                         <ul class="nav">
                             <li>
-                                <a href="#single_datasource3">2.3.初始化js</a>
+                                <a href="#single_datasource3">3.3.初始化js</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#multi">3.接口服务</a>
+                        <a href="#multi">4.接口服务</a>
                     </li>
 
                 </ul>

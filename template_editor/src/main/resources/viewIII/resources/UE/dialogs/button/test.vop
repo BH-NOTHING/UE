@@ -3,7 +3,7 @@
 <html>
 <head>
     <title></title>
-    <#include '/common/head.vop'>
+    <#include '/common/head.vop'/>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <script type="text/javascript" src="${ctx}/viewIII/resources/UE/sde_func.js"></script>
@@ -18,7 +18,6 @@
     	
     </div>
     <script>
-    //debugger;
     (function(UE) {
         var oNode = null,  thePlugins = 'sdecontroldate';
         //初始化加载之前编辑的数据
