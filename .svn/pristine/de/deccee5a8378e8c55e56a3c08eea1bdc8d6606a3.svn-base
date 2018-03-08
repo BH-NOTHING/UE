@@ -1,0 +1,56 @@
+.barcode { 
+  float:left;
+  clear:both;
+  padding: 0 10px; /*quiet zone*/
+  overflow:auto;
+  height:0.5in; /*size*/ 
+}
+.right { float:right; }
+.barcode + * { clear:both; }
+.barcode div { 
+  float:left;
+  height: 0.35in; /*size*/
+}
+.barcode .bar1 { border-left:1px solid black; }
+.barcode .bar2 { border-left:2px solid black; }
+.barcode .bar3 { border-left:3px solid black; }
+.barcode .bar4 { border-left:4px solid black; }
+.barcode .space0 { margin-right:0 }
+.barcode .space1 { margin-right:1px }
+.barcode .space2 { margin-right:2px }
+.barcode .space3 { margin-right:3px }
+.barcode .space4 { margin-right:4px }
+.barcode label { 
+  clear:both; 
+  display:block; 
+  text-align:center;  
+  font: 0.125in/100% helvetica; /*size*/
+}
+/*** bigger ******************************************/
+.barcode2 { 
+  float:left;
+  clear:both;
+  padding: 0 10px; /*quiet zone*/
+  overflow:auto;
+  height:1in; /*size*/ 
+}
+.barcode2 + * { clear:both; }
+.barcode2 div { 
+  float:left;
+  height: 0.7in; /*size*/
+}
+.barcode2 .bar1 { border-left:2px solid black; }
+.barcode2 .bar2 { border-left:4px solid black; }
+.barcode2 .bar3 { border-left:6px solid black; }
+.barcode2 .bar4 { border-left:8px solid black; }
+.barcode2 .space0 { margin-right:0 }
+.barcode2 .space1 { margin-right:2px }
+.barcode2 .space2 { margin-right:4px }
+.barcode2 .space3 { margin-right:6px }
+.barcode2 .space4 { margin-right:8px }
+.barcode2 label { 
+  clear:both; 
+  display:block; 
+  text-align:center;  
+  font: 0.250in/100% helvetica; /*size*/
+}

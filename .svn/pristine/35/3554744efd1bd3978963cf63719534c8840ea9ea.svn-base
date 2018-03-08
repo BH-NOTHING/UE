@@ -1,0 +1,26 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<meta name="viewport" content="width=device-width"/>
+	<meta name="viewport" content="initial-scale=1.0,user-scalable=no"/>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <script type="text/javascript">
+        var ctx = '${ctx}';
+    </script>
+</head>
+<body style="overflow-y: hidden;">
+<div class="container">
+    <#include "/hip_base/main_menu/search.vop" />
+</div>
+<div class="dock" id="dock">
+	<div class="dock-container" id="dock-container">
+	</div>
+</div>
+<div id="remove" class="dock" style="width: 100px; height: 100px; margin: 35px auto;display: none;">
+	<img src="${ctx}/config/hip_base/images/recycle.png">
+</div>
+</body>
+<script type="text/javascript" src="${ctx}/config/hip_base/main_menu/common/fisheye.js"></script>
+<script type="text/javascript" src="${ctx}/config/hip_base/main_menu/js/main_content.js"></script>
+</html>

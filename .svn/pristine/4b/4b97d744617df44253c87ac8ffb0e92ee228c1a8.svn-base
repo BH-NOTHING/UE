@@ -1,0 +1,11 @@
+
+$(function() {
+
+
+
+        $G('txtCODE').focus();
+
+
+
+
+});

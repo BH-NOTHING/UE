@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title></title>
+    <#include '/common/head.vop'/>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <script>
+        $(function() {
+            var getLocationParam = JSON.parse($W.Util.getLocationParam("datas"));
+            var datas = getLocationParam.data;
+            console.log("getLocationParam："+JSON.stringify(datas));
+            for(var i=0,dl=datas.length; i<dl;i++){
+               var data = datas[i];
+                addHtml(data);
+            }
+            function addHtml(param){
+                for(var key in param){
+                    var $tbody = $("#InsertTbody");
+                    var $tr = $("<tr class='checkbox-container' style='display:inherit;'>");
+                    var $tdl = $("<td style='height:35px;'>");
+                    var $tds = $("<td style='height:35px;'>");
+                    var $tdi = $("<td style='height:35px;'>");
+                    var $label = $("<label>");
+                    $label[0].innerHTML = key;
+                    var sdeAllPlug="<select style='width:100px;' id='select"+param[key]+"'>"+getsdeAllPlugin()+"</select>";
+                    var $select = $(sdeAllPlug);
+                    var $input = $("<input name='ver_id' type='text' style='width:100px;' class='widget-validatebox validatebox-text'  required='required'>");
+                    $input.attr('_value',param[key]);
+                    $tdl.append($label);
+                    $tds.append($select);
+                    $tdi.append($input);
+                    $tdi.append($select);
+
+                    $tr.append($tdl);
+                    $tr.append($tdi);
+                    $($tbody).append($tr);
+                }
+            }
+            function getsdeAllPlugin(){
+
+                var data = window.parent._sde.getAllPlugin();
+
+                var html = [];
+                html.push('<option value=""> --请选择控件-- </option>');
+                for ( var i = 0; i < data.length; i++) {
+
+                    html.push('<option value="' + data[i].ID + '" pluginValue="' + data[i].VALUE + '" bindingdata=' + JSON.stringify(data[i].BINDINGDATA) + '  pluginType="' + data[i].TYPE + '"');
+                    if (data[i].SELECTED != undefined && data[i].SELECTED == 1) {
+                        html.push(' selected="selected" ');
+                    }
+                    html.push('>' + data[i].NAME + '</option>');
+                }
+                //$(html.join('')).appendTo("#relationcode.selectpicker");//用appendTo声明是给谁的值
+                // $('#relationcode').selectpicker('refresh');
+
+
+                return  html.join('');
+            }
+
+            $("#cancelBtn").on("click",function(){
+                window.parent.panelClose();
+            });
+            $("#submitBtn").on("click",function(){
+                var txtRuleVal = $("#txtRuleVal").val();
+                var ver_id = $("#ver_id").val();
+                var type = $("#type").val();
+                var _input = $("input");
+                var res = [];
+                for(var k=0,il= _input.length ;k<il;k++){
+                   var inputObj= $(_input[k]);
+                   var value = inputObj.val();
+                   var key = inputObj.attr('_value');
+                   var sobj = {param : key};
+                   if(!value || value==null||value.length==0||value=="undefined"){
+                       value = $("#select"+key).val()||"";
+                       sobj.type = 'select';
+                   }else{
+                       sobj.type = 'input';
+                   }
+                   if(!value || value==null||value.length==0||value=="undefined"){
+                       alert("请输入数据值");
+                       return "";
+                   }
+                   sobj.value= value || "";
+                   res.push(sobj);
+                }
+                console.log("结果："+JSON.stringify(res));
+                window.parent.panelSubmit(res);
+            });
+        })
+
+    </script>
+</head>
+<body>
+    <div class="panel" style="display: block; width: 100%; height: auto; overflow: auto;">
+        <table id="sqlRuleConfig_checkForm" realid="checkForm" title=""  class="panel-body tablelayout pwpform">
+            <tbody id="InsertTbody">
+
+            <!--<tr class="checkbox-container" style="display:inherit;">
+                <td style="height: 35px;"><label >report_id(report_id):</label></td>
+                <td style="height: 35px;">
+                    <select id="txtRuleVal" style="width: 170px;">
+                        <option value="report1">报告1</option>
+                        <option value="report2">报告2</option>
+                    </select>
+                </td>
+            </tr>
+            <tr class="checkbox-container" style="display:inherit;">
+                <td style="height: 35px;"><label>ver_id(ver_id):</label></td>
+                <td style="height: 35px;">
+                    <input id="ver_id" name="ver_id" type="text"  class="widget-validatebox validatebox-text" required='required'>
+                </td>
+            </tr>
+            <tr class="checkbox-container" style="display:inherit;">
+                <td style="height: 35px;"><label>type(type):</label></td>
+                <td style="height: 35px;">
+                    <input id="type" name="type" type="text" class="widget-validatebox validatebox-text" required='required'>
+                </td>
+            </tr>-->
+            </tbody>
+        </table>
+    </div>
+    <div class="dialog-button">
+       <a class="l-btn" group="" id="cancelBtn">
+            <span class="l-btn-left"><span class="">取消</span></span>
+        </a>
+        <a class="l-btn" group="" id="submitBtn">
+            <span class="l-btn-left"><span class="">确定</span></span>
+        </a>
+    </div>
+</body>
+</html>

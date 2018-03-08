@@ -1,0 +1,5 @@
+<#include '/common/head.vop' />
+<script type="text/javascript">
+    var ctx = '${ctx}';
+</script>
+<script type="text/javascript" src="${ctx}/config/hip_base/main_menu/js/common.js"></script>

@@ -1,0 +1,43 @@
+<model id="editor.editorModel.tp_plugin" description="" type="TABLE" name="tp_plugin" title="tp_plugin">
+  <groupId>groupId</groupId>
+  <datasourceId>default</datasourceId>
+  <incremental>false</incremental>
+  <synchronous>false</synchronous>
+  <removeFake>false</removeFake>
+  <indexs>
+    <index name="AK_KEY_2_TP_PLUGI" title="AK_KEY_2_TP_PLUGI" indexType="UNIQUE">
+      <columns>
+        <column name="template_type_id" title="template_type_id" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="true" primaryKey="false" foreignKey="false"/>
+        <column name="code" title="code" type="12" typeTitle="可变长字符串" length="50" precision="0" notNull="true" primaryKey="false" foreignKey="false"/>
+      </columns>
+    </index>
+  </indexs>
+  <columns>
+    <column name="descname" title="descname" type="12" typeTitle="可变长字符串" length="500" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="ver_id" title="ver_id" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="true" primaryKey="true" foreignKey="false"/>
+    <column name="status" title="status" type="1" typeTitle="字符串" length="1" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="tag" title="tag" type="12" typeTitle="可变长字符串" length="200" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="lastupdate_time" title="lastupdate_time" type="93" typeTitle="时间戳" length="7" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="tree_type_id" title="tree_type_id" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="code" title="code" type="12" typeTitle="可变长字符串" length="50" precision="0" notNull="true" primaryKey="false" foreignKey="false"/>
+    <column name="verifytype" title="verifytype" type="12" typeTitle="可变长字符串" length="50" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="type" title="type" type="12" typeTitle="可变长字符串" length="50" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="isdisplay" title="isdisplay" type="1" typeTitle="字符串" length="1" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="id" title="id" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="true" primaryKey="false" foreignKey="false"/>
+    <column name="template_type_id" title="template_type_id" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="true" primaryKey="false" foreignKey="false"/>
+    <column name="is_readonly" title="is_readonly" type="1" typeTitle="字符串" length="1" precision="0" defaultValue="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="name" title="name" type="12" typeTitle="可变长字符串" length="200" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="rule" title="rule" type="12" typeTitle="可变长字符串" length="100" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="create_time" title="create_time" type="93" typeTitle="时间戳" length="7" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="value" title="value" type="12" typeTitle="可变长字符串" length="500" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="bindingdata" title="bindingdata" type="12" typeTitle="可变长字符串" length="2000" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="required" title="required" type="1" typeTitle="字符串" length="1" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="readonly" title="readonly" type="1" typeTitle="字符串" length="1" precision="0" defaultValue="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="text_color" title="text_color" type="12" typeTitle="可变长字符串" length="10" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+  </columns>
+  <primaryKeys>
+    <column name="ver_id" title="ver_id" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="true" primaryKey="true" foreignKey="false"/>
+  </primaryKeys>
+  <relationships/>
+  <cascadeModelRelation/>
+</model>

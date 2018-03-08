@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>条形码</title>
+    <#include '/common/head.vop'>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!--[if lte IE 6]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-ie6.css">
+    <![endif]-->
+    <!--[if lte IE 7]>
+    <![endif]-->
+
+    <script src="core.js?dd=132"></script>
+    <script src="jscolor-2.0.4/jscolor.min.js"></script>
+    <script src="js/jQuery.v3.1.2-pre.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="${ctx}/viewIII/resources/UE/sde_func.js"></script>
+    <script type="text/javascript" src="../dialogs/internal.js"></script>
+</head>
+<body>
+<div class="content">
+    <table class="table table-bordered table-striped table-hover">
+     <tr>
+        <th><span>控件名称</span><span style="color: red;" id="txtMsg">&nbsp;*</span></th>
+        <th><span>字体大小</span></th>
+    </tr>
+    <tr>
+        <td>
+            <input id="orgname" placeholder="必填项" type="text" />
+        </td>
+        <td>
+            <input id="orgfont" placeholder="请输入字体大小,如:14" type="text" value="30"/> px
+        </td>
+    </tr>
+    <tr>
+        <th><span>条形码样式</span> </th>
+        <td>
+            宽 <input id="orgwidth" type="text" value="200" class="input-small span1" placeholder="auto"/> px
+            &nbsp;&nbsp;
+            高 <input id="orgheight" type="text" value="80" class="input-small span1" placeholder="auto"/> px
+        </td>
+
+    </tr>
+    <tr>
+        <td colspan="2">
+            <label for="orgvalue" style="font-weight:bold">内容<span style="color: red;" id="txtMsg">&nbsp;*</span></label>
+            <textarea  class="input-block-level" rows="3" id="orgvalue" placeholder="条形码数据..."></textarea>
+        </td>
+    </tr>
+    </table>
+    <div class="alert alert-danger">提示：条形码只支持少量内容，请不要加入大量内容</div>
+    <div id="barwrap" style="margin:0 auto">
+        <img id="barcode"/>
+    </div>
+</div>
+	<script type="text/javascript" src="qrcode/qrcode.min.js"></script>
+	<script src="barcode/JsBarcode.all.min.js"></script>
+    <script type="text/javascript">
+     var sdefun= new sdeFun();
+     var temp;
+    /* 唯一性检验 */
+
+    $("input#orgname").blur(function(){
+    	var val = $(this).val();
+    	if(temp||!val){return;}
+    	var plugin = sdefun.pluginFindByCode(val);
+    	if(plugin.length>0){
+    		$("#orgname").css("border","#ff0000 1px solid");
+    		$("#txtMsg").text("该控件编码已经存在");
+    	}else{
+    		$("#orgname").removeAttr("style");
+    		$("#txtMsg").text("*");
+    	}
+    });
+
+	    var oNode = null,thePlugins = 'sdecontrolbarcode';
+	    window.onload = function() {
+	    if( UE.plugins[thePlugins].editdom ){
+        oNode = UE.plugins[thePlugins].editdom;
+        var gValue = oNode.getAttribute('value').replace(/&quot;/g,"\""),gTitle=oNode.getAttribute('title').replace(/&quot;/g,"\""),gWidth=oNode.getAttribute('orgwidth'),gHeight=oNode.getAttribute('orgheight'),gFont=oNode.getAttribute('orgfont');
+        $G('orgvalue').value = gValue;
+        $G('orgname').value = gTitle;
+        $G('orgwidth').value = gWidth;
+        $G('orgheight').value = gHeight;
+        $G('orgfont').value = gFont;
+    }
+}
+
+/*生成条形码--start*/
+
+$("#orgvalue,input").blur(function(){
+		$("#barwrap").css({height:$G('orgheight').value,width:$G('orgwidth').value});
+		if($G('orgvalue').value==""){
+		    $G('orgvalue').value = " ";
+		}
+		JsBarcode("#barcode",
+        						$G('orgvalue').value,
+        					{displayValue: true,width:$G('orgwidth').value * 0.01, height:$G('orgheight').value,fontSize:$G('orgfont').value});
+})
+
+/*生成条形码--end*/
+dialog.oncancel = function () {
+    if( UE.plugins[thePlugins].editdom ) {
+        delete UE.plugins[thePlugins].editdom;
+    }
+};
+dialog.onok = function (){
+
+    if( $G('orgname').value == '') {
+        alert('控件名称不能为空');
+        return false;
+    }
+    var gValue=$G('orgvalue').value.replace(/\"/g,"&quot;"),gTitle=$G('orgname').value.replace(/\"/g,"&quot;"),gFontSize,gWidth=$G('orgwidth').value,gHeight=$G('orgheight').value,gFont=$G('orgfont').value;
+    if( !oNode ) {
+        try {
+            $("#barwrap").css('margin',0).css('display','inline-block');
+            oNode = $("#barwrap").prop("outerHTML");
+            editor.execCommand('insertHtml',oNode);
+
+            return true ;
+        } catch ( e ) {
+            try {
+                editor.execCommand('error');
+            } catch ( e ) {
+                alert('控件异常，请联系技术人员寻求帮助！');
+            }
+            return false;
+        }
+    } else {
+        oNode.setAttribute('title',gTitle);
+        oNode.setAttribute('orgfont',gFont);
+        oNode.setAttribute('value',gValue);
+        //oNode.innerHTML = $G('orgvalue').value;
+        if( gWidth != '' ) {
+            oNode.style.width = gWidth + 'px';
+        }else
+        {
+            oNode.style.width = '';
+        }
+        oNode.setAttribute('orgwidth',gWidth );
+        if( gHeight != '' ) {
+            oNode.style.height = gHeight + 'px';
+        }else
+        {
+            oNode.style.height = '';
+        }
+        oNode.setAttribute('orgheight',gHeight );
+
+        delete UE.plugins[thePlugins].editdom;
+        return true;
+    }
+   }
+   
+    </script>
+</body>
+
+</html>

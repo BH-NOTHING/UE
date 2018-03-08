@@ -1,0 +1,205 @@
+/*
+默认配置项
+*/
+(function() {
+    /**
+     * 编辑器资源文件根路径。它所表示的含义是：以编辑器实例化页面为当前路径，指向编辑器资源文件（即dialog等文件夹）的路径。
+     * 鉴于很多同学在使用编辑器的时候出现的种种路径问题，此处强烈建议大家使用"相对于网站根目录的相对路径"进行配置。
+     * "相对于网站根目录的相对路径"也就是以斜杠开头的形如"/myProject/ueditor/"这样的路径。
+     * 如果站点中有多个不在同一层级的页面需要实例化编辑器，且引用了同一UEditor的时候，此处的URL可能不适用于每个页面的编辑器。
+     * 因此，UEditor提供了针对不同页面的编辑器可单独配置的根路径，具体来说，在需要实例化编辑器的页面最顶部写上如下代码即可。当然，需要令此处的URL等于对应的配置。
+     * window.UEDITOR_HOME_URL = "/xxxx/xxxx/";
+     */
+    /*2.1.0.20180123.12-SNAPSHOT 20180123.12 king*/
+	var URL = window.UEDITOR_HOME_URL || getUEBasePath();
+    var WEB_URL = ctx;
+    //console.log("SD_URL："+URL+"------WEB_URL："+WEB_URL);
+    /*
+    SDE_CONFIG 配置项
+    */
+    window.SDE_TOOLBAR =  {
+        /*"sde-toolbar-file": "file",*/
+    	"sde-toolbar-records": ["sdetemplate",'sdecontrols'],
+        "sde-toolbar-editor" : ["history", "clipboard", "fonts", "paragraphs"/*, "styles"*/],
+        "sde-toolbar-insert" : ["horizontal","pagebreak", "pagebreak2","spechars", "link", "img","video","background", "table", "formula","template","map", "code", "comment", "button"],
+        "sde-toolbar-tables" : ["table", "blockmergecells", "alignmergecells", "alignmergecells1"],
+        "sde-toolbar-tools"  : ["drafts", "print", "searchreplace", "wordcount"],
+        "sde-toolbar-views"  : ["directory", "showcomment", "preview"]
+    }
+    /*
+     * SDE_KEYWORD SDE关键字
+     * 如果不够，可以在初始化的时候，通过下面代码扩展关键字：
+     * var kw = ['king','huhuanjini']; window.SDE_KEYWORD = window.SDE_KEYWORD.concat( kw );
+     */
+    window.SDE_KEYWORD = [
+        /*ORACLE 关键字*/
+        '!','&', '(', ')',
+        '*', ',', '-',
+        '.', '/', ':',
+        '<', '<<','=',
+        '>', '@',
+        'A','ABORT','ACCESS','ACCESSED','ACCOUNT','ACTIVATE','ADD','ADMIN',
+        'ADMINISTER','ADMINISTRATOR','ADVISE','ADVISOR','AFTER','ALGORITHM',
+        'ALIAS','ALL','ALLOCATE','ALLOW','ALL_ROWS', 'ALTER','ALWAYS',
+        'ANALYZE','ANCILLARY','AND','AND_EQUAL','ANTIJOIN','ANY',
+        'APPEND','APPLY','ARCHIVE','ARCHIVELOG','ARRAY','AS','ASC',
+        'ASSOCIATE','AT','ATTRIBUTE','ATTRIBUTES','AUDIT',
+        'AUTHENTICATED','AUTHENTICATION','AUTHID','AUTHORIZATION','AUTO',
+        'AUTOALLOCATE','AUTOEXTEND','AUTOMATIC','AVAILABILITY',
+        'BETWEEN','BY','CHAR','CHECK','CLUSTER','COLUMN','COMMENT','COMPRESS','CONNECT','CREATE',
+        'CURRENT','DATE','DECIMAL','DEFAULT','DELETE','DESC','DISTINCT','DROP','ELSE','EXCLUSIVE',
+        'EXISTS','FILE','FLOAT','FOR','FROM','GRANT','GROUP','HAVING','IDENTIFIED','IMMEDIATE','IN',
+        'INCREMENT','INDEX','INITIAL','INSERT','INTEGER','INTERSECT','INTO','IS','LEVEL',
+        'LIKE','LOCK','LONG','MAXEXTENTS','MINUS','MLSLABEL','MODE','MODIFY','NOAUDIT',
+        'NOCOMPRESS','NOT','NOWAIT','NULL','NUMBER','OF','OFFLINE','ON','ONLINE',
+        'OPTION','OR','ORDER','P','CTFREE','PRIOR','PRIVILEGES','PUBLIC','RAW','RENAME',
+        'RESOURCE','REVOKE','ROW','ROWID','ROWNUM','ROWS','SELECT','SESSION','SET','SHARE',
+        'SIZE','SMALLINT','START','SUCCESSFUL','SYNONYM','SYSDATE','TABLE','THEN','TO',
+        'TRIGGER','UID','UNION','UNIQUE','UPDATE','USER','VALIDATE','VALUES','VARCHAR',
+        'VARCHAR2','VIEW','WHENEVER','WHERE','WITH',
+
+        /*JAVA 关键字*/
+
+        'private','protected','public',/*访问控制*/
+        'abstract','class','extends','final','implements','interface','native','new',/* 类,方法和变量修饰符*/
+        'static','strictfp','synchronized','transient','volatile',
+        'break','continue','return','do','while','if','else','for','instanceof','switch', /* 程序控制*/
+        'case','default',
+        'try','cathc','throw','throws',/* 异常处理*/
+        'import','package',  /*包相关*/
+        'boolean','byte','char','double','float','int','long','short','null','true','false',/*基本类型*/
+        'super','this','void', /*变量引用*/
+        'goto','const', /*保留字*/
+        'typeof','var','catch','finally','function','with',/*其他*/
+        'delete','in','debugger','enum','export','let','yield'
+    ];
+
+    window.ISDEBUGGER = true;
+
+    window.SDE_CONFIG = {
+        N_TO_NULL:"0",              //N_TO_NULL 若设置为true，转换的时候忽略\n\r\t等空白字符,参见 ueditor.all.js-->UE.htmlparser(9963)
+        PWP_USER_ID:'PWP_USER_ID',  //初始化规则取数选择模板弹出框的url
+        RULESELECTTEMPURL:'',       //初始化规则取数选择模板弹出框的url
+        SDETREE:"0",
+        DATASOURCE:"",              //数据源配置
+        ISSELECTORALL:"0",          // 是否set/get所有控件
+        PLUGINREGEXP:"sde",         //控件正则表达式.
+        ICONMARKS:"0",              //控件图标标识，默人没有，1表示启用，
+        TEXTVOP: 'text3.vop',         //
+        DATEVOP: 'date3.vop',         //
+        SELECTVOP: 'select3.vop',     //
+        CHECKBOXVOP: 'checkbox.vop',  //
+        SDE_OPEN_DESC: '0',         //是否启用控件的描述内容，默认禁止，1表示启用，
+        SDE_FREE_MEUN: '0',         //是否禁用默认的右键内容，默认不禁止，1表示禁止，
+        DIS_DRAGGABLE: '0',         //是否禁止文本拖拽，默认不禁止，1表示禁止，
+        IS_SDE_BG: '0',		        //控件背景色,0表示沒有背景色，1表示有背景色
+        IS_SDE_MARGIN: '1',		    //控件外边框,0表示沒有外边框，1表示有外边框
+        IS_CONTENTCHAGNE: "0",		//编辑器内容发生改变时会修改该值，0表示沒有改变
+		SDE_TABLEWIDTH : '0',		//表格的宽度
+		SDE_EDITORWIDTH : '21cm',	//编辑器内容的宽度
+		SDE_UEPADDING : '20px',		//编辑器内容与边界的间距
+		WEB_URL:WEB_URL,
+        HOME_URL: URL,
+        SDE_PAGEHEAD: "",			//页眉  //<div class = "page-head">xxx</div>
+        SDE_PAGEFOOT: "",			//页脚 //<div class = "page-foot">xxx</div>
+        HOME_URL_DIALOGS: URL + 'dialogs/',
+        EDITOR_URL: URL + 'dist/js/sde.editor3.js',
+        MODE: "DESIGN", 			//DESIGN:设计|EDITOR:编辑|READONLY:只读（所有节点都不可编辑）
+        MIP_MRHP: '',				//mip,病案首页的标识fu
+        SDE_FONT_SIZE:'15px',		//编辑器默认字体大小
+        SDE_LINE_HEIGHT:'2em',		//行距
+        VIEW_PADDING:"0px 20px 20px 20px",			//编辑器内边距
+        BODY_FONT_FAMILY:'\'宋体\'',//'Arial, \'Microsoft YaHei\', \'微软雅黑\'',
+        BODY_CLASS:"",
+        TEXTAREA_COLS:'90',
+        addWhiteSpace: '0',         //
+        CONTROL_TEMPLATES: [],
+        SETPMARGIN:"margin:5px 0;", //设置p标签的样式
+        SELECTNUMRROWS:10           //下拉选项的行数
+    };
+
+    /**
+     * 配置项主体。注意，此处所有涉及到路径的配置别遗漏URL变量。
+     */
+    window.UEDITOR_CONFIG = {
+    	WEB_URL_FASTDFS:"0",//FASTDFS开关,0表示不启用，1表示启用//http://172.18.41.168:8080
+    	WEB_URL:WEB_URL,
+        UEDITOR_HOME_URL: URL + 'ueditor/', //为编辑器实例添加一个路径，这个不能被注释
+        serverUrl:WEB_URL+"/editor/enter/exec.do", // 服务器统一请求接口路径
+        toolbars: [], //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
+        autoClearinitialContent: false, //是否自动清除编辑器初始内容，注意：如果focus属性设置为true,这个也为真，那么编辑器一上来就会触发导致初始化的内容看不到了
+        //iframeJsUrl: URL + window.SDE_CONFIG.EDITOR_URL + '?temp=' + new Date().getTime(), //给编辑区域的iframe引入一个js文件
+        // iframeCssUrl: URL + 'EMR/css/default.css?temp=' + new Date().getTime(), //给编辑区域的iframe引入一个css文件
+        allowDivTransToP: false, //允许进入编辑器的div标签自动变成p标签
+        wordCount: false, //关闭字数统计
+        elementPathEnabled: false, //关闭elementPath
+        autoClearinitialContent: false,
+        ruleJs:''//king 20170627在编辑器内的iframe中添加js 文件
+    };
+
+    function getUEBasePath(docUrl, confUrl) {
+
+        return getBasePath(docUrl || self.document.URL || self.location.href, confUrl || getConfigFilePath());
+
+    }
+
+    function getConfigFilePath() {
+
+        var configPath = document.getElementsByTagName('script');
+
+        return configPath[configPath.length - 1].src;
+
+    }
+
+    function getBasePath(docUrl, confUrl) {
+
+        var basePath = confUrl;
+
+
+        if (/^(\/|\\\\)/.test(confUrl)) {
+
+            basePath = /^.+?\w(\/|\\\\)/.exec(docUrl)[0] + confUrl.replace(/^(\/|\\\\)/, '');
+
+        } else if (!/^[a-z]+:/i.test(confUrl)) {
+
+            docUrl = docUrl.split("#")[0].split("?")[0].replace(/[^\\\/]+$/, '');
+
+            basePath = docUrl + "" + confUrl;
+
+        }
+
+        return optimizationPath(basePath);
+
+    }
+
+    function optimizationPath(path) {
+
+        var protocol = /^[a-z]+:\/\//.exec(path)[0],
+            tmp = null,
+            res = [];
+
+        path = path.replace(protocol, "").split("?")[0].split("#")[0];
+
+        path = path.replace(/\\/g, '/').split(/\//);
+
+        path[path.length - 1] = "";
+
+        while (path.length) {
+
+            if ((tmp = path.shift()) === "..") {
+                res.pop();
+            } else if (tmp !== ".") {
+                res.push(tmp);
+            }
+
+        }
+
+        return protocol + res.join("/");
+
+    }
+
+    window.UE = {
+        getUEBasePath: getUEBasePath
+    };
+
+})();

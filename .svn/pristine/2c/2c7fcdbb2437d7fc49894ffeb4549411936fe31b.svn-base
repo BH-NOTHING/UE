@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="chrome=IE8"/>
+    <title>瑞联开发平台—Program With Pleasure</title>
+<#include '/common/head.vop' />
+    <script type="text/javascript">
+        var ctx = '${ctx}';
+    </script>
+    <link rel="stylesheet" href="${ctx}/config/uicore/common/frame/treeTab/themes/css/main.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="${ctx}/config/hip_base/main_menu/css/main.css">
+    <link rel="stylesheet" type="text/css" href="${ctx}/config/hip_base/main_menu/css/style.css">
+    <link rel="stylesheet" type="text/css" href="${ctx}/config/hip_base/main_menu/css/main_content.css">
+    <script type="text/javascript">
+        $.parser.auto = true;
+        $(document).ready(function () {
+            $("#content").load(window.ctx + '/config/hip_base/main_menu/main_content.vop');
+//			$("#showMenuTip").bind("click",function(){
+	//			$("#contentif").attr("src","${ctx}/config/fu_disease/func/patientManage/selectPatient/entrancePageV.vopx")
+//			})
+        });
+    </script>
+</head>
+<body>
+
+<div id="h">
+    <div class="h-leftlogo">
+		<img src="${ctx}/config/hip_base/main_menu/images/logo.png">
+        <!--<ul id="org_index" class="h-menu" style="display: inline-block;vertical-align: middle;">
+            <li class="js-combox-btn">
+                <a href="#">
+                    <img src="${ctx}/config/hip_base/main_menu/images/menu.png">
+                    <span class="btn-text">科室</span>
+                </a>
+                <ul class="js-combox combox">
+                    <li>
+                        <a href="#" class="" onclick="">
+                            <span class="btn-text">耳鼻喉科</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="" onclick="">
+                            <span class="btn-text">眼科</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>-->
+        <span id="navicate"></span>
+    </div>
+    <div style="display: flex">
+        <ul class="h-menu">
+			<li class="js-combox-btn">
+                <a href="#"  id="" >
+                    <img src="${ctx}/config/hip_base/main_menu/images/menu.png">
+                    <span class="btn-text">提醒</span>
+                    <span class="total remind"></span>
+                </a>
+				<ul class="js-combox combox">
+                    <li>
+                        <a href="#" class="" onclick="skipToPage(4,7);"> <!-- main.updatePassWord(); -->
+                            <img src="${ctx}/config/hip_base/main_menu/images/unemsg.png">
+                            <span class="btn-text">待办任务</span>
+                        </a>
+                    </li>
+					<li>
+                        <a href="#" class="" onclick="skipToPage(4,8);"> <!-- main.updatePassWord(); -->
+                            <img src="${ctx}/config/hip_base/main_menu/images/unemsg.png">
+                            <span class="btn-text">已办任务</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="" onclick="skipToPage(2,4);"> <!-- main.updatePassWord(); -->
+                            <img src="${ctx}/config/hip_base/main_menu/images/unemsg.png">
+                            <span class="btn-text">日历</span>
+                        </a>
+                        <span class="fullcendar remind"></span>
+                    </li>
+				</ul>
+            </li>
+            <li>
+                <a href="#" class="" id="showMainMenu" onclick="showMainmenuDiv();">
+                    <img src="${ctx}/config/hip_base/main_menu/images/menu.png">
+                    <span class="btn-text">主菜单</span>
+                </a>
+            </li>
+            <!--showDevMain king 20180202-->
+            <li>
+                <a href="${ctx}/pwplogin/toMainframePage.do" class="" id="showDevMain" >
+                    <img src="${ctx}/config/hip_base/main_menu/images/menu.png">
+                    <span class="btn-text">开发后台</span>
+                </a>
+            </li>
+            <!--<li class="js-combox-btn">
+				<a href="#">
+					<img src="${ctx}/config/hip_base/main_menu/images/menu.png" style="height: 100%;vertical-align: middle; line-height: 60px;height: 15px;">
+					<span class="btn-text">消息提醒</span>
+				</a>
+				<ul class="js-combox combox">
+					<li>
+						<a href="#" class="" onclick="">
+							<img src="${ctx}/config/hip_base/main_menu/images/unemsg.png" style="height: 100%;vertical-align: middle; line-height: 60px;">
+							<span class="btn-text">系统消息&nbsp;(10)&nbsp;</span>
+						</a>
+					</li>
+					<li>
+						<a href="#" class="" onclick="">
+							<img src="${ctx}/config/hip_base/main_menu/images/todo.png" style="vertical-align: bottom;">
+							<span class="btn-text">代办事项&nbsp;(5)&nbsp;</span>
+						</a>
+					</li>
+					<li style="text-align: center;">
+						<a href="#" class="" onclick="">
+							<span class="btn-text">查看所有&gt;</span>
+						</a>
+					</li>
+				</ul>
+			</li>-->
+            <li class="js-combox-btn">
+                <a href="#">
+                    <img src="${ctx}/config/hip_base/main_menu/images/menu.png">
+                    <span class="btn-text">系统设置</span>
+                </a>
+                <ul class="js-combox combox">
+                    <li>
+                        <a href="#" class="" onclick="main.updatePassWord();"> <!-- main.updatePassWord(); -->
+                            <img src="${ctx}/config/hip_base/main_menu/images/setpwd.png">
+                            <span class="btn-text">修改密码</span>
+                        </a>
+                    </li>
+                    <!--
+					<li>
+						<a href="#" class="" onclick="">
+							<img src="${ctx}/config/hip_base/main_menu/images/ico_help.png"  style="vertical-align: bottom;">
+							<span class="btn-text">帮助</span>
+						</a>
+					</li>
+					 -->
+                    <li>
+                        <a href="#" class="" onclick="main.exitSystem();">
+                            <img src="${ctx}/config/hip_base/main_menu/images/exit.png">
+                            <span class="btn-text">退出系统</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="content" class="easyui-layout">
+    <!--<iframe frameborder="0" id="contentif" scrolling="auto" style="width:100%;height:100%" src="${ctx}/config/hip_base/main_menu/main_content.vop"></iframe>-->
+    <!--</div>-->
+</div>
+<div id="mm" class="easyui-menu">
+    <div onclick="main.closeAllTabs()">关闭全部</div>
+    <div onclick="main.closeOtherTabs()">关闭其他</div>
+    <div onclick="main.closeTab()">关闭</div>
+</div>
+<div id="updatePassWordDialog" style="display: none;overflow:hidden;padding: 10px 0 0 10px;"
+     data-options="closed:true, resizable:true, minimizable:true, modal:true, title:'修改密码',
+        buttons:[{
+            	id:'saveSrvBtn',
+                text:'保存',
+                handler:function(e) {
+                	//main.resetPassWord();
+                    updatePassword();
+                }
+            },{
+                text:'关闭',
+                handler:function(e) {
+                	main.closePassWordDialog();
+                }
+            }]">
+    <div class="fitem">
+        <input name="accountId" id="accountId" type="text" class="widget-validatebox text" style="display: none;"/>
+        <label>用户名:</label>
+    <#if loginAccount??>
+        <input name="userName" id="userName" type="text" value="${loginAccount.username}"
+               class="widget-validatebox text" required="true" disabled="disabled"/>
+        <label>帐号:</label>
+        <input name="accountCode" id="accountCode" type="text" class="widget-validatebox text" required="true"
+               disabled="disabled" value="${loginAccount.accountCode}"/>
+    </#if>
+    </div>
+    <div class="fitem">
+        <label><span style="color:red">*</span>密码:</label>
+        <input name="passWord" id="passWord" type="password" style="width:160px;" class="widget-validatebox text"
+               required="true" validType="myMinLength[6]" missingMessage="密码为必填项!"/>
+    </div>
+</div>
+<div style="padding: 15px;width:100%;height: 100%; display: none" id="firstMenuTab">
+</div>
+<table style="padding: 15px;width:100%;height: 100%; display: none" id="secondMenuTab">
+</table>
+<div id="systemMsg"></div>
+</body>
+<script type="text/javascript">
+    var nameDept = '${(loginAccount.accountId)!""}';//左边树上面显示的用户名和单位名称。 */
+    var accountid = '${(loginAccount.attributes.ACCOUNT_ID)!""}';
+    var account = {};
+    account.accountId = '${(loginAccount.attributes.ACCOUNT_ID)!""}';
+    account.accountCode = '${(loginAccount.accountCode)!""}';
+    account.username = '${(loginAccount.displayName)!""}';
+</script>
+<script type="text/javascript" src="${ctx}/config/hip_base/main_menu/js/common.js"></script>
+<script type="text/javascript" src="${ctx}/config/hip_base/main_menu/common/menu.js"></script>
+<script type="text/javascript" src="${ctx}/config/hip_base/main_menu/common/iutil.js"></script>
+<script type="text/javascript" src="${ctx}/config/hip_base/main_menu/common/layer.js"></script>
+<script type="text/javascript" src="${ctx}/config/hip_base/main_menu/common/fisheye.js"></script>
+<script type="text/javascript" src="${ctx}/config/hip_base/main_menu/js/main.js"></script>
+<script type="text/javascript" src="${ctx}/config/hip_base/main_menu/js/main_menu.js"></script>
+<script src="${ctx}/config/uicore/common/frame/treeTab/js/main.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $.parser.auto = true;
+</script>
+</html>
