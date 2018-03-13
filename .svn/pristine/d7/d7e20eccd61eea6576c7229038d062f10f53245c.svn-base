@@ -1,5 +1,5 @@
 #OFF、FATAL、ERROR、WARN、INFO、DEBUG、ALL
-log4j.rootLogger=INFO, D , W , E , stdout
+log4j.rootLogger=INFO, D , W , E  stdout
 
 # Set hibernate's log level to Info begin
 log4j.logger.org.hibernate=WARN

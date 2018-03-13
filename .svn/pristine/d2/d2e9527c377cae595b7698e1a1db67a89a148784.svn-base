@@ -1295,7 +1295,7 @@ function(e, t, n) {
                 for (var ii = 0, al = arrs.length; ii < al; ii++) {
                     var arr = arrs[ii];
                     var aa = $(arr);
-                    boo = sde.sdecontains(aa[0], bb[0]);
+                    boo = sde.sdecontains(aa, bb);
                     if (boo) {
                         break;
                     }
@@ -5507,7 +5507,7 @@ default],
                  for (var ii = 0, al = arrs.length; ii < al; ii++) {
                     var arr = arrs[ii];
                     var aa = $(arr);
-                     bootemp = sde.sdecontains(aa[0], _obj);
+                     bootemp = sde.sdecontains(aa, _obj);
                     if (bootemp) {
                         break;
                     }
