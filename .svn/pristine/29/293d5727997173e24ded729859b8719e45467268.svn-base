@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<function>
-  <name>ruleSrv</name>
-  <order>0</order>
-  <hidden>true</hidden>
-  <version>0</version>
-</function>

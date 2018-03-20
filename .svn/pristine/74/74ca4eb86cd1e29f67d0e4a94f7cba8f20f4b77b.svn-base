@@ -1,6 +1,0 @@
-{
-	onReady:function(){
-    	//pageClass.superclass.onReady.call(this);
-    	// TODO
-	}
-}

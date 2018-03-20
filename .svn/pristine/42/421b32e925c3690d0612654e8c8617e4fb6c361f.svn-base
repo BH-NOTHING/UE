@@ -1,1 +1,0 @@
-<serviceDesc title="pluginTreeSrv" flagValidate="false" datasource="default" transaction="PROPAGATION_REQUIRED" timeout="-1" readonly="false"/>

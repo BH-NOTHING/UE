@@ -1,7 +1,0 @@
-body{ height: 100%; }
-.title{font-family:Arial,微软雅黑;font-size:18px;text-anchor:middle;}
-.subTitle{font-family:Arial,宋体;font-size:12px;text-anchor:middle;fill:#666}
-.axis path, .axis line { fill: none; stroke: black; shape-rendering: crispEdges; }
-.axis text { font-family: sans-serif; font-size: 11px; fill:#999; }
-.inner_line path, .inner_line line { fill: none; stroke:#E7E7E7; shape-rendering: crispEdges; }
-.legend{font-size: 12px; font-family:Arial, Helvetica, sans-serif}
