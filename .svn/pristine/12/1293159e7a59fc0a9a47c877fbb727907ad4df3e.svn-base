@@ -1,0 +1,21 @@
+<model id="editor.editorModel.tp_plugin_ex" description="" type="TABLE" name="tp_plugin_ex" title="tp_plugin_ex">
+  <groupId>groupId</groupId>
+  <datasourceId>default</datasourceId>
+  <incremental>false</incremental>
+  <synchronous>false</synchronous>
+  <removeFake>false</removeFake>
+  <indexs/>
+  <columns>
+    <column name="id" title="id" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="true" primaryKey="true" foreignKey="false"/>
+    <column name="field_name" title="field_name" type="12" typeTitle="可变长字符串" length="50" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="field_code" title="field_code" type="12" typeTitle="可变长字符串" length="50" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="ver_id" title="ver_id" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="true" primaryKey="false" foreignKey="false"/>
+    <column name="create_time" title="create_time" type="93" typeTitle="时间戳" length="7" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="field_value" title="field_value" type="12" typeTitle="可变长字符串" length="2000" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+  </columns>
+  <primaryKeys>
+    <column name="id" title="id" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="true" primaryKey="true" foreignKey="false"/>
+  </primaryKeys>
+  <relationships/>
+  <cascadeModelRelation/>
+</model>

@@ -1,0 +1,147 @@
+/**
+ * 1. 编辑器控件服务: pluginSrv.srv.js
+ *
+ * 2. 在srv里面调用，如下：
+ *                var service = new Service('editor.editorSrvII.templateSrv');
+ *                param.funName = "findById";//方法名称
+ *                var data = service.callService(param);
+ *
+ * 3. 在VOP上面调用，调用方法跟普通的srv方式一样，只不过需要在原有的参数上面增加一个参数funName，如下：
+ *                var param = {};
+ *                param.funName = "findById";
+ *                param.id = XX;
+ *                var databind = $W.databind.databind({
+ * 					id : 'save',
+ * 					isSrv : true,
+ * 					groupId : "editor.editorSrvII"
+ * 				});
+ *                databind.submit("templateSrv", param, {
+ * 					async : false
+ * 				}, function(res) {
+ * 					var data = res.data;
+ * 				});
+ *
+ * @Autor : king
+ * @Date : 2017-05-18
+ */
+var toJs = require('nodejava').toJs;
+var spring = require("spring");
+var ruleRenderManager = spring.getBean("ruleRenderManager");
+
+var result = {};
+result.data = '';
+result.msg = '操作失败';
+result.code = 500;
+var thisUserId = com.tt.pwp.framework.security.SecurityUtils.getLoginAccountId();
+var thisTime = com.tt.pwp.framework.util.formatter.DateFormatterUtil.long2YYYY_MM_DDHH24miss(new java.util.Date());
+var logger = com.tt.pwp.framework.util.log.LogUtil();
+logger.info("ruleSrv.srv.js---thisUserId:"+thisUserId+"---thisTime:"+thisTime+"---Param:"+JSON.stringify(param));
+if (param && param.datasource) {
+    var dsMgr = require('pwp-datasource'); //数据源管理对象
+    db = dsMgr.db(param.datasource); //调用db([datasouceId])函数得到指定的数据源对象,dsMgr.db('default')可得到默认数据源
+}
+
+var handler = {
+    /**
+     * findAll
+     */
+    findAll: function (params) {
+        var serviceMgr = require('serviceMgr');
+        var ruleData = serviceMgr.callService("/business_rules/func/rule/ruleManager/ruleList/pwp_rule_load", params.param);
+        //console.log("findAll:"+JSON.stringify(ruleData)+"---param:"+JSON.stringify(params));
+        result.data = ruleData
+        result.code = 200;
+        result.msg = '查询成功';
+        return result;
+    },
+    /**
+     * 根据ID查询某一个
+     */
+    findById: function (params) {
+
+        // 根据ID获取spring的bean对象
+        var ruleData = ruleRenderManager.renderBycode(params.ruleId, params.param);
+        // 支持java.util.Collection、java.util.Map、java数组、javaBean对象
+        //console.log("findById:"+JSON.stringify(ruleData)+"---param:"+JSON.stringify(params));
+        result.data = toJs.parse(ruleData);
+        result.code = 200;
+        result.msg = '查询成功';
+        return result;
+    },
+    /**
+     * 根据ID查询getRuleParamById
+     */
+    getRuleParamById: function (params) {
+        //console.log(ruleRenderManager+"Rule---param:"+JSON.stringify(params));
+
+        var ruleData = ruleRenderManager.getDynParamById(params.ruleId);//通过id获取
+        //console.log("getRuleParamById:"+JSON.stringify(ruleData)+"---param:"+JSON.stringify(params));
+        result.data = toJs.parse(ruleData);
+        result.code = 200;
+        result.msg = '查询成功';
+        return result;
+    },
+    /**
+     * 根据ID查询getRuleParamByCode
+     */
+    getRuleParamByCode: function (params) {
+        //console.log("Rule---param:"+JSON.stringify(params));
+
+        var ruleData = ruleRenderManager.getDynParamByCode(params.ruleCode);//通过编号获取
+        //var ruleData = ruleRenderManager.getDynParamByCode('J3CLLTV4748');//通过编号获取
+        //console.log("getRuleParamByCode:"+JSON.stringify(ruleData)+"---param:"+JSON.stringify(params));
+        result.data = toJs.parse(ruleData);
+        result.code = 200;
+        result.msg = '查询成功';
+        return result;
+    },
+    /**
+     * getRuleColumnById
+     */
+    getRuleColumnById: function (params) {
+        //console.log("Rule---param:"+JSON.stringify(params));
+
+        var ruleData = ruleRenderManager.getColumnById(params.ruleId);//通过编号获取
+        //console.log("getRuleColumnById:"+JSON.stringify(ruleData)+"---param:"+JSON.stringify(params));
+        result.data = toJs.parse(ruleData);
+        result.code = 200;
+        result.msg = '查询成功';
+        return result;
+    },
+    /**
+     * getRuleColumnByCode
+     */
+    getRuleColumnByCode: function (params) {
+        //console.log("Rule---param:"+JSON.stringify(params));
+
+        var ruleData = ruleRenderManager.getColumnByCode(params.ruleCode);//通过编号获取
+        //console.log("getRuleColumnByCode:"+JSON.stringify(ruleData)+"---param:"+JSON.stringify(params));
+        result.data = toJs.parse(ruleData);
+        result.code = 200;
+        result.msg = '查询成功';
+        return result;
+    },
+    /**
+     * 删除方法
+     */
+    del: function (param) {
+        return result;
+    },
+    /**
+     * 编辑方法
+     */
+    update: function (param) {
+        return result;
+    },
+    getDict: function (param) {
+        var dict = require("pwp-dict");
+        var dictName = param.dictName;
+        var dictList = [];
+        if (dictName != undefined) {
+            dictList = dict.query(dictName);
+        }
+        return dictList;
+    }
+};
+
+return handler[param.funName](param);

@@ -1,0 +1,184 @@
+/*二级菜单样式*/
+* {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.layout_main *{
+    background-color: transparent !important;
+    
+}
+
+a, img {
+    border: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.clr {
+    clear: both;
+    overflow: hidden;
+    height: 0;
+}
+
+a.closeBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: block;
+    width: 60px;
+    padding: 4px 0;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #85B6E2;
+    color: #333;
+}
+
+a.closeBtn:hover {
+    color: #fff;
+    border: 1px solid #85B6E2;
+    background: #85B6E2;
+}
+
+body {
+    /*padding: 10px 20px 50px;*/
+    background-image: url("../images/mainbox_bg_body.png");
+    height: 100%;
+}
+
+h1 {
+    color: #85B6E2;
+    text-align: center;
+    padding-top: 20px;
+    font-size: 18px;
+}
+
+/* example */
+.example {
+    border: 1px dashed #ccc;
+    padding: 40px;
+    margin-top: 10px;
+    zoom: 1;
+}
+
+.example .description {
+    color: #85B6E2;
+    float: left;
+    padding: 10px 20px 0 80px;
+    font-size: 14px;
+}
+
+.example .tigger {
+    display: block;
+    width: 80px;
+    padding: 10px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #999;
+    color: #333;
+    cursor: pointer;
+    float: left;
+}
+
+.example select {
+    margin-top: 10px;
+}
+
+/* blk */
+.blk {
+    width: 500px;
+    position: relative;
+}
+
+.blk .head, .blk .head-right, .blk .foot, .blk .foot-right {
+    overflow: hidden;
+    height: 4px; /*background:url(pop_up_bg.png); */
+}
+
+.blk .head {
+    padding-left: 4px;
+}
+
+.blk .head-right {
+    background-position: right top;
+}
+
+.blk .foot {
+    padding-left: 4px;
+    background-position: left bottom;
+    _height: 3px;
+}
+
+.blk .foot-right {
+    background-position: right bottom;
+}
+
+.blk .main {
+    border-left: 2px solid #85B6E2;
+    border-right: 2px solid #85B6E2;
+    position: relative;
+    background:#d7d9d8;
+    width:800px;/*设置弹出 出的长度* 后面再改成动态 的 */
+    height:100px;
+}
+
+.blk .main h2 {
+    font: bold 16px "Microsoft YaHei";
+    padding: 10px 20px 2px
+    color: #85B6E2;
+}
+
+.blk .main ul {
+    padding: 15px 20px 10px;
+    zoom: 1;
+    overflow: hidden;
+    font-size: 12px;
+}
+
+.blk .main ul li {
+    float: left;
+    width: 80px;
+    text-align: center;
+    line-height: 30px;
+    margin-bottom: 10px;
+}
+
+.blk .main ul li a {
+    color: #333;
+    display: block;
+}
+
+.blk .main ul li a:hover {
+    background: #85B6E2;
+    color: #fff;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* �Զ�����ʽ */
+.t5 .blk {
+    width: 700px;
+}
+
+.t5 .blk h2 {
+    color: #aaa;
+}
+
+.t5 .blk .main ul li a {
+    color: #aaa;
+}
+
+/*.t5 .blk .head, .t5 .blk .head-right, .t5 .blk .foot, .t5 .blk .foot-right{background:url(pop_up_bg2.png);}*/
+/* popup_iframe */
+/** html .popup_iframe {*/
+    /*width: expression(this.previousSibling.style.width);*/
+    /*height: expression(this.previousSibling.style.height);*/
+/*}*/
+.main {
+    position:relative;
+    border-radius: 13px;
+}
+#close9 { position:absolute; top:-8px; right:-8px; z-index:99;}

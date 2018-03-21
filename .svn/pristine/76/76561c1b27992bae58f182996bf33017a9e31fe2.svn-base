@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>条形码</title>
+    <#include '/common/head.vop'>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!--[if lte IE 6]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-ie6.css">
+    <![endif]-->
+    <!--[if lte IE 7]>
+    <![endif]-->
+    <script src="jscolor-2.0.4/jscolor.min.js"></script>
+</head>
+<body>
+<div class="content">
+    <table class="table table-bordered table-striped table-hover">
+     <tr>
+        <th><span>控件名称</span><span style="color: red;" id="txtMsg">&nbsp;*</span></th>
+        <th><span>字体大小</span></th>
+    </tr>
+    <tr>
+        <td>
+            <input id="orgname" placeholder="必填项" type="text" />
+        </td>
+        <td>
+            <input id="orgfont" placeholder="请输入字体大小,如:14" type="text" value="30"/> px
+        </td>
+    </tr>
+    <tr>
+        <th><span>条形码样式</span> </th>
+        <td>
+            宽 <input id="orgwidth" type="text" value="200" class="input-small span1" placeholder="auto"/> px
+            &nbsp;&nbsp;
+            高 <input id="orgheight" type="text" value="80" class="input-small span1" placeholder="auto"/> px
+        </td>
+
+    </tr>
+    <tr>
+        <td colspan="2">
+            <label for="orgvalue" style="font-weight:bold">内容<span style="color: red;" id="txtMsg">&nbsp;*</span></label>
+            <textarea  class="input-block-level" rows="3" id="orgvalue" placeholder="条形码数据..."></textarea>
+        </td>
+    </tr>
+    </table>
+    <div class="alert alert-danger">提示：条形码只支持少量内容，请不要加入大量内容</div>
+    <div id="barwrap" style="margin:0 auto">
+        <img id="barcode"/>
+    </div>
+</div>
+</body>
+
+</html>

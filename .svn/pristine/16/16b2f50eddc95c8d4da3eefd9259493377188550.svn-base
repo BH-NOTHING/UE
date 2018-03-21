@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <template_action.version>2.1.0.20180319.18-SNAPSHOT</template_action.version>
+    </properties>
+    <artifactId>template_editor</artifactId>
+    <groupId>com.tt.pwp</groupId>
+    <version>${template_action.version}</version>
+    <packaging>jar</packaging>
+
+
+    <name>template_editor</name>
+
+    <dependencies>
+        <dependency>
+            <artifactId>template_action</artifactId>
+            <groupId>com.tt.pwp</groupId>
+            <version>2.1.0.20180319.18-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus-deploy</id>
+            <name>Public Repositories</name>
+            <!--<url>http://10.10.10.6:18888/nexus/content/repositories/pwp</url>-->
+            <url>http://121.33.250.164:18888/nexus/content/repositories/pwp</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Snapshots Repositories</name>
+            <!--<url>http://10.10.10.6:18888/nexus/content/repositories/Snapshots</url>-->
+            <url>http://121.33.250.164:18888/nexus/content/repositories/Snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <build>
+    	<resources>
+    		<resource>
+    			<directory>src/main/resources</directory>
+    			<excludes>
+    				<exclude>**/*.md</exclude>
+    			</excludes>
+    		</resource>
+    	</resources>
+    </build>
+
+</project>

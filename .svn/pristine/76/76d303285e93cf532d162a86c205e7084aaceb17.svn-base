@@ -1,0 +1,20 @@
+<model id="editor.editorModel.tp_plugin_tree" description="" type="TABLE" name="tp_plugin_tree" title="tp_plugin_tree">
+  <groupId>groupId</groupId>
+  <datasourceId>default</datasourceId>
+  <incremental>false</incremental>
+  <synchronous>false</synchronous>
+  <removeFake>false</removeFake>
+  <indexs/>
+  <columns>
+    <column name="id" title="id" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="true" primaryKey="true" foreignKey="false"/>
+    <column name="descname" title="descname" type="12" typeTitle="可变长字符串" length="500" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="status" title="status" type="1" typeTitle="字符串" length="1" precision="0" defaultValue="0&#xa;" notNull="false" primaryKey="false" foreignKey="false"/>
+    <column name="name" title="name" type="12" typeTitle="可变长字符串" length="200" precision="0" notNull="true" primaryKey="false" foreignKey="false"/>
+    <column name="pid" title="pid" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="false" primaryKey="false" foreignKey="false"/>
+  </columns>
+  <primaryKeys>
+    <column name="id" title="id" type="3" typeTitle="高精度数值" length="20" precision="0" notNull="true" primaryKey="true" foreignKey="false"/>
+  </primaryKeys>
+  <relationships/>
+  <cascadeModelRelation/>
+</model>

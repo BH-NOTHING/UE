@@ -1,0 +1,418 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>逸仙智慧医疗</title>
+    <#include "/uicore/common/head/head.vop">
+        <link rel="stylesheet" type="text/css" href="${ctx}/viewIII/pwplogin/css/login.css"/>
+        <!--<script type="text/javascript" src="${ctx}/config/main_menu/func/sysMainMenu/common/html5.js"></script>-->
+        <style type="text/css">
+            * {
+                margin: 0px;
+                padding: 0px;
+            }
+
+            .door {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                background-image: url(${ctx}/viewIII/pwplogin/images/menu-bg.jpg);
+                background-size: 100%;
+                background-repeat: no-repeat;
+            }
+
+            .door:before, .door:after {
+                content: '';
+                position: absolute;
+                left: 0;
+                width: 0;
+                height: 0;
+                overflow: hidden;
+                border-color: #000 transparent transparent transparent;
+                border-style: solid;
+                border-width: 0 300px;
+                z-index: 2;
+                transition: all .8s ease;
+            }
+
+            .door:before {
+                top: 0;
+            }
+
+            .door:after {
+                bottom: 0;
+                border-color: transparent transparent #000 transparent;
+            }
+
+            /*.door:hover:before,.door:hover:after{ border-width:40px 600px;}*/
+            .doorHover:before, .doorHover:after {
+                border-width: 40px 1080px;
+            }
+
+            .door-left, .door-right {
+                position: relative;
+                float: left;
+                width: 50%;
+                height: 100%;
+                box-sizing: border-box;
+                transition: all .5s ease;
+            }
+
+            .door-left {
+                /*background-image: url(${ctx}/viewIII/pwplogin/images/login_01.png);*/
+                background-image: url(${ctx}/viewIII/pwplogin/images/login_01.png);
+                                  /*;*/
+                background-size: 100%;
+                background-repeat: no-repeat;
+                position: relative;
+            }
+            .door-left .logo-title{
+                /*width: 422px;*/
+                width: 62%;
+                height: 20%;
+                min-height: 105px;
+                position: absolute;
+                /*top: 10px;*/
+                top: calc(50% - 15%);
+                left: 10%;
+                z-index: 999;
+                background-image: url(${ctx}/viewIII/pwplogin/images/login_zzf.png);
+                /*background-size: 426px;*/
+                background-size: 100%;
+                background-repeat: no-repeat;
+            }
+
+            .door-right {
+                background-image: url(${ctx}/viewIII/pwplogin/images/login_02.png);
+                background-size: 100%;
+                background-repeat: no-repeat;
+            }
+
+            .door-left {
+                -ms-transform-origin: 0 0;
+            }
+
+            .door-left {
+                -webkit-transform-origin: 0 0;
+            }
+
+            .door-left {
+                -moz-transform-origin: 0 0;
+            }
+
+            .door-left:before, .door-right:before {
+                content: '';
+                position: absolute;
+                width: 10px;
+                height: 10px;
+                top: 50%;
+                margin-top: -5px;
+                border-radius: 50%;
+            }
+
+            .door-left:before {
+                right: 5px;
+            }
+
+            .door-right:before {
+                left: 5px;
+            }
+
+            .door-right {
+                -webkit-transform-origin: 100% 0;
+            }
+
+            .door-right {
+                -ms-transform-origin: 100% 0;
+            }
+
+            .door-right {
+                -moz-transform-origin: 100% 0;
+            }
+
+            .door .door-left-hover {
+                -webkit-transform: rotateY(-90deg);
+                -moz-transform: rotateY(-90deg);
+                -ms-transform: rotateY(-90deg);
+                transition: transform 2s Linear
+            }
+
+            .door .door-right-hover {
+                -webkit-transform: rotateY(90deg);
+                -moz-transform: rotateY(90deg);
+                -ms-transform: rotateY(90deg);
+                transition: transform 2s Linear
+            }
+            .top{
+                position:relative;
+            }
+            .door{
+                position:absolute;z-index: 0;
+
+            }
+            .form{
+                position: absolute;;
+                z-index: 1;
+            }
+            .l_box{
+                height: 100%;
+                line-height: 100%;
+
+
+            }
+        </style>
+        <script type="text/javascript">
+
+            if (window != window.top && window.top.location.href != '${ctx}/pwplogin/toDevLoginPage.do') {
+                window.top.location.href = '${ctx}/pwplogin/toDevLoginPage.do'
+            }
+
+            function refresh(obj) {
+                obj.src = "${ctx}/pwplogin/getImage.do?" + Math.random();
+            }
+
+            function login() {
+                $("#theLoginForm").submit();
+                $("#msg").html("正在登录.....");
+            }
+
+            function reset() {
+                $("#theLoginForm")[0].reset();
+                $(".l_input label").show();
+            }
+
+            $(function () {
+                var $input = $(".l_input input");
+                $input.each(function () {
+
+                    if ($(this).val() != "") {
+                        $(this).next("label").hide();
+                    } else {
+                        $(this).next("label").show();
+                    }
+
+                    $(this).focus(function () {
+                        $(this).parent(".l_input").addClass("l_focus");
+                        $(this).select();
+                        $(this).next("label").hide();
+                    });
+                    $(this).blur(function () {
+                        $(this).parent().removeClass("l_focus")
+                        if ($(this).val() != "") {
+                            $(this).next("label").hide();
+                        } else {
+                            $(this).next("label").show();
+                        }
+                    })
+                });
+
+                var $label = $(".l_input label");
+                $label.each(function () {
+                    $(this).click(function () {
+                        $(this).hide();
+                        $(this).prev("input").focus();
+                    })
+                });
+                $("body").keydown(function (event) {
+                    if (event.keyCode == 13) {
+                        $("#door").addClass("doorHover");
+                        $("#door").find(".door-left").addClass("door-left-hover");
+                        $("#door").find(".door-right").addClass("door-right-hover");
+                        setTimeout(function () {
+                            $("#door").removeClass("doorHover");
+                        }, 2000);
+                        setTimeout(login, 2 * 1000);//3秒后再进行跳转
+                        $("#theLoginForm").css("display", "none");
+                    }
+                });
+                $("#loginBtn").bind("click", function () {
+//				var _this = this;
+//				console.log(this);
+                    $("#door").addClass("doorHover");
+                    $("#door").find(".door-left").addClass("door-left-hover");
+                    $("#door").find(".door-right").addClass("door-right-hover");
+                    setTimeout(function () {
+                        $("#door").removeClass("doorHover");
+                    }, 2000);
+                    setTimeout(login, 2 * 1000);//3秒后再进行跳转
+                    $("#theLoginForm").css("display", "none");
+            });
+            })
+        </script>
+</head>
+
+<!--  监控屏幕宽度完  -->
+<body style="overflow-x:hidden; background:#faf2dd;">
+<!--<div class="top">-->
+<div class="door" id="door">
+
+    <div class="door-left" id="door-left">
+        <div class="logo-title"></div>
+    </div>
+    <div class="door-right" id="door-right">
+
+    </div>
+
+</div>
+
+        <!--<input id="ext_loginWelcomeURL" type="hidden" name="ext_loginWelcomeURL" value="/pwplogin/toDevMainPage.do"/>-->
+ <!--       <div class="l_box"  id="l_box">
+
+            <dl class="admin_login" id="admin_login">
+                <form name="theLoginForm" action="${ctx}/j_spring_security_check" id="theLoginForm" method="post">
+                <dt>
+                <strong>逸仙智慧医疗</strong>
+                <em>System</em>
+                </dt>
+                <dd class="user_icon">
+                    <input type="text" placeholder="账号" class="login_txtbx" id="j_username" name="j_username"
+                           value="${lastLoginName}" style="border-radius: 5px;"/>
+                </dd>
+                <dd class="pwd_icon">
+                    <input type="password" placeholder="密码" class="login_txtbx" id="j_password" name="j_password"
+                           type="password" value="koala" style="border-radius: 5px;"/>
+                </dd>
+                <dd>
+                    <input type="button" id="loginBtn" value="登&nbsp;&nbsp;录" class="submit_btn"
+                           style="border-radius: 5px;"/>
+                </dd>
+                    <div class="l_btn">
+                        <a href="javascript:login()" class="l_submit"></a><a href="javascript:reset()" class="l_reset"></a>
+                        <b id="msg" style="margin-left: -355px;">${errorMessage}</b>
+                    </div>
+                    </form>
+
+            </dl>
+-->
+<style type="text/css">
+    .login-from{
+        width: 250px;
+        height: 300px;
+        position: absolute;
+        left: 55%;
+        top: 30%;
+        z-index: 999;
+        font-weight: 600px;
+    }
+    .login-from form{
+        padding: 80px 20px;
+        width: 290px;
+        box-sizing: border-box;
+        background: linear-gradient(rgba(255,255,255, 0),rgba(255,255,255, 1),rgba(255,255,255, 0));
+        /*background-color: rgba(255,255,255,0.3);*/
+    }
+    .login-from input[type="text"], .login-from input[type="password"]{
+        border: none;
+        height: 25px;
+        width: 185px;
+        line-height: 25px;
+        background-color: transparent !important;
+    }
+    .login-from label input, .login-from span{
+        vertical-align: middle;
+    }
+    .login-from .ipt-n{
+        background-color: white;
+        margin: 8px 0;
+        padding: 0 5px;
+        height: 35px;
+        line-height: 35px;
+        border: 1px solid rgb(138,219,246);
+        border-radius: 3px;
+    }
+    .login-from .check-k{
+        display: flex;
+        justify-content: center;
+    }
+    .login-from .ipt-btn{
+        background-color: white;
+        margin: 12px 0;
+        height: 35px;
+        line-height: 35px;
+        border: 1px solid rgb(138,219,246);
+        border-radius: 3px;
+    }
+    .login-from input[type="button"]{
+        width: 100%;
+        height: 100%;
+        background-color: rgb(138,219,246);
+        border: none;
+    }
+    .focus{
+        outline: none;
+        /*border-color: rgb(138,219,246);  */
+        /*box-shadow: 0 0 15px rgba(97,1,230, 0.8);*/
+        box-shadow: 0 0 20px rgba(132,233,245, 1);        
+        border-radius: 5px;
+    }
+    input:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0px 1000px white inset;
+        border: none;
+
+    }
+</style>
+
+<div class="login-from">
+    <form name="theLoginForm" action="${ctx}/j_spring_security_check" id="theLoginForm" method="post">
+        <div class="ipt-n">
+            <label>
+                <span>用户名：</span>
+                <input type="text" id="j_username" name="j_username" value="${lastLoginName}" />
+            </label>
+        </div>
+        <div class="ipt-n">
+            <label>
+                <span>密&nbsp;&nbsp;&nbsp;码：</span>
+                <input type="password" id="j_password" name="j_password" type="password" />
+            </label>
+        </div>
+        <div class="check-k">
+            <label>
+                <input type="checkbox" name="checkbox"><span>记住密码</span>
+            </label>
+            <label style="margin-left: 15px;"><a href="#">忘记密码</a></label>
+        </div>
+        <div class="ipt-btn">
+           <input type="button" id="loginBtn" value="登&nbsp;&nbsp;录" style="color: white;" />
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $('.login-from input[type="text"], .login-from input[type="password"]').focus(function(e){
+        //console.log(9)
+        $(e.target).parent().parent().addClass('focus');
+    });
+    $('.login-from input[type="text"], .login-from input[type="password"]').blur(function(e){
+        //console.log(8)
+        $(e.target).parent().parent().removeClass('focus');
+    })
+</script>
+
+
+
+
+
+
+
+</div>
+<!--</div>-->
+<div class="login_logo">
+    <#if loginIcon??>
+        <img src="${ctx}${loginIcon}"/>
+    </#if>
+</div>
+</body>
+<!--[if lt IE 7]>
+
+<script type="text/javascript">
+
+    var r = window.confirm("系统需要ie8及以上版本,您的浏览器版本过低！为了提供更好的用户体验，请点击【确定】下载安装浏览器插件并<b>重启浏览器</b>生效。");
+    if (r) {
+        location.href = '${ctx}/GoogleChromeframeStandaloneEnterprise.msi';
+
+    }
+
+
+</script>
+<![endif]-->
+</html>

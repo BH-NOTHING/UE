@@ -1,0 +1,12 @@
+<!--
+ * 公共js,注意顺序
+ * UEditor v2.0.0 
+ * author: king-hu@todaytech.com.cn 
+ * createtime: TUE, 9th May 2017 10:23:42 GMT
+ * 
+-->
+<div id="sdeTreeContextMenu" class="widget-menu" style="width:120px;">
+    <div onclick="sde.treeAddPlugin()" data-options="iconCls:'icon-add'">新增控件</div>
+    <div onclick="sde.treeAppendPlugin()" data-options="iconCls:'icon-add'">添加控件</div>
+    <div onclick="sde.treeRemovePlugin()" data-options="iconCls:'icon-remove'">移除控件</div>
+</div>

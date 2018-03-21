@@ -1,0 +1,1 @@
+<serviceDesc title="delReportSrv" datasource="default" transaction="PROPAGATION_REQUIRED" timeout="-1" readonly="false"/>

@@ -1,0 +1,56 @@
+.sde-tree{
+    /*position: absolute;*/
+}
+.treeWrapper{
+    position: fixed;
+    top:110px;
+}
+#sdeTree{
+    width: 200px;
+    border: 1px solid #1C86EE;
+    background: #FCFCFC;
+    display:none;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+}
+.tree-open{
+    left: -200px;
+}
+.tree-close{
+    left: 0px;
+}
+#sde-showtree{
+    height:20px;
+    width: 17px;
+    -webkit-border-radius:11px 0 0 11px;
+    -moz-border-radius:11px 0 0 11px;
+    border-radius:11px 0 0 11px;
+    position: absolute;
+    top: 0;
+    left:-17px;
+    cursor: pointer;
+    background: #1C86EE;
+    opacity:0.7;
+}
+#sde-showtree:hover{
+    opacity:1.0;
+}
+#sde-showtree.sde-showtree-close{
+    left:-18px;
+}
+#sde-showtree.sde-showtree-open{
+    left:-217px;
+}
+#sde-arrowNav{
+    height:100%;
+    width: 100%;
+    -webkit-background-size:14px;
+    background-size:13px;
+}
+.sde-arrowNav-close{
+    background: url("../.././dialogs/img/left-arrow.png") no-repeat 4px 4px;
+}
+.sde-arrowNav-open{
+    background: url("../.././dialogs/img/right-arrow.png") no-repeat 5px 4px;
+}

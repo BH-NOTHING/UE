@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>日期输入框</title>
+    <#include '/common/head.vop'>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!--[if lte IE 6]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-ie6.css">
+    <![endif]-->
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/ie.css">
+    <![endif]-->
+    <script src="jscolor-2.0.4/jscolor.min.js"></script>
+    <link rel="stylesheet" href="flatpickr/flatpickr.min.css">
+    <link rel="stylesheet" href="flatpickr/themes/material_blue.css">
+    <link rel="stylesheet" href="flatpickr/plugins/confirmDate/confirmDate.css">
+    <script src="flatpickr/flatpickr.min.js"></script>
+    <script src="flatpickr/plugins/confirmDate/confirmDate.js"></script>
+</head>
+
+<body>
+    <div class="content">
+        <table class="table table-bordered table-striped table-hover">
+            <input type="hidden" id="VER_ID" name="VER_ID"  />
+            <input type="hidden" id="PLUGINID" name="PLUGINID" />
+            <tr>
+                <th><span>控件编码 </span><span style="color: red;" id="txtMsg">*</span></th>
+                <th><span>控件名称 </span><span style="color: red;">*</span></th>
+            </tr>
+            <tr>
+                <td><input type="text" id="txtCODE" placeholder="必填项"></td>
+                <td><input type="text" id="txtNAME" onblur="$G('txtDESCNAME').value = $G('txtNAME').value" placeholder="必填项"></td>
+            </tr>
+        
+            <tr>
+                <th><span>默认值</span> </th>
+                <th><span>描述名</span> </th>
+            </tr>
+            <tr>
+                <td><input type="text" id="txtVALUE" placeholder="默认值"></td>
+                <td><input type="text" id="txtDESCNAME" placeholder="描述名"></td>
+            </tr>
+            <tr>
+                <th><span>最小值</span> </th>
+                <th><span>标签</span> </th>
+            </tr>
+            <tr>
+                <td><input type="text" id="txtMin" placeholder="最小值"></td>
+                <td><input type="text" id="txtTAG" placeholder="标签,多个用逗号隔开"></td>
+            </tr>
+            <tr>
+                <th><span>最大值</span> </th>
+                <th><span>格式</span> </th>
+            </tr>
+            <tr>
+                <td><input type="text" id="txtMax" placeholder="最大值"></td>
+                <td>
+                    <select id="txtFormat">
+                        <option value="Y-m-d" selected="selected" >yyyy-MM-dd</option>
+                        <option value="Y年m月d日">yyyy年MM月dd日</option>
+                        <option value="Y年m月d日 H时">yyyy年MM月dd日hh时</option>
+                        <option value="Y-m-d H:i:S">yyyy-MM-dd hh:mm:ss</option>
+                        <option value="Y年m月d日 H:i:S">yyyy年MM月dd日hh:mm:ss</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+            	<th><span>字体颜色</span> </th>
+                <th><span>选填属性</span> </th>
+            </tr>
+            <tr>
+	            <td>
+	            	<input type="text" id="txtCOLOR" class="jscolor" placeholder="颜色" value="000000">
+	            </td>
+                <td>
+                    <input id="txtREQUIRED" type="checkbox" /> 必填&nbsp;&nbsp;
+                    <input id="txtREADONLY" type="checkbox" /> 只读&nbsp;&nbsp;
+                    <input id="txtISDISPLAY" type="checkbox" /> 隐藏&nbsp;&nbsp;
+                    <input id="ISBRACKETS" type="checkbox" /> 隐藏括号&nbsp;&nbsp;
+                </td>
+            </tr>
+            <tr class='' style="">
+                <td  align="center" style="width: 600px;" colspan ="2">
+                    <span>&nbsp;关联规则：</span>
+                    <select id="txtRuleList" style="width: 150px;"> <option value="" selected="selected">-请选择规则-</option></select>
+                    <select id="selectTemplate" style="width: 150px;"> <option value="" selected="selected">-请选择模板-</option></select>
+                    <select id="selectCode" style="width: 150px;"> <option value="" selected="selected">-请选择控件-</option></select>
+                </td>
+                <td>
+
+
+                </td>
+            </tr>
+            
+        </table>
+    </div>
+</body>
+
+</html>

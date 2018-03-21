@@ -1,0 +1,16 @@
+# 编辑器的入口配置文件
+
+
+##/viewIII/resources/UE/config.json
+## 编辑器的res配置
+editor.server.resPath=/viewIII/resources/
+## 编辑器的名称
+editor.server.editorName=UE
+## 编辑器配置文件的相对路径
+editor.server.editorPath=/config.json
+## 编辑器的配置
+## ffmpeg.video.path=C:\Users\KING\Desktop\demo\ffmpeg.exe
+ffmpeg.video.format=mp4
+
+
+

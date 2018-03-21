@@ -1,0 +1,22 @@
+<html>
+<head>
+    <title>模板电子病历编辑器</title>
+    <meta charset="utf-8" />
+	<#include '/common/head.vop'/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <#include '/resources/UE/commonJs.vop'/>
+</head>
+
+<body>
+<input type="hidden" name="template_mode" id="template_mode" value="template_mode">
+<input type="hidden" name="template_id" id="template_id" value="这里是template_id">
+<input type="hidden" name="template_ver_id" id="template_ver_id" value="这里是template_ver_id">
+<input type="hidden" name="type_id" id="type_id" value="这里是type_id">
+<input type="hidden" name="syn_version" id="syn_version" value="syn_version">
+<input type="hidden" name="report_id" id="report_id" value="report_id">
+<!--<div class="barcode2" id="divCode" style="position: absolute;top: 90px;left: 980px; z-index: 1000;"></div>-->
+<script id="myEditor" type="text/plain" ></script>
+<script src="demo.js"></script>
+</body>
+</html>
