@@ -1,0 +1,73 @@
+package com.ry.editor.srv.action;
+
+import com.ry.editor.srv.entity.TpTemplateReport;
+import com.ry.editor.srv.service.ReportSrv;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+@Controller
+@RequestMapping("/editor/reportSrv")
+public class ReportAction {
+    private static Logger logger = Logger.getLogger(ReportAction.class);
+
+
+    @Resource
+    ReportSrv reportSrv;
+
+    @ResponseBody
+    @RequestMapping(value = "testParam")
+    public List<TpTemplateReport> testParam(HttpServletRequest request) {
+        String callbackName = request.getParameter("callback");
+        String content = request.getParameter("key0");
+        logger.info("key0:"+request.getParameter("key0"));
+        List<Object> list = new ArrayList<Object>();
+        HashMap map = new HashMap();
+        map.put("Item0", callbackName);
+        map.put("Item1", content);
+        list.add(map);
+        list.add(map);
+        list.add(map);
+
+        List<TpTemplateReport> list1 = null;
+        try {
+            list1 = reportSrv.findById(list,"1");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+        }
+        return list1;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "batchInsertReport")
+    public List<TpTemplateReport> batchInsertReport(HttpServletRequest request) {
+        String callbackName = request.getParameter("callback");
+        String content = request.getParameter("content");
+
+        List<Object> list = new ArrayList<Object>();
+        HashMap map = new HashMap();
+        map.put("Item0", callbackName);
+        map.put("Item1", content);
+        list.add(map);
+        list.add(map);
+        list.add(map);
+
+        List<TpTemplateReport> list1 = null;
+        try {
+            list1 = reportSrv.findById(list,"1");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+        }
+        return list1;
+    }
+
+}
