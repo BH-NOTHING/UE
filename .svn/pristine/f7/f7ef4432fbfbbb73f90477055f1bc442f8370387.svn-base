@@ -1,13 +1,18 @@
 package com.ry.editor.srv.utils;
 
+import com.ry.editor.template.ueditor.ConfigManager;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
+
+import java.io.InputStream;
+import java.util.Properties;
 
 /*
  * SDE工具类
  */
-public class SDEUtil {
-    public static Logger log = Logger.getLogger(SDEUtil.class);
+public class KingUtil {
+    public static Logger log = Logger.getLogger(KingUtil.class);
+    public static Properties prop = new Properties();
 
     public static JSONObject resToObject(int[] param) {
         JSONObject jsonObj = new JSONObject();
@@ -19,6 +24,21 @@ public class SDEUtil {
         jsonObj.put("code", param[5]);
         log.info("返回结果:" + jsonObj.toString());
         return jsonObj;
+    }
+    public static boolean isEmpty(String str) {
+        return str == null || str == "" || str.isEmpty() ||str.length() == 0 ;
+    }
+
+    public static Properties getProper(String path) {//"/fdfs_client.conf"
+        try {
+            InputStream in = ConfigManager.class.getResourceAsStream(path);
+            prop.load(in);
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("getProper异常！");
+        }
+        return prop;
     }
 
     /**
